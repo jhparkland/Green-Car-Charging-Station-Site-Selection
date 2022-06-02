@@ -1,0 +1,14 @@
+.image1{
+    height:20em;
+    margin-left:2em;
+    width:22%;
+    float:left;
+    border : 1px solid lightgrey;
+}
+.image2{
+    height:20em;
+    margin-left:5em;
+    width:22%;
+    float:left;
+    border : 1px solid lightgrey;
+}
