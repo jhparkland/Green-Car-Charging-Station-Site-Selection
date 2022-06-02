@@ -2,10 +2,15 @@ from flask import Flask
 from dash import Dash, dcc, html
 import pandas as pd
 import plotly.express as px
+import dash_bootstrap_components as dbc
 
 server = Flask(__name__)
 app = Dash(__name__,
-           server=server,)
+           external_stylesheets=[dbc.themes.BOOTSTRAP],
+           server=server,
+           meta_tags=[{'name': 'viewport',
+                       'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.5,'}]
+           )
 
 # @app.route('/')
 # def hello_world():  # put application's code here
@@ -25,16 +30,116 @@ app.layout = html.Div(children=[
         걍 잡것 씨부리기.
     '''),
 
-    dcc.Graph(
-        className="image1",
-        id='example-graph',
-        figure=fig
-    ),
-    dcc.Graph(
-        className="image2",
-        id='graph',
-        figure=fig
-    )
+    dbc.Row([
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='1',
+                        figure=fig
+                    ),
+                ], xs=6, sm=6, md=6, lg=12, xl=12),
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='2',
+                        figure=fig
+                    ),
+                ], xs=6, sm=6, md=6, lg=12, xl=12)
+            ]),
+        ], xs=12, sm=12, md=12, lg=2, xl=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='3',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12),
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='4',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12)
+            ])
+        ], xs=12, sm=12, md=12, lg=2, xl=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='5',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12),
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='6',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12)
+            ])
+        ], xs=12, sm=12, md=12, lg=2, xl=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='7',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12),
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='8',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12)
+            ])
+        ], xs=12, sm=12, md=12, lg=2, xl=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='9',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12),
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='10',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12)
+            ])
+        ], xs=12, sm=12, md=12, lg=2, xl=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='11',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12),
+                dbc.Col([
+                    dcc.Graph(
+                        className="image",
+                        id='12',
+                        figure=fig
+                    ),
+                ], xs=12, sm=12, md=12, lg=12, xl=12)
+            ])
+        ], xs=12, sm=12, md=12, lg=2, xl=2),
+    ]),
 ])
 
 if __name__ == '__main__':
