@@ -1,0 +1,28 @@
+#row{
+    background-color: #E9EEF6;
+    border-radius: 12px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
+/*.chart{*/
+/*    margin-left:15px;*/
+/*    margin-right:15px;*/
+/*}*/
+.image{
+    height:20em;
+    width:100%;
+    float:left;
+    /*border : 1px solid lightgrey;*/
+    background-color:#E9EEF6;
+    margin-right:5px;
+}
+
+.main{
+    background-color: #F3F5F9;
+    gap:13px
+}
+#map{
+    border-radius: 12px;
+    border : 1px solid lightgrey;
+}
