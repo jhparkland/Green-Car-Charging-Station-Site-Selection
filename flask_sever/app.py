@@ -3,6 +3,7 @@ from dash import Dash, dcc, html
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
+import dash_leaflet as dl
 
 server = Flask(__name__)
 app = Dash(__name__,
@@ -22,8 +23,15 @@ df = pd.DataFrame({
 })
 
 fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+fig_1 = px.pie(df, values='Amount', names='Fruit')
+fig.update_layout({
+    'paper_bgcolor': '#E9EEF6',
+})
+fig_1.update_layout({
+    'paper_bgcolor': '#E9EEF6',
+})
 
-app.layout = html.Div(children=[
+app.layout = html.Div(className='main', children=[
     html.H1(children='Dash에서 h1부분'),
 
     html.Div(children='''
@@ -37,14 +45,14 @@ app.layout = html.Div(children=[
                     dcc.Graph(
                         className="image",
                         id='1',
-                        figure=fig
+                        figure=fig_1,
                     ),
                 ], xs=6, sm=6, md=6, lg=12, xl=12),
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='2',
-                        figure=fig
+                        figure=fig_1
                     ),
                 ], xs=6, sm=6, md=6, lg=12, xl=12)
             ]),
@@ -139,7 +147,12 @@ app.layout = html.Div(children=[
                 ], xs=12, sm=12, md=12, lg=12, xl=12)
             ])
         ], xs=12, sm=12, md=12, lg=2, xl=2),
-    ]),
+    ], className="chart"),
+    html.Br(),
+    html.Div(children=[
+        dl.Map(dl.TileLayer(), className='map')
+    ], className='map'),
+    html.Br()
 ])
 
 if __name__ == '__main__':
