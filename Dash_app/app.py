@@ -1,50 +1,105 @@
 from flask import Flask
-from dash import Input, Output, State, Dash, dcc, html
-import dash_bootstrap_components as dbc
-import dash_leaflet as dl
+from dash import Dash, dcc, html
 import pandas as pd
 import plotly.express as px
-
-
-
-# map_osm = folium.Map(location=[35.166804, 129.083479], zoom_start=12)
+import dash_bootstrap_components as dbc
+import dash_leaflet as dl
 
 server = Flask(__name__)
 app = Dash(__name__,
-            prevent_initial_callbacks=True,
-           meta_tags=[{'name': 'viewport',
-                       'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.5,'}],
            external_stylesheets=[dbc.themes.BOOTSTRAP],
-           server=server
+           server=server,
+           meta_tags=[{'name': 'viewport',
+                       'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.5,'}]
            )
 
-# @app.route('/')
-# def hello_world():  # put application's code here
-#     return 'Hello World!'
-
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
+df_economy = pd.DataFrame({
+    "경제적": ["True", "False"],
+    "적합확률": [80, 20],
+    "경제적 요소": ["True", "False"]
+})
+df_society = pd.DataFrame({
+    "사회적": ["True", "False"],
+    "적합확률": [70, 30],
+    "사회적 요소": ["True", "False"]
+})
+df_environment = pd.DataFrame({
+    "환경적": ["True", "False"],
+    "적합확률": [80, 20],
+    "환경적 요소": ["True", "False"]
+})
+df_technique = pd.DataFrame({
+    "기술적": ["True", "False"],
+    "적합확률": [75, 35],
+    "기술적 요소": ["True", "False"]
 })
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
-fig_1 = px.pie(df, values='Amount', names='Fruit')
 
-fig.update_layout({
+elec_standard_df = pd.DataFrame({
+    "기준": ["환경적", "경제적", "기술적", "사회적"],
+    "Amount": [4, 1, 2, 3]
+})
+hydro_standard_df = pd.DataFrame({
+    "기준": ["환경적", "경제적", "기술적", "사회적"],
+    "Amount": [5, 1, 1, 2]
+})
+
+
+
+fig1 = px.bar(df_economy, x="경제적", y="적합확률", color="경제적 요소")
+fig2 = px.bar(df_society, x="사회적",y="적합확률", color="사회적 요소")
+fig3 = px.bar(df_environment, x="환경적", y="적합확률", color="환경적 요소")
+fig4 = px.bar(df_technique, x="기술적", y="적합확률", color="기술적 요소")
+
+fig_1 = px.pie(elec_standard_df, values='Amount', names='기준')
+fig_2 = px.pie(hydro_standard_df, values='Amount', names='기준')
+
+
+fig1.update_layout({
     'paper_bgcolor': '#E9EEF6',
-})
+}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15,)
+fig2.update_layout({
+    'paper_bgcolor': '#E9EEF6',
+}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15,)
+fig3.update_layout({
+    'paper_bgcolor': '#E9EEF6',
+}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15,)
+fig4.update_layout({
+    'paper_bgcolor': '#E9EEF6',
+}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15,)
+
+
 fig_1.update_layout({
     'paper_bgcolor': '#E9EEF6',
-})
+}, title_text='전기차', title_y=0.7,
+    margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.61, legend_x=0.25, legend_orientation="h")
+fig_2.update_layout({
+    'paper_bgcolor': '#E9EEF6',
+}, title_text='수소차', title_y=0.7,
+    margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.61, legend_x=0.25, legend_orientation="h")
 
-navbar = dbc.NavbarSimple(
-    brand="GVCS",
-    brand_style={"color": "black"},
-    brand_href="#",
-    color="beige",
-    dark=True,
-)
+navbar = dbc.Navbar(
+    dbc.Row(
+        [
+            dbc.Col(
+                html.A(
+                    html.Img(src="assets/logo.png", height="60px"),
+                    href="#",
+                    className="logoImg"
+                ),
+            ),
+            dbc.Col(
+                # html.A(
+                #     html.Img(src="assets/GOTO.png", height="60px",style={"float": "right"}),
+                #     href="#",
+                #     className="logoImg",
+                # )
+                dbc.Button("전체 확률 네트워크 보기 ->", outline=True, color="secondary", className="me-1",)
+            )
+        ]
+    )
+
+    )
 
 chart = html.Div(
     dbc.Row([
@@ -52,147 +107,115 @@ chart = html.Div(
             dbc.Row([
                 dbc.Col([
                     dcc.Graph(
-                        className="image",
+                        className="standard",
                         id='1',
                         figure=fig_1,
                     ),
-                ], xs=6, sm=6, md=6, lg=12, xl=12),
+                ], xs=6, sm=6, md=6, lg=12, xl=12, style={'padding': '12px'}),
                 dbc.Col([
                     dcc.Graph(
-                        className="image",
+                        className="standard",
                         id='2',
-                        figure=fig_1,
-                        style={'background-color': '#E9EEF6'}
+                        figure=fig_2
                     ),
-                ], xs=6, sm=6, md=6, lg=12, xl=12)
+                ], xs=6, sm=6, md=6, lg=12, xl=12, style={'padding': '12px'})
             ]),
-        ], xs=12, sm=12, md=12, lg=2, xl=2),
+        ], xs=12, sm=12, md=12, lg=4, xl=2.4, className="pie_chart"),
+
         dbc.Col([
             dbc.Row([
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='3',
-                        figure=fig
+                        figure=fig1
                     ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12),
+                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='4',
-                        figure=fig
+                        figure=fig2
                     ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12)
+                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
             ])
-        ], xs=12, sm=12, md=12, lg=2, xl=2),
+        ], xs=12, sm=12, md=12, lg=2, xl=2.4),
         dbc.Col([
             dbc.Row([
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='5',
-                        figure=fig
+                        figure=fig3
                     ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12),
+                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='6',
-                        figure=fig
+                        figure=fig4
                     ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12)
+                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
             ])
-        ], xs=12, sm=12, md=12, lg=2, xl=2),
+        ], xs=12, sm=12, md=12, lg=2, xl=2.4, className="chart_bar_1"),
+
         dbc.Col([
             dbc.Row([
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='7',
-                        figure=fig
+                        figure=fig1
                     ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12),
+                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='8',
-                        figure=fig
+                        figure=fig1
                     ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12)
+                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
             ])
-        ], xs=12, sm=12, md=12, lg=2, xl=2),
+        ], xs=12, sm=12, md=12, lg=2, xl=2.4),
         dbc.Col([
             dbc.Row([
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='9',
-                        figure=fig
+                        figure=fig1
                     ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12),
+                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='10',
-                        figure=fig
+                        figure=fig1
                     ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12)
+                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
             ])
-        ], xs=12, sm=12, md=12, lg=2, xl=2),
-        dbc.Col([
-            dbc.Row([
-                dbc.Col([
-                    dcc.Graph(
-                        className="image",
-                        id='11',
-                        figure=fig
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12),
-                dbc.Col([
-                    dcc.Graph(
-                        className="image",
-                        id='12',
-                        figure=fig
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12)
-            ])
-        ], xs=12, sm=12, md=12, lg=2, xl=2),
-    ], id='row'),
+        ], xs=12, sm=12, md=12, lg=2, xl=2.4),
+    ], className="chart")
 )
 
-# map=
 
-app.layout = dbc.Container(className='main', children=[
-    dbc.Row([
-        dbc.Col(navbar),
-    ]),
-    dbc.Row([
-        dbc.Col(chart),
-    ]),
-    dbc.Row([
-        dbc.Col(dl.Map([dl.TileLayer(), dl.LayerGroup(id="layer")],
-           id="map", style={'width': '100%', 'height': '50vh', 'margin': "auto", "display": "block"}),),
-    ])
 
+app.layout = html.Div(className='main', children=[
+    navbar,
+    chart,
+    html.Br(),
+    # html.Div(children=[
+    #     dl.Map(dl.TileLayer(), className='map')
+    # ], className='map'),
+
+    html.Iframe(
+        src="assets/graph.html",
+        style={"height": "500px", "width": "100%"},
+        className="map_"
+    ),
+    html.P(),
 ])
 
-
-@app.callback(
-    Output("layer", "children"), [Input("map", "click_lat_lng")],)
-def map_click(click_lat_lng):
-    return [dl.Marker(position=click_lat_lng, children=dl.Tooltip("({:.3f}, {:.3f})".format(*click_lat_lng)))]
-
-
-# @app.callback(
-#     Output("navbar-collapse", "is_open"),
-#     # [Input("navbar-toggler", "n_clicks")],
-#     [State("navbar-collapse", "is_open")],
-# )
-# def toggle_navbar_collapse(n, is_open):
-#     if n:
-#         return not is_open
-#     return is_open
-
-
 if __name__ == '__main__':
+    #app.run(host='127.0.0.1', port=8050, debug=True)
     app.run_server(debug=True)
