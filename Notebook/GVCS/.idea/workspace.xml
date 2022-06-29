@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4b654339-9e37-4e7a-a925-50b7f4d81fd0" name="Changes" comment="부산 인구 통계 파악, 수소차 geocoding">
+    <list default="true" id="4b654339-9e37-4e7a-a925-50b7f4d81fd0" name="Changes" comment="부산 전기차 충전소 geocoding 결과">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GVCS.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/GVCS.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +47,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="부산 인구 통계 파악, 수소차 geocoding" />
-    <option name="LAST_COMMIT_MESSAGE" value="부산 인구 통계 파악, 수소차 geocoding" />
+    <MESSAGE value="부산 전기차 충전소 geocoding 결과" />
+    <option name="LAST_COMMIT_MESSAGE" value="부산 전기차 충전소 geocoding 결과" />
   </component>
 </project>
