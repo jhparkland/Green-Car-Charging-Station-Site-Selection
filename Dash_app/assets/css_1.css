@@ -12,6 +12,13 @@
     border : 1px solid lightgrey;
     background-color:#E9EEF6;
 }
+.standard_1{
+    height:230px;
+    width:100%;
+    float:left;
+    border : 1px solid lightgrey;
+    background-color:#E9EEF6;
+}
 
 .map{
     /*border:1px solid black;*/
