@@ -36,7 +36,7 @@ ozone = en.Ozone()
 df_ozone = pd.read_csv(ozone.file_path, encoding='cp949')
 df_ozone = ozone.pretreatment(df_ozone)
 df_ozone = ozone.advanced_replace(df_ozone, df_ozone.iloc[:, 2:].columns.tolist(), '-', r'[^0-9.0-9]')
-df_ozone = ozone.ChangeType(df_ozone, '2021.07')
+df_ozone = ozone.ChangeType(df_ozone, '2021.07',  'float')
 ozone_describe = ozone.describe(df_ozone)
 busan_ozone = df_ozone[df_ozone['구분(2)'] == '부산광역시'].loc[2, '2021.07']
 
@@ -51,7 +51,7 @@ so2 = en.So2()
 df_so2 = pd.read_csv(so2.file_path, encoding='cp949')
 df_so2 = so2.pretreatment(df_so2)
 df_so2 = so2.advanced_replace(df_so2, df_so2.iloc[:, 2:].columns.tolist(), '-', r'[^0-9.0-9]')
-df_so2 = so2.ChangeType(df_so2, '2021.07')
+df_so2 = so2.ChangeType(df_so2, '2021.07', 'float')
 so2_describe = so2.describe(df_so2)
 busan_so2 = df_so2[df_so2['구분(2)'] == '부산광역시'].loc[2, '2021.07']
 fig_so2 = so2.cal_norm(df_so2.iloc[:, 2].mean(),

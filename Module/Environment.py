@@ -32,14 +32,15 @@ class Environment:
         :return: 통계 DataFrame
         '''
         return df.describe()
-    def ChangeType(self,df, col_name):
+
+    def ChangeType(self,df, col_name, type):
         '''
         데이터 프레임 특정 컬럼 타입 변경
         :param df: 대상 DataFrame
         :param col_name: 컬럼 이름
         :return:
         '''
-        df[col_name] = df[col_name].astype(float)
+        df[col_name] = df[col_name].astype(type)
         return  df
 
     def cal_norm(slef, mean, std, min, max, value):

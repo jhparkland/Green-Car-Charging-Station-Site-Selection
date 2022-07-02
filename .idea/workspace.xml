@@ -1,34 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa1ad9d0-8a96-4945-af16-8ad213b45914" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Green-Car-Charging-Station-Site-Selection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Green-Car-Charging-Station-Site-Selection.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0628.hwp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/미세먼지_PM10__월별_도시별_대기오염도.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/미세먼지_PM2.5__월별_도시별_대기오염도.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/부산 충전소 정보.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/부산광역시 공영주차장 정보 조회.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/수소차 충전소.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/수소충전소(환경부).csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/아황산가스_월별_도시별_대기오염도.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/오존_월별_도시별_대기오염도.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/이산화질소_월별_도시별_대기오염도.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/일산화탄소_월별_도시별_대기오염도.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/전기차 충전소 리스트.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/전기차 충전소 설치현황(한국전력공사).csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/한국전력공사_고객 전력공급 현황.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/한국전력공사_충전소의 위치 및 현황 정보.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/항만.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/행정구역_시군구_별__성별_인구수.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Notebook/GVCS/1번 세션 결과.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Notebook/GVCS/geo.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Notebook/GVCS/geo.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Notebook/GVCS/수소차 충전소.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_sever/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask_sever/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/제안서 이미지/입지선정 서비스 기술 비교.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/제안서 이미지/타서비스와 차이점.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/제안서 이미지/타서비스와 차이점.pptx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/제안서 이미지/파급효과.pptx" beforeDir="false" />
-    </list>
+    <list default="true" id="fa1ad9d0-8a96-4945-af16-8ad213b45914" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
