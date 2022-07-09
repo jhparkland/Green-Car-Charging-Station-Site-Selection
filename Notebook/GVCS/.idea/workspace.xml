@@ -2,12 +2,40 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4b654339-9e37-4e7a-a925-50b7f4d81fd0" name="Changes" comment="부산 전기차 충전소 geocoding 결과">
+      <change afterPath="$PROJECT_DIR$/BNtest.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GVCS BN.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chromedriver.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/크롤링.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Data/부산 LPG 충전소 현황.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../Data/부산 LPG 충전소 현황.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/csv-plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-plugin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../박정현_BI공모전.hwp" beforeDir="false" afterPath="$PROJECT_DIR$/../../박정현_BI공모전.hwp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/workflow.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../제안서 이미지/workflow.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/로고 배경제거.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../제안서 이미지/로고 배경제거.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/수소 베이지안 네트워크 이미지.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/앱 대시보드.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/웹 대시보드.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/입지선정 서비스 기술비교.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../제안서 이미지/입지선정 서비스 기술비교.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/전기 베이지안 네트워크 이미지.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/충전소 가동률 piechart.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../제안서 이미지/충전소 가동률 piechart.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/타서비스와 차이점.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/../../제안서 이미지/타서비스와 차이점.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/파급효과.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../제안서 이미지/파급효과.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/핵심 기술.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../제안서 이미지/핵심 기술.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/핵심기술.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/../../제안서 이미지/핵심기술.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../제안서 이미지/후생효과.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/../../제안서 이미지/후생효과.pptx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
