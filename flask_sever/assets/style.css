@@ -58,13 +58,16 @@
     font-weight: bolder;
 }
 .map_{
-    margin-left:15px;
-    margin-right:15px;
     border:1px solid lightgray;
     border-radius: 22px;
 }
+@font-face {
+    font-family: 'NanumSquare';
+    src: url('/assets/NanumSquare.woff') format('truetype');
+}
 body{
     background-color:#F3F5F9;
+    font-family: 'NanumSquare';
 }
 
 @media(min-width:320px){

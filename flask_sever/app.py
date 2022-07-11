@@ -1,43 +1,29 @@
 from flask import Flask
-from dash import Dash, dcc, html, Input, Output
+from dash import Dash, dcc, html, Input, Output, callback
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import os
 import sys
-import ang
-import json
+import matplotlib.font_manager as font_manager
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from Module import Environment as en
-from Module import Bayesian as Ba
 
 #서버연걸
 server = Flask(__name__)
 app = Dash(__name__,
            external_stylesheets=[dbc.themes.BOOTSTRAP],
+           suppress_callback_exceptions=True,
            server=server,
            meta_tags=[{'name': 'viewport',
                        'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.5,'}]
            )
+app.title = "에코 차징 플레이스"
+app._favicon = "logo_icon.ico"
 
-# @server.route('/bayesian')
-# def goBayesian():
-#     return "<h1>Hello</h1>"
-
-ozone_file_path = "assets/오존_월별_도시별_대기오염도.csv"
-df_ozone = pd.read_csv(ozone_file_path, encoding='cp949')
-ozen_col = df_ozone.iloc[:, 2:-1].columns.tolist()
-df_ozone.drop(columns=ozen_col, inplace=True)
-
-# 해당 컬럼 float 타입으로 변경
-ang.advanced_replace(df_ozone, df_ozone.iloc[:, 2:].columns.tolist(), '-', r'[^0-9.0-9]')
-df_ozone['2021.07'] = df_ozone['2021.07'].astype(float)
-
-ang.show_norm(df_ozone.iloc[:, 2].mean(), df_ozone.iloc[:, 2].std(), df_ozone.iloc[:, 2].min(), df_ozone.iloc[:, 2].max())
-
-# 부산광역시 오존의 누적확률 구하기
-busan_oz = df_ozone[df_ozone['구분(2)']=='부산광역시'].loc[2,'2021.07']
-fig_ozone = ang.cal_norm(df_ozone.iloc[:, 2].mean(), df_ozone.iloc[:, 2].std(), df_ozone.iloc[:, 2].min(), df_ozone.iloc[:, 2].max(), busan_oz)
+font_dir = ['/assets/NanumSquare']
+for font in font_manager.findSystemFonts(font_dir):
+    font_manager.fontManager.addfont(font)
 
 #전기차 파이차트 데이터프레임
 elec_standard_df = pd.DataFrame({
@@ -115,35 +101,35 @@ fig_so2 = so2.cal_norm(df_so2.iloc[:, 2].mean(),
 #막대차트 배경색 설정 및 레이아웃 설정 변경
 fig1.update_layout({    #경제적 차트(임시)
     'paper_bgcolor': '#E9EEF6', #배경색
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, legend={'title_text': ''})    #좌우 여유공간, 범례 위치조정, 제목 안보이게 하기
+}, margin_l=5, margin_r=5, legend_y=1.5, legend_x=0.15, legend={'title_text': ''}, font_family='NanumSquare')    #좌우 여유공간, 범례 위치조정, 제목 안보이게 하기
 fig2.update_layout({    #사회적 차트(임시)
     'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, legend={'title_text': ''})
+}, margin_l=5, margin_r=5, legend_y=1.5, legend_x=0.15, legend={'title_text': ''}, font_family='NanumSquare')
 fig3.update_layout({    #환경적 차트(임시)
     'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, legend={'title_text': ''})
+}, margin_l=5, margin_r=5, legend_y=1.5, legend_x=0.15, legend={'title_text': ''}, font_family='NanumSquare')
 fig4.update_layout({    #기술적 차트(임시)
     'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, legend={'title_text': ''})
+}, margin_l=5, margin_r=5, legend_y=1.5, legend_x=0.15, legend={'title_text': ''}, font_family='NanumSquare')
 
 #파이차트 배경색
 fig_1.update_layout({   #전기차 파이차트(임시)
     'paper_bgcolor': '#E9EEF6', #배경색
 }, title_text='전기차', title_y=0.8, title_font_size=22,   #제목 설정
     margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.3,     #좌우위아래 여유공간
-    legend_x=0.25, legend_orientation="h", legend_font_size=9.8)    #범례 설정
+    legend_x=0.25, legend_orientation="h", legend_font_size=9.8, font_family='NanumSquare')    #범례 설정
 fig_2.update_layout({   #수소차 파이차트(임시)
     'paper_bgcolor': '#E9EEF6',
 }, title_text='수소차', title_y=0.8, title_font_size=22,
     margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.3,
-    legend_x=0.25, legend_orientation="h", legend_font_size=9.8)
+    legend_x=0.25, legend_orientation="h", legend_font_size=9.8, font_family='NanumSquare')
 
 fig_ozone.update_layout({
     'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15)
+}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, font_family='NanumSquare')
 fig_so2.update_layout({
     'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15)
+}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, font_family='NanumSquare')
 
 #상단 메뉴바(로고표시, 베이지안 네트워크 경로)
 navbar = dbc.Navbar(
@@ -160,10 +146,9 @@ navbar = dbc.Navbar(
             ),
             dbc.Col(    #베이지안 네트워크 페이지로 연결
                 html.Form(
-                    dbc.Button("전체 확률 네트워크 보기 ->", outline=True, color="secondary", className="me-1", type="submit"),
-                    action="/bayesian",
-                    target="_blank"
-                )
+                    dbc.Button("전체 확률 네트워크 보기 ->", outline=True, color="secondary",
+                               className="me-1", href="/bayesian", external_link=True, target="_blank"),
+                ),
             )
         ]
     )
@@ -280,19 +265,37 @@ chart = html.Div(
     ], className="chart")
 )
 
-#총 출력
-app.layout = html.Div(className='main', children=[
-    navbar, #상단부(로고, 베이지안)
-    chart,  #중단부(차트)
+#메인화면
+main_layout = [
+    navbar,
+    chart,
     html.Br(),
-
     html.Iframe(    #하단부(지도)
         src="assets/route_graph.html",
         style={"height": "500px", "width": "95%"},
         className="map_"
     ),
     html.P(),
+]
+
+#베이지안 네트워크 화면
+bayesian_layout = html.Div("hello")
+
+#총 출력
+app.layout = html.Div(className='main', children=[
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content'),
 ])
+
+@callback(
+    Output('page-content', 'children'),
+    Input('url', 'pathname')
+)
+def display_page(pathname):
+    if pathname == '/bayesian':
+        return bayesian_layout
+    else:
+        return main_layout
 
 saveE = {}
 saveH = {}
@@ -334,9 +337,9 @@ def clear_elec(hydro):
 )
 def update(elec, hydro):
     if elec is not None:
-        return fig_1, fig_1, fig_1, fig_1
+        return fig1, fig2, fig3, fig4
     else:
-        return fig_2, fig_2, fig_2, fig_2
+        return fig1, fig2, fig3, fig4
 
 @app.callback(  #사회적 확률 차트 클릭데이터 초기화
     Output("4", "clickData"),
@@ -409,13 +412,13 @@ def clear_econ(tech):
 )
 def update(econ, soci, envi, tech):
     if econ is not None:
-        return fig1, fig1, fig1
+        return fig_ozone, fig_ozone, fig_ozone
     elif soci is not None:
-        return fig2, fig2, fig2
+        return fig_so2, fig_so2, fig_so2
     elif envi is not None:
-        return fig3, fig3, fig3
+        return fig_ozone, fig_ozone, fig_ozone
     else:
-        return fig4, fig4, fig4
+        return fig_so2, fig_so2, fig_so2
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8050, debug=True)
