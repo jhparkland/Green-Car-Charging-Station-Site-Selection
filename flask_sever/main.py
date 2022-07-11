@@ -4,11 +4,11 @@ from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
-import dash_leaflet as dl
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from Module import Environment as en
 
+#서버연결
 server = Flask(__name__)
 app = Dash(__name__,
            external_stylesheets=[dbc.themes.BOOTSTRAP],
@@ -46,7 +46,7 @@ fig_ozone = ozone.cal_norm(df_ozone.iloc[:, 2].mean(),
                             df_ozone.iloc[:, 2].max(),
                             busan_ozone
                             )
-fig_ozone.update_layout({
+fig_ozone.update_layout({   #환경적 하위요소-대기질(OZONE)
     'paper_bgcolor': '#E9EEF6',
 }, margin=dict(l=10, r=10, t=10, b=10), legend_title_text="오존",)
 
@@ -64,7 +64,7 @@ fig_so2 = so2.cal_norm(df_so2.iloc[:, 2].mean(),
                             df_so2.iloc[:, 2].max(),
                             busan_so2
                             )
-fig_so2.update_layout({
+fig_so2.update_layout({     #환경적 하위요소-대기질(SO2)
     'paper_bgcolor': '#E9EEF6',
 }, margin=dict(l=10, r=10, t=10, b=10), legend_title_text="SO2",)
 #========================================================================================================
@@ -107,63 +107,81 @@ fig4 = px.bar(df_technique, x="기술적", y="적합확률", color="기술적 �
 fig_1 = px.pie(elec_standard_df, values='Amount', names='기준')
 fig_2 = px.pie(hydro_standard_df, values='Amount', names='기준')
 
-fig1.update_layout({
+#막대차트 배경색 설정 및 레이아웃 설정 변경
+fig1.update_layout({    #경제적
     'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, legend={'title_text': ''})
-fig2.update_layout({
+}, font_family="NanumSquareExtraBold")
+fig2.update_layout({    #사회적
     'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, legend={'title_text': ''})
-fig3.update_layout({
+})
+fig3.update_layout({    #환경적
     'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, legend={'title_text': ''})
-fig4.update_layout({
+})
+fig4.update_layout({    #기술적
     'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, legend={'title_text': ''})
+})
 
-fig_1.update_layout({
+#파이차트 배경색
+fig_1.update_layout({   #전기차 충전소 파이차트
     'paper_bgcolor': '#E9EEF6',
-}, title_text='전기차', title_y=0.7,
+}, title_text='전기차 충전소', title_y=0.7,
     margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.61, legend_x=0.25, legend_orientation="h")
-fig_2.update_layout({
+fig_2.update_layout({   #수소차 충전소 파이차트
     'paper_bgcolor': '#E9EEF6',
-}, title_text='수소차', title_y=0.7,
+}, title_text='수소차 충전소', title_y=0.7,
     margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.61, legend_x=0.25, legend_orientation="h")
 
-
-navbar = dbc.Navbar(
-    dbc.Row(
-        [
-            dbc.Col(
-                html.A(
-                    html.Img(src="assets/logo.png", height="60px"),
-                    href="http://127.0.0.1:8050/",
-                    className="logoImg"
-                ),
-            ),
-            dbc.Col(
-                html.A(
-                    dbc.Button("전체 확률 네트워크 보기 ->", outline=True,
-                               color="secondary", className="button"),
-                    href="http://127.0.0.1:9999/"
-                )
-            )
-        ]
+#상단 메뉴바(header-로고,베이지안 네트워크버튼)
+header = html.Div(className='def_header', children=[
+    html.A(
+        #왼쪽편에 로고->페이지 리셋(새로고침)
+        html.Img(src="assets/logo.png", height="60px"),
+        href="http://127.0.0.1:8050/",
+        className="logoImg"
+    ),
+    html.A(
+        #GOTO 베이지안 네트워크 page
+        dbc.Button("전체 확률 네트워크 보기 ->", outline=True,
+                   color="secondary", className="me-1"),
+        href="http://127.0.0.1:9999/"
     )
-)
+])
 
-chart = html.Div(
+#차트출력
+chart = html.Div(className='def_chart', children=[
+    
+    #desktop_제목
     dbc.Row([
+        dbc.Col([
+            html.H4("상위요인 중요도", className="d-none d-lg-block d-xl-none", id="c_name_1"),
+            html.H4("상위요인 중요도", className="d-none d-xl-block", id="c_name_2")
+        ]),
+        dbc.Col([
+            html.H4("상위요인 적합성", className="d-none d-lg-block d-xl-none", id="c_name_3"),
+            html.H4("상위요인 적합성", className="d-none d-xl-block", id="c_name_4")
+        ]),
+        dbc.Col([
+            html.H4("하위 변수 정규 분포", className="d-none d-lg-block d-xl-none", id="c_name_5"),
+            html.H4("하위 변수 정규 분포", className="d-none d-xl-block", id="c_name_6")
+        ]),
+    ]),
+
+    dbc.Row([
+        #상위요인 중요도_name
+        html.H4("상위요인 중요도", className="d-block d-sm-none", id="m_c_name_1"), #xs
+        html.H4("상위요인 중요도", className="d-none d-sm-block d-md-none", id="m_c_name_1-2"),#sm
+        html.H4("상위요인 중요도", className="d-none d-md-block d-lg-none", id="m_c_name_1-3"),#md
         dbc.Col([
             dbc.Row([
                 dbc.Col([
-                    dcc.Graph(
+                    dcc.Graph(  #전기차_파이차트
                         className="standard",
                         id='1',
                         figure=fig_1,
                     ),
                 ], xs=6, sm=6, md=6, lg=12, xl=12, style={'padding': '12px'}),
                 dbc.Col([
-                    dcc.Graph(
+                    dcc.Graph(  #수소차_파이차트
                         className="standard",
                         id='2',
                         figure=fig_2
@@ -171,29 +189,36 @@ chart = html.Div(
                 ], xs=6, sm=6, md=6, lg=12, xl=12, style={'padding': '12px'})
             ]),
         ], xs=12, sm=12, md=12, lg=4, xl=2.4, className="pie_chart"),
-        html.Div(
+
+        #라인
+        html.Div(   #전기차, 수소차 영역 구분 선(데스크톱:가로, 모바일:세로)
             className="line",
         ),
-        html.Div(
+        html.Div(   #파이차트, 확률차트 영역 구분 -> 모바일에만 적용
             className="mobile_line1",
         ),
+        #상위요인 적합성_name
+        html.H4("상위요인 적합성", className="d-block d-sm-none", id="m_c_name_2"), #xs
+        html.H4("상위요인 적합성", className="d-none d-sm-block d-md-none", id="m_c_name_2-2"),#sm
+        html.H4("상위요인 적합성", className="d-none d-md-block d-lg-none", id="m_c_name_2-3"),#md
         #상위요소
         dbc.Col([
             dbc.Row([
                 dbc.Col([
-                    dcc.Graph(
+                    dcc.Graph(  #경제적
                         className="image",
                         id='3',
                         figure=fig1
                     ),
                 ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
 
+                #라인-파이차트. 확률 구분 선 -> desktop만 적용
                 html.Div(
                     className="desktop_line1",
                 ),
 
                 dbc.Col([
-                    dcc.Graph(
+                    dcc.Graph(  #사회적
                         className="image",
                         id='4',
                         figure=fig2
@@ -204,14 +229,14 @@ chart = html.Div(
         dbc.Col([
             dbc.Row([
                 dbc.Col([
-                    dcc.Graph(
+                    dcc.Graph(  #환경적
                         className="image",
                         id='5',
                         figure=fig3
                     ),
                 ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
                 dbc.Col([
-                    dcc.Graph(
+                    dcc.Graph(  #기술적
                         className="image",
                         id='6',
                         figure=fig4
@@ -220,21 +245,25 @@ chart = html.Div(
             ])
         ], xs=12, sm=12, md=12, lg=2, xl=2.4, className="chart_bar_1"),
 
+        #라인
         html.Div(
-            className="desktop_line2",
+           className="desktop_line2",
         ),
         html.Div(
             className="mobile_line2",
         ),
-
-        #하위요소소
+        #하위변수 정규분포_name
+        html.H4("하위 변수 정규 분포", className="d-block d-sm-none", id="m_c_name_3"), #xs
+        html.H4("하위 변수 정규 분포", className="d-none d-sm-block d-md-none", id="m_c_name_3-2"),#sm
+        html.H4("하위 변수 정규 분포", className="d-none d-md-block d-lg-none", id="m_c_name_3-3"),#md
+        #하위요소
         dbc.Col([
             dbc.Row([
                 dbc.Col([
                     dcc.Graph(
                         className="image",
                         id='7',
-                        figure=fig_ozone
+                        figure=fig_ozone    #대기질->오존
                     ),
                 ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
                 dbc.Col([
@@ -265,10 +294,11 @@ chart = html.Div(
             ])
         ], xs=12, sm=12, md=12, lg=2, xl=2.4),
     ], className="chart")
-)
-
+])
+app.title = "애코 차징 플레이스"
+app._favicon ="logo_icon.ico"
 app.layout = html.Div(className='main', children=[
-    navbar,
+    header,
     chart,
     html.Br(),
 
@@ -280,16 +310,57 @@ app.layout = html.Div(className='main', children=[
     html.P(),
 ])
 
-# @app.callback(
-#     Output(component_id='body-div', component_property='children'),
-#     Input(component_id='button', component_property='n_clicks')
-# )
-# def goto_baysian(n_clicks):
-#     if n_clicks is None:
-#         raise PreventUpdate
-#     else:
-#         return href=""
+
+
+# 클릭시 변화를 위한 callback
+saveE = {}
+saveH = {}
+
+@app.callback(
+    Output("2", "clickData"),
+    Input("1", "clickData")
+)
+def clear_hydro(elec):
+    global saveE
+    global saveH
+    print("cleared")
+    if elec is not None:
+        saveE = elec
+        return None
+    else:
+        return saveH
+
+@app.callback(
+    Output("1", "clickData"),
+    Input("2", "clickData")
+)
+def clear_elec(hydro):
+    global saveE
+    global saveH
+    print("wow")
+    if hydro is not None:
+        saveH = hydro
+        return None
+    else:
+        return saveE
+
+@app.callback(
+    Output("3", "figure"),
+    Output("4", "figure"),
+    Output("5", "figure"),
+    Output("6", "figure"),
+    Input("1", "clickData"),
+    Input("2", "clickData"),
+)
+def update(elec, hydro):
+    global saveE
+    global saveH
+    if elec is not None:
+        return fig_1, fig_1, fig_1, fig_1
+    else:
+        return fig_2, fig_2, fig_2, fig_2
+
 
 if __name__ == '__main__':
-    #app.run(host='127.0.0.1', port=8050, debug=True)
+    app.run(host='127.0.0.1', port=9000, debug=True)
     app.run_server(debug=False)

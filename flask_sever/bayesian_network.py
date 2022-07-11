@@ -150,7 +150,7 @@ environment_chart = html.Div([
                 id='4',
                 figure=fig1,
             )
-        ], xs=3, sm=3, md=6, lg=6, xl=6, style={'padding': '12px'}),
+        ], xs=3, sm=3, md=3, lg=6, xl=6, style={'padding': '12px'}),
     ]),
     #환경적 상위요소
     dbc.Row([
