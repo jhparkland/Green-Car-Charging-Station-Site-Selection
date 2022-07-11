@@ -20,9 +20,9 @@ app = Dash(__name__,
                        'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.5,'}]
            )
 
-@server.route('/bayesian')
-def goBayesian():
-    return "<h1>Hello</h1>"
+# @server.route('/bayesian')
+# def goBayesian():
+#     return "<h1>Hello</h1>"
 
 ozone_file_path = "assets/오존_월별_도시별_대기오염도.csv"
 df_ozone = pd.read_csv(ozone_file_path, encoding='cp949')
