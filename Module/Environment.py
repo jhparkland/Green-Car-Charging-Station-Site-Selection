@@ -74,7 +74,6 @@ class Environment:
                                  line=dict(color=blue)))
         fig.add_trace(go.Scatter(x=cum_b, y=norm.pdf(cum_b, mean, std), fill='tozeroy', name='부적합', text=pro,
                                  line=dict(color=red)))
-        fig.update_xaxes(visible=False)
         fig.update_yaxes(visible=False)
         annotations = []
         annotations.append(dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),

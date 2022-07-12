@@ -76,10 +76,10 @@ class Main_Component:
                 ]),
             ]),
             dbc.Row([
-                #상위요인 중요도_name
-                html.H4("상위요인 중요도", className="d-block d-sm-none", id="m_c_name_1"), #xs
-                html.H4("상위요인 중요도", className="d-none d-sm-block d-md-none", id="m_c_name_1-2"),#sm
-                html.H4("상위요인 중요도", className="d-none d-md-block d-lg-none", id="m_c_name_1-3"),#md
+                # 상위요인 중요도_name
+                html.H4("상위요인 중요도", className="d-block d-sm-none", id="m_c_name_1"),  # xs
+                html.H4("상위요인 중요도", className="d-none d-sm-block d-md-none", id="m_c_name_1-2"),  # sm
+                html.H4("상위요인 중요도", className="d-none d-md-block d-lg-none", id="m_c_name_1-3"),  # md
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([
@@ -202,9 +202,9 @@ class Main_Component:
             args[0],
             args[1],
             html.Br(),
+            html.H4("선정된 최적의 부지", id="map_title"),
             html.Iframe(  # 하단부(지도)
                 src="assets/route_graph.html",
-                style={"height": "500px", "width": "95%"},
                 className="map_"
             ),
             html.P(),
@@ -223,22 +223,21 @@ class Main_Component:
                 [
                     dbc.Col(
                         html.A(  # 왼편에 로고 표시하고 누르면 페이지 리셋(새로고침)
-                            html.Img(src="assets/logo.png", height="60px"),  # 파일경로, 높이
+                            html.Img(src="assets/logo.png", className="logoImg"),  # 파일경로, 높이
                             href="",
-                            target="_black",
-                            className="logoImg"
+                            target="_black"
                         ),
                     ),
                     dbc.Col(  # 베이지안 네트워크 페이지로 연결
                         html.Form(
-                            dbc.Button("전체 확률 네트워크 보기 ->", outline=True, color="secondary", className="me-1",
+                            dbc.Button("전체 요인 네트워크", outline=True, color="secondary", className="me-1",
                                        type="submit"),
                             action="/bayesian",
                             target="_blank"
                         )
                     )
                 ]
-            )
+            ), className="Header"
         )
 
 
