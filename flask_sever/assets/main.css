@@ -191,6 +191,7 @@
     margin-right:15px;
     width:95%;
 }
+
 .def_header{
     height: 80px;
 }
@@ -210,18 +211,17 @@
     width:auto;
 }
 .map_{
-    margin-left:15px;
-    margin-right:15px;
     border:3px solid lightgray;
     border-radius: 22px;
 }
 body{
     background-color:#F3F5F9;
+    font-family: 'NanumSquare';
 }
 
 @font-face {
-    font-family: NanumSquareEB;
-    src:url('./NanumSquare_acEB.woff') format('woff');
+    font-family: 'NanumSquare';
+    src: url('../assets/NanumSquare.woff') format('truetype');
 }
 
 @media(min-width:320px){ /*xs*/

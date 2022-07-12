@@ -1,9 +1,9 @@
 from flask import Flask
-from dash import Dash, dcc, html, Input, Output
-from dash.exceptions import PreventUpdate
+from dash import Dash, dcc, html, Input, Output, callback
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
+import matplotlib.font_manager as font_manager
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from Module import Environment as en
@@ -16,21 +16,14 @@ app = Dash(__name__,
            meta_tags=[{'name': 'viewport',
                        'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.5,'}]
            )
+app.title = "애코 차징 플레이스"
+app._favicon ="logo_icon.ico"
 
-df = pd.DataFrame({
-    "경제적": ["True", "False"],
-    "확률": [80, 20],
-    "요소": ["True", "False"]
-})
+font_dir = ['/assets/NanumSquare']
+for font in font_manager.findSystemFonts(font_dir):
+    font_manager.fontManager.addfont(font)
 
-standard_df = pd.DataFrame({
-    "기준": ["환경적", "경제적", "기술적", "사회적"],
-    "Amount": [4, 1, 2, 3]
-})
-
-
-fig = px.bar(df, x="경제적", y="확률", color="요소")
-fig_1 = px.pie(standard_df, values='Amount', names='기준')
+#========================================================================================================
 
 ozone = en.Ozone()
 df_ozone = pd.read_csv(ozone.file_path, encoding='cp949')
@@ -48,7 +41,7 @@ fig_ozone = ozone.cal_norm(df_ozone.iloc[:, 2].mean(),
                             )
 fig_ozone.update_layout({   #환경적 하위요소-대기질(OZONE)
     'paper_bgcolor': '#E9EEF6',
-}, margin=dict(l=10, r=10, t=10, b=10), legend_title_text="오존",)
+}, margin=dict(l=10, r=10, t=10, b=10), legend_title_text="오존", font_family='NanumSquare')
 
 #========================================================================================================
 so2 = en.So2()
@@ -66,7 +59,7 @@ fig_so2 = so2.cal_norm(df_so2.iloc[:, 2].mean(),
                             )
 fig_so2.update_layout({     #환경적 하위요소-대기질(SO2)
     'paper_bgcolor': '#E9EEF6',
-}, margin=dict(l=10, r=10, t=10, b=10), legend_title_text="SO2",)
+}, margin=dict(l=10, r=10, t=10, b=10), legend_title_text="SO2", font_family='NanumSquare')
 #========================================================================================================
 
 df_economy = pd.DataFrame({
@@ -104,50 +97,52 @@ fig2 = px.bar(df_society, x="사회적",y="적합확률", color="사회적 요�
 fig3 = px.bar(df_environment, x="환경적", y="적합확률", color="환경적 요소")
 fig4 = px.bar(df_technique, x="기술적", y="적합확률", color="기술적 요소")
 
-fig_1 = px.pie(elec_standard_df, values='Amount', names='기준')
-fig_2 = px.pie(hydro_standard_df, values='Amount', names='기준')
+fig_1 = px.pie(elec_standard_df, values='Amount', names='기준') #전기차
+fig_2 = px.pie(hydro_standard_df, values='Amount', names='기준') #수소차
 
 #막대차트 배경색 설정 및 레이아웃 설정 변경
-fig1.update_layout({    #경제적
-    'paper_bgcolor': '#E9EEF6',
-}, font_family="NanumSquareExtraBold")
-fig2.update_layout({    #사회적
-    'paper_bgcolor': '#E9EEF6',
-})
-fig3.update_layout({    #환경적
-    'paper_bgcolor': '#E9EEF6',
-})
-fig4.update_layout({    #기술적
-    'paper_bgcolor': '#E9EEF6',
-})
+fig1.update_layout({'paper_bgcolor': '#E9EEF6'}, font_family='NanumSquare') #경제적
+fig2.update_layout({'paper_bgcolor': '#E9EEF6'}, font_family='NanumSquare') #사회적
+fig3.update_layout({'paper_bgcolor': '#E9EEF6'}, font_family='NanumSquare') #환경적
+fig4.update_layout({'paper_bgcolor': '#E9EEF6'}, font_family='NanumSquare') #기술적
 
-#파이차트 배경색
+
 fig_1.update_layout({   #전기차 충전소 파이차트
-    'paper_bgcolor': '#E9EEF6',
-}, title_text='전기차 충전소', title_y=0.7,
-    margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.61, legend_x=0.25, legend_orientation="h")
+    'paper_bgcolor': '#E9EEF6', #파이차트 배경색
+}, title_text='전기차 충전소', title_y=0.8, title_font_size=22, #제목설정
+    margin=dict(l=0, r=0, t=40, b=20),  #좌우위아래 여유공간
+    legend_y=1.3, legend_x=0.25, legend_orientation="h", legend_font_size=9.8, font_family='NanumSquare') #범례 설정
+
 fig_2.update_layout({   #수소차 충전소 파이차트
-    'paper_bgcolor': '#E9EEF6',
-}, title_text='수소차 충전소', title_y=0.7,
-    margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.61, legend_x=0.25, legend_orientation="h")
+    'paper_bgcolor': '#E9EEF6', #파이차트 배경색
+}, title_text='수소차 충전소', title_y=0.8, title_font_size=22, #제목설정
+    margin=dict(l=0, r=0, t=40, b=20),  #좌우위아래 여유공간
+    legend_y=1.3, legend_x=0.25, legend_orientation="h", legend_font_size=9.8, font_family='NanumSquare') #범례 설정
 
 #상단 메뉴바(header-로고,베이지안 네트워크버튼)
-header = html.Div(className='def_header', children=[
-    html.A(
-        #왼쪽편에 로고->페이지 리셋(새로고침)
-        html.Img(src="assets/logo.png", height="60px"),
-        href="http://127.0.0.1:8050/",
-        className="logoImg"
-    ),
-    html.A(
-        #GOTO 베이지안 네트워크 page
-        dbc.Button("전체 확률 네트워크 보기 ->", outline=True,
-                   color="secondary", className="me-1"),
-        href="http://127.0.0.1:9999/"
+header = dbc.Navbar(
+    #하나의 행 사용
+    dbc.Row(
+        [
+            dbc.Col(
+                html.A(     #왼편에 로고 표시하고 누르면 페이지 리셋(새로고침)
+                    html.Img(src="assets/logo.png", height="60px"), #파일경로, 높이
+                    href="",
+                    target="_black",
+                    className="logoImg"
+                ),
+            ),
+            dbc.Col(    #베이지안 네트워크 페이지로 연결
+                html.Form(
+                    dbc.Button("전체 확률 네트워크 보기 ->", outline=True, color="secondary",
+                               className="me-1", href="/bayesian", external_link=True, target="_blank"),
+                ),
+            )
+        ]
     )
-])
+)
 
-#차트출력
+#차트
 chart = html.Div(className='def_chart', children=[
     
     #desktop_제목
@@ -295,56 +290,76 @@ chart = html.Div(className='def_chart', children=[
         ], xs=12, sm=12, md=12, lg=2, xl=2.4),
     ], className="chart")
 ])
-app.title = "애코 차징 플레이스"
-app._favicon ="logo_icon.ico"
-app.layout = html.Div(className='main', children=[
+
+#메인화면
+main_layout = [
     header,
     chart,
     html.Br(),
-
-    html.Iframe(
+    html.Iframe(    #하단부(지도)
         src="assets/route_graph.html",
         style={"height": "500px", "width": "95%"},
         className="map_"
     ),
     html.P(),
+]
+
+#베이지안 네트워크 화면
+bayesian_layout = html.Div("hello")
+
+#최종 출력
+app.layout = html.Div(className='main', children=[
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content'),
 ])
 
+#========================================================================================================
+
+@callback(
+    Output('page-content', 'children'),
+    Input('url', 'pathname')
+)
+def display_page(pathname):
+    if pathname == '/bayesian':
+        return bayesian_layout
+    else:
+        return main_layout
 
 
-# 클릭시 변화를 위한 callback
+
 saveE = {}
 saveH = {}
+saveEcon = {}
+saveSoci = {}
+saveEnvi = {}
+saveTech = {}
 
-@app.callback(
+
+@app.callback(  #수소차 파이차트 클릭데이터 초기화
     Output("2", "clickData"),
     Input("1", "clickData")
 )
 def clear_hydro(elec):
-    global saveE
-    global saveH
-    print("cleared")
+    global saveE, saveH
     if elec is not None:
         saveE = elec
         return None
     else:
         return saveH
 
-@app.callback(
+@app.callback(  #전기차 파이차트 클릭데이터 초기화
     Output("1", "clickData"),
     Input("2", "clickData")
 )
 def clear_elec(hydro):
-    global saveE
-    global saveH
-    print("wow")
+    global saveE, saveH
     if hydro is not None:
         saveH = hydro
         return None
     else:
         return saveE
 
-@app.callback(
+@app.callback(  #파이차트 -> 확률차트 이벤트 연결
     Output("3", "figure"),
     Output("4", "figure"),
     Output("5", "figure"),
@@ -353,12 +368,89 @@ def clear_elec(hydro):
     Input("2", "clickData"),
 )
 def update(elec, hydro):
-    global saveE
-    global saveH
     if elec is not None:
-        return fig_1, fig_1, fig_1, fig_1
+        return fig1, fig2, fig3, fig4
     else:
-        return fig_2, fig_2, fig_2, fig_2
+        return fig1, fig2, fig3, fig4
+
+@app.callback(  #사회적 확률 차트 클릭데이터 초기화
+    Output("4", "clickData"),
+    Input("3", "clickData"),
+)
+def clear_econ(econ):
+    global saveEcon, saveSoci, saveEnvi, saveTech
+    if econ is not None:
+        saveEcon = econ
+        saveSoci = None
+        saveEnvi = None
+        saveTech = None
+        return None
+    else:
+        return saveSoci
+
+@app.callback(  #환경적 확률 차트 클릭데이터 초기화
+    Output("5", "clickData"),
+    Input("4", "clickData"),
+)
+def clear_econ(soci):
+    global saveEcon, saveSoci, saveEnvi, saveTech
+    if soci is not None:
+        saveEcon = None
+        saveSoci = soci
+        saveEnvi = None
+        saveTech = None
+        return None
+    else:
+        return saveEnvi
+
+@app.callback(  #기술적 확률 차트 클릭데이터 초기화
+    Output("6", "clickData"),
+    Input("5", "clickData"),
+)
+def clear_econ(envi):
+    global saveEcon, saveSoci, saveEnvi, saveTech
+    if envi is not None:
+        saveEcon = None
+        saveSoci = None
+        saveEnvi = envi
+        saveTech = None
+        return None
+    else:
+        return saveTech
+
+@app.callback(  #경제적 확률 차트 클릭데이터 초기화
+    Output("3", "clickData"),
+    Input("6", "clickData"),
+)
+def clear_econ(tech):
+    global saveEcon, saveSoci, saveEnvi, saveTech
+    if tech is not None:
+        saveEcon = None
+        saveSoci = None
+        saveEnvi = None
+        saveTech = tech
+        return None
+    else:
+        return saveEcon
+
+@app.callback(  #확률차트 -> 정규분포 이벤트 설정
+    Output("7", "figure"),
+    Output("8", "figure"),
+    Output("9", "figure"),
+    Input("3", "clickData"),
+    Input("4", "clickData"),
+    Input("5", "clickData"),
+    Input("6", "clickData")
+)
+def update(econ, soci, envi, tech):
+    if econ is not None:
+        return fig_ozone, fig_ozone, fig_ozone
+    elif soci is not None:
+        return fig_so2, fig_so2, fig_so2
+    elif envi is not None:
+        return fig_ozone, fig_ozone, fig_ozone
+    else:
+        return fig_so2, fig_so2, fig_so2
 
 
 if __name__ == '__main__':
