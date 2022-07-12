@@ -7,7 +7,7 @@ import matplotlib.font_manager as font_manager
 from component import Main_Component, Bayesian, CallBack
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from Module import Environment
-from Module import Social # 아직 모델링 하지 않음.
+from Module import Social
 
 # from Module import Bayesian as Ba
 
@@ -122,7 +122,7 @@ app.layout = Bayesian.layout()
 
 CallBack.page_transitions(bayesian_layout, main_layout)
 
-save_hydro = save_elec = save_econ = save_soci = save_envi = save_tech = {}
+save_hydro = save_elec =save_econ = save_soci = save_envi = save_tech = {}
 
 CallBack.elec_piechart_click(save_elec, save_hydro)
 CallBack.hydro_piechart_click(save_elec, save_hydro)
@@ -166,4 +166,4 @@ def update(econ, soci, envi, tech):
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=9000, debug=True)
+    app.run(host='127.0.0.1', port=9000, debug=False)
