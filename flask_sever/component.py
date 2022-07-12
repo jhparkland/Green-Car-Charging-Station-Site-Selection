@@ -216,7 +216,7 @@ class Main_Component:
         )
 
 
-class Bayesian:
+class Bayesian:  # 베이지안 페이지 모델링
 
     @staticmethod
     def print_hello():
@@ -238,7 +238,9 @@ class Bayesian:
             dcc.Location(id='url', refresh=False),
             html.Div(id='page-content'),
         ])
-class CallBack:
+
+
+class CallBack:  # 콜백함수 모델링
 
     # def __init__(self):
     #     self.save_hydro = self.save_elec = self.save_econ = self.save_soci = self.save_envi = self.save_tech = {}
@@ -254,6 +256,7 @@ class CallBack:
                 return bayesian_layout
             else:
                 return main_layout
+
     @staticmethod
     def elec_piechart_click(save_elec, save_hydro):
         @callback(  # 전기차 파이차트 클릭데이터 초기화
