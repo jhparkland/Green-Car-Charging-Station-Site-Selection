@@ -8,9 +8,11 @@ def getdir(filename):
     :param filename: 접근할 데이터 이름 
     :return: 데이터 경로
     '''
+    cwd = os.chdir('../')
     cwd = os.getcwd()  # 현재 경로
     file_list = []
     idx = 0
+    print("##############################################################################################")
     print("현재", cwd)
 
     if not (os.path.isdir(cwd + '\Data')):
@@ -20,14 +22,15 @@ def getdir(filename):
         cwd = os.getcwd()  # 현재 위치 갱신
         
         file_list = os.listdir()  # 하위 목록 리스트
-    print(file_list)
+
     idx = file_list.index(filename)
 
     if not (os.path.isfile(f'{cwd}\{file_list[idx]}')):
         raise IOError("해당 파일이 존재 하는지 확인해 주세요")
     else:
-        print("접근합니다.")
+        print(f"{file_list[idx]}에 접근합니다.")
         reuslt = f'{cwd}\{file_list[idx]}'
-        cwd = os.chdir('../')
+        #cwd = os.chdir('../')
+
     return reuslt
 
