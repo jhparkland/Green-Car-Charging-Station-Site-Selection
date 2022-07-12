@@ -60,8 +60,26 @@ class Main_Component:
         :param args: fig 객체
         :return: html
         '''
-        return html.Div(
+        return html.Div(className='def_chart', children=[
             dbc.Row([
+                dbc.Col([
+                    html.H4("상위요인 중요도", className="d-none d-lg-block d-xl-none", id="c_name_1"),
+                    html.H4("상위요인 중요도", className="d-none d-xl-block", id="c_name_2")
+                ]),
+                dbc.Col([
+                    html.H4("상위요인 적합성", className="d-none d-lg-block d-xl-none", id="c_name_3"),
+                    html.H4("상위요인 적합성", className="d-none d-xl-block", id="c_name_4")
+                ]),
+                dbc.Col([
+                    html.H4("하위 변수 정규 분포", className="d-none d-lg-block d-xl-none", id="c_name_5"),
+                    html.H4("하위 변수 정규 분포", className="d-none d-xl-block", id="c_name_6")
+                ]),
+            ]),
+            dbc.Row([
+                # 상위요인 중요도_name
+                html.H4("상위요인 중요도", className="d-block d-sm-none", id="m_c_name_1"),  # xs
+                html.H4("상위요인 중요도", className="d-none d-sm-block d-md-none", id="m_c_name_1-2"),  # sm
+                html.H4("상위요인 중요도", className="d-none d-md-block d-lg-none", id="m_c_name_1-3"),  # md
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([
@@ -86,6 +104,10 @@ class Main_Component:
                 html.Div(  # 파이차트, 확률차트 영역 구분 선(모바일에만 적용)
                     className="mobile_line1",
                 ),
+                # 상위요인 적합성_name
+                html.H4("상위요인 적합성", className="d-block d-sm-none", id="m_c_name_2"),  # xs
+                html.H4("상위요인 적합성", className="d-none d-sm-block d-md-none", id="m_c_name_2-2"),  # sm
+                html.H4("상위요인 적합성", className="d-none d-md-block d-lg-none", id="m_c_name_2-3"),  # md
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([  # 경제적 확률차트 영역
@@ -131,6 +153,10 @@ class Main_Component:
                 html.Div(  # 확률차트, 정규분포 영역 구분 선(모바일에만 적용)
                     className="mobile_line2",
                 ),
+                # 하위변수 정규분포_name
+                html.H4("하위 변수 정규 분포", className="d-block d-sm-none", id="m_c_name_3"),  # xs
+                html.H4("하위 변수 정규 분포", className="d-none d-sm-block d-md-none", id="m_c_name_3-2"),  # sm
+                html.H4("하위 변수 정규 분포", className="d-none d-md-block d-lg-none", id="m_c_name_3-3"),  # md
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([  # 정규분포1 영역
@@ -168,7 +194,7 @@ class Main_Component:
                     ])
                 ], xs=12, sm=12, md=12, lg=2, xl=2.4),
             ], className="chart")
-        )
+        ])
 
     @staticmethod
     def main_layout(*args):
@@ -197,7 +223,7 @@ class Main_Component:
                 [
                     dbc.Col(
                         html.A(  # 왼편에 로고 표시하고 누르면 페이지 리셋(새로고침)
-                            html.Img(src="assets/logo.png", height="60px"),  # 파일경로, 높이
+                            html.Img(src="assets/logo.png", height="120px"),  # 파일경로, 높이
                             href="",
                             target="_black",
                             className="logoImg"
