@@ -216,7 +216,7 @@ class Main_Component:
         )
 
 
-class Bayesian(Main_Component):
+class Bayesian:
 
     @staticmethod
     def print_hello():
@@ -238,7 +238,7 @@ class Bayesian(Main_Component):
             dcc.Location(id='url', refresh=False),
             html.Div(id='page-content'),
         ])
-class CallBack(Main_Component):
+class CallBack:
 
     # def __init__(self):
     #     self.save_hydro = self.save_elec = self.save_econ = self.save_soci = self.save_envi = self.save_tech = {}
