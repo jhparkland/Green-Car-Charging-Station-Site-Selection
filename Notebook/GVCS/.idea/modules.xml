@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/GVCS.iml" filepath="$PROJECT_DIR$/.idea/GVCS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../.idea/Green-Car-Charging-Station-Site-Selection.iml" filepath="$PROJECT_DIR$/../../.idea/Green-Car-Charging-Station-Site-Selection.iml" />
+    </modules>
+  </component>
+</project>

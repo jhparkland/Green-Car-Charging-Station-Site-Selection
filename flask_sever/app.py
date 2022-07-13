@@ -1,301 +1,166 @@
 from flask import Flask
 from dash import Dash, dcc, html, Input, Output, callback
-import pandas as pd
-import plotly.express as px
 import dash_bootstrap_components as dbc
-import os
-import sys
+import plotly
+import pandas as pd
+import os, sys
 import matplotlib.font_manager as font_manager
+from component import Main_Component, Bayesian, CallBack
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from Module import Environment as en
+from Module import Environment
+from Module import Social
 
-#서버연걸
-server = Flask(__name__)
+
+# 서버연걸
+#server = Flask(__name__)
 app = Dash(__name__,
+           title='에코 차징 플레이스',
+           update_title='데이터를 불러오는 중 입니다.',
            external_stylesheets=[dbc.themes.BOOTSTRAP],
            suppress_callback_exceptions=True,
-           server=server,
            meta_tags=[{'name': 'viewport',
                        'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.5,'}]
            )
-app.title = "에코 차징 플레이스"
+server = app.server
+
 app._favicon = "logo_icon.ico"
 
 font_dir = ['/assets/NanumSquare']
 for font in font_manager.findSystemFonts(font_dir):
     font_manager.fontManager.addfont(font)
 
-#전기차 파이차트 데이터프레임
+# 데이터 불러오는 영역
+# ========================================================================================================
+ozone = Environment.Ozone()  # 오존 데이터
+print(f"적합: {ozone.t_pro}, 부적합: {ozone.f_pro}")  # 오존 확률
+ozone.fig.write_html("ozone.html")
+
+so2 = Environment.So2()  # 아황산가스 데이터
+print(f"적합: {so2.t_pro}, 부적합: {so2.f_pro}")  # 아황산가스 확률
+
+pm25 = Environment.FineDust_pm25()  # 미세먼지 pm2.5
+print(f"적합: {pm25.t_pro}, 부적합: {pm25.f_pro}")  # 미세먼지 pm2.5 확률
+
+pm10 = Environment.FineDust_pm10()  # 미세먼저 pm10
+print(f"적합: {pm10.t_pro}, 부적합: {pm10.f_pro}")  # 미세먼지 pm10 확률
+'''
+각 요소의 fig는 객체.fig 하면 됨
+ex) ozone.fig => 오존 fig
+'''
+# 전기차 파이차트 데이터프레임
 elec_standard_df = pd.DataFrame({
-    "기준": ["환경적", "경제적", "기술적", "사회적"], #영역명
-    "Amount": [4, 1, 2, 3],                     #비율
+    "기준": ["환경적", "경제적", "기술적", "사회적"],  # 영역명
+    "Amount": [4, 1, 2, 3],  # 비율
 })
-#수소차 파이차트 데이터프레임
+# 수소차 파이차트 데이터프레임
 hydro_standard_df = pd.DataFrame({
-    "기준": ["환경적", "경제적", "기술적", "사회적"], #영역명
-    "Amount": [5, 1, 1, 2],                     #비율
+    "기준": ["환경적", "경제적", "기술적", "사회적"],  # 영역명
+    "Amount": [5, 1, 1, 2],  # 비율
 })
-#경제적 확률차트 데이터프레임
+# 경제적 확률차트 데이터프레임
 df_economy = pd.DataFrame({
-    "경제적": ["True", "False"],   #x축 라벨
-    "적합확률": [80, 20],           #확률
-    "경제적 요소": ["True", "False"] #색 구분 위해 넣음
+    "경제적": ["적합", "부적합"],  # x축 라벨
+    "적합확률": [80, 20],  # 확률
+    "경제적 요소": ["적합", "부적합"]  # 색 구분 위해 넣음
 })
-#사회적 확률차트 데이터프레임
+# 사회적 확률차트 데이터프레임
 df_society = pd.DataFrame({
-    "사회적": ["True", "False"],   #x축 라벨
-    "적합확률": [70, 30],           #확률
-    "사회적 요소": ["True", "False"] #색 구분 위해 넣음
+    "사회적": ["적합", "부적합"],  # x축 라벨
+    "적합확률": [70, 30],  # 확률
+    "사회적 요소": ["적합", "부적합"]  # 색 구분 위해 넣음
 })
-#환경적 확률차트 데이터프레임
+# 환경적 확률차트 데이터프레임
 df_environment = pd.DataFrame({
-    "환경적": ["True", "False"],   #x축 라벨
-    "적합확률": [80, 20],           #확률
-    "환경적 요소": ["True", "False"] #색 구분 위해 넣음
+    "환경적": ["적합", "부적합"],  # x축 라벨
+    "적합확률": [80, 20],  # 확률
+    "환경적 요소": ["적합", "부적합"]  # 색 구분 위해 넣음
 })
-#기술적 확률차트 데이터프레임
+# 기술적 확률차트 데이터프레임
 df_technique = pd.DataFrame({
-    "기술적": ["True", "False"],   #x축 라벨
-    "적합확률": [75, 35],           #확률
-    "기술적 요소": ["True", "False"] #색 구분 위해 넣음
+    "기술적": ["적합", "부적합"],  # x축 라벨
+    "적합확률": [75, 25],  # 확률
+    "기술적 요소": ["적합", "부적합"]  # 색 구분 위해 넣음
 })
 
-#파이차트 생성
-fig_1 = px.pie(elec_standard_df, values='Amount', names='기준')   #전기차 파이차트(values: 비율, names: 영역명)
-fig_2 = px.pie(hydro_standard_df, values='Amount', names='기준')  #수소차 파이차트
-#확률차트 생성
-fig1 = px.bar(df_economy, x="경제적", y="적합확률", color="경제적 요소")        #경제적 확률차트(x: x축 라벨명, y: 값, color: 막대 색)
-fig2 = px.bar(df_society, x="사회적",y="적합확률", color="사회적 요소")         #사회적 확률차트
-fig3 = px.bar(df_environment, x="환경적", y="적합확률", color="환경적 요소")    #환경적 확률차트
-fig4 = px.bar(df_technique, x="기술적", y="적합확률", color="기술적 요소")      #기술적 확률차트
+# 수소차 - 경제적 확률차트 데이터프레임
+df_hy_economy = pd.DataFrame({
+    "경제적": ["적합", "부적합"],
+    "적합확률": [47, 53],
+    "색상": ["적합", "부적합"]
+})
+# 수소차 - 사회적 확률차트 데이터프레임
+df_hy_society = pd.DataFrame({
+    "사회적": ["적합", "부적합"],
+    "적합확률": [84, 16],
+    "색상": ["적합", "부적합"]
+})
+# 수소차 - 환경적 확률차트 데이터프레임
+df_hy_environment = pd.DataFrame({
+    "환경적": ["적합", "부적합"],
+    "적합확률": [58, 42],
+    "색상": ["적합", "부적합"]
+})
+# 수소차 - 기술적 확률차트 데이터프레임
+df_hy_technique = pd.DataFrame({
+    "기술적": ["적합", "부적합"],
+    "적합확률": [74, 26],
+    "색상": ["적합", "부적합"]
+})
+# =========================================================================================================
+# 파이차트 및 확률 차트 생성
+fig_1, fig_2, fig1, fig2, fig3, fig4, hy_fig1, hy_fig2, hy_fig3, hy_fig4\
+    = Main_Component.mark_chart(**{"전기차": elec_standard_df,
+                                    "수소차": hydro_standard_df,
+                                    "경제적": df_economy,
+                                    "사회적": df_society,
+                                    "환경적": df_environment,
+                                    "기술적": df_technique,
+                                    "수소_경제적": df_hy_economy,
+                                    "수소_사회적": df_hy_society,
+                                    "수소_환경적": df_hy_environment,
+                                    "수소_기술적": df_hy_technique
+                                    })
 
-ozone = en.Ozone()
-df_ozone = pd.read_csv(ozone.file_path, encoding='cp949')
-df_ozone = ozone.pretreatment(df_ozone)
-df_ozone = ozone.advanced_replace(df_ozone, df_ozone.iloc[:, 2:].columns.tolist(), '-', r'[^0-9.0-9]')
-df_ozone = ozone.ChangeType(df_ozone, '2021.07',  'float')
-ozone_describe = ozone.describe(df_ozone)
-busan_ozone = df_ozone[df_ozone['구분(2)'] == '부산광역시'].loc[2, '2021.07']
+# 전기 파이, 수소 파이, 경제 막대, 환경 막대, 기술 막대, 정규분포 1, 정규분포 2, 정규분포 3, 최종입지
+# 나중에 그래프 모두 나오면 그때 수정 부탁함.
+fig_list = {"fig1": fig1,
+            "fig2": fig2,
+            "fig3": fig3,
+            "fig4": fig4,
+            "hy_fig1": hy_fig1,
+            "hy_fig2": hy_fig2,
+            "hy_fig3": hy_fig3,
+            "hy_fig4": hy_fig4,
+            "fig_1": fig_1,
+            "fig_2": fig_2,
+            "ozone": ozone.fig,
+            "so2": so2.fig,
+            "pm25": pm25.fig,
+            "pm10": pm10.fig
+            }
 
-fig_ozone = ozone.cal_norm(df_ozone.iloc[:, 2].mean(),
-                            df_ozone.iloc[:, 2].std(),
-                            df_ozone.iloc[:, 2].min(),
-                            df_ozone.iloc[:, 2].max(),
-                            busan_ozone
-                            )
-#========================================================================================================
-so2 = en.So2()
-df_so2 = pd.read_csv(so2.file_path, encoding='cp949')
-df_so2 = so2.pretreatment(df_so2)
-df_so2 = so2.advanced_replace(df_so2, df_so2.iloc[:, 2:].columns.tolist(), '-', r'[^0-9.0-9]')
-df_so2 = so2.ChangeType(df_so2, '2021.07', 'float')
-so2_describe = so2.describe(df_so2)
-busan_so2 = df_so2[df_so2['구분(2)'] == '부산광역시'].loc[2, '2021.07']
-fig_so2 = so2.cal_norm(df_so2.iloc[:, 2].mean(),
-                            df_so2.iloc[:, 2].std(),
-                            df_so2.iloc[:, 2].min(),
-                            df_so2.iloc[:, 2].max(),
-                            busan_so2
-                            )
+# 막대차트 및 파이차트 배경색 설정 및 레이아웃 설정 변경 및
+Main_Component.chart_layout(**fig_list)  # 언팩 인자로 전달 필수!.
 
-#막대차트 배경색 설정 및 레이아웃 설정 변경
-fig1.update_layout({    #경제적 차트(임시)
-    'paper_bgcolor': '#E9EEF6', #배경색
-}, margin_l=5, margin_r=5, legend_y=1.5, legend_x=0.15, legend={'title_text': ''}, font_family='NanumSquare')    #좌우 여유공간, 범례 위치조정, 제목 안보이게 하기
-fig2.update_layout({    #사회적 차트(임시)
-    'paper_bgcolor': '#E9EEF6',
-}, margin_l=5, margin_r=5, legend_y=1.5, legend_x=0.15, legend={'title_text': ''}, font_family='NanumSquare')
-fig3.update_layout({    #환경적 차트(임시)
-    'paper_bgcolor': '#E9EEF6',
-}, margin_l=5, margin_r=5, legend_y=1.5, legend_x=0.15, legend={'title_text': ''}, font_family='NanumSquare')
-fig4.update_layout({    #기술적 차트(임시)
-    'paper_bgcolor': '#E9EEF6',
-}, margin_l=5, margin_r=5, legend_y=1.5, legend_x=0.15, legend={'title_text': ''}, font_family='NanumSquare')
+fig4.write_html("fig4.html")
 
-#파이차트 배경색
-fig_1.update_layout({   #전기차 파이차트(임시)
-    'paper_bgcolor': '#E9EEF6', #배경색
-}, title_text='전기차', title_y=0.8, title_font_size=22,   #제목 설정
-    margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.3,     #좌우위아래 여유공간
-    legend_x=0.25, legend_orientation="h", legend_font_size=9.8, font_family='NanumSquare')    #범례 설정
-fig_2.update_layout({   #수소차 파이차트(임시)
-    'paper_bgcolor': '#E9EEF6',
-}, title_text='수소차', title_y=0.8, title_font_size=22,
-    margin_l=0, margin_r=0, margin_b=20, margin_t=40, legend_y=1.3,
-    legend_x=0.25, legend_orientation="h", legend_font_size=9.8, font_family='NanumSquare')
+# 상단 메뉴바(로고표시, 베이지안 네트워크 경로)
+navbar = Main_Component.navbar()
 
-fig_ozone.update_layout({
-    'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, font_family='NanumSquare')
-fig_so2.update_layout({
-    'paper_bgcolor': '#E9EEF6',
-}, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15, font_family='NanumSquare')
+# 차트 배치
+chart = Main_Component.drawing_chart(**fig_list)  # 언팩 인자로 전달 필수!.
 
-#상단 메뉴바(로고표시, 베이지안 네트워크 경로)
-navbar = dbc.Navbar(
-    #하나의 행 사용
-    dbc.Row(
-        [
-            dbc.Col(
-                html.A(     #왼편에 로고 표시하고 누르면 페이지 리셋(새로고침)
-                    html.Img(src="assets/logo.png", height="60px"), #파일경로, 높이
-                    href="",
-                    target="_black",
-                    className="logoImg"
-                ),
-            ),
-            dbc.Col(    #베이지안 네트워크 페이지로 연결
-                html.Form(
-                    dbc.Button("전체 확률 네트워크 보기 ->", outline=True, color="secondary",
-                               className="me-1", href="/bayesian", external_link=True, target="_blank"),
-                ),
-            )
-        ]
-    )
-)
+# 메인화면
+main_layout = Main_Component.main_layout(navbar, chart)
 
-#차트 배치
-chart = html.Div(
-    dbc.Row([
-        dbc.Col([
-            dbc.Row([
-                dbc.Col([
-                    dcc.Graph(  #전기차 파이차트 출력
-                        className="standard",
-                        id='1',
-                        figure=fig_1,
-                    ),
-                ], xs=6, sm=6, md=6, lg=12, xl=12, style={'padding': '12px'}),  #모바일, 데스크톱 적응형 영역 크기
-                dbc.Col([
-                    dcc.Graph(  #수소차 파이차트 출력
-                        className="standard",
-                        id='2',
-                        figure=fig_2
-                    ),
-                ], xs=6, sm=6, md=6, lg=12, xl=12, style={'padding': '12px'})
-            ]),
-        ], xs=12, sm=12, md=12, lg=4, xl=2.4, className="pie_chart"),
-        html.Div(   #전기차, 수소차 파이차트 영역 구분 선(데스크톱: 가로, 모바일: 세로)
-            className="line",
-        ),
-        html.Div(   #파이차트, 확률차트 영역 구분 선(모바일에만 적용)
-            className="mobile_line1",
-        ),
-        dbc.Col([
-            dbc.Row([
-                dbc.Col([   #경제적 확률차트 영역
-                    dcc.Graph(  #경제적 확률차트
-                        className="image",
-                        id='3',
-                        figure=fig_ozone
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
-                html.Div(   #파이차트, 확률차트 구분 선(데스크톱만 적용)
-                    className="desktop_line1",
-                ),
-                dbc.Col([   #사회적 확률차트 영역
-                    dcc.Graph(  #사회적 확률차트
-                        className="image",
-                        id='4',
-                        figure=fig_so2
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
-            ])
-        ], xs=12, sm=12, md=12, lg=2, xl=2.4),
-        dbc.Col([
-            dbc.Row([
-                dbc.Col([   #환경적 확률차트 영역
-                    dcc.Graph(  #환경적 확률차트
-                        className="image",
-                        id='5',
-                        figure=fig3
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
-                dbc.Col([   #기술적 확률차트 영역
-                    dcc.Graph(  #기술적 확률차트
-                        className="image",
-                        id='6',
-                        figure=fig4
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
-            ])
-        ], xs=12, sm=12, md=12, lg=2, xl=2.4, className="chart_bar_1"),
-        html.Div(   #확률차트, 정규분포 영역 구분 선(데스크톱에만 적용)
-            className="desktop_line2",
-        ),
-        html.Div(   #확률차트, 정규분포 영역 구분 선(모바일에만 적용)
-            className="mobile_line2",
-        ),
-        dbc.Col([
-            dbc.Row([
-                dbc.Col([   #정규분포1 영역
-                    dcc.Graph(  #정규분포1
-                        className="image",
-                        id='7',
-                        figure=fig_ozone
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
-                dbc.Col([   #정규분포2 영역
-                    dcc.Graph(  #정규분포2
-                        className="image",
-                        id='8',
-                        figure=fig_ozone
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
-            ])
-        ], xs=12, sm=12, md=12, lg=2, xl=2.4),
-        dbc.Col([
-            dbc.Row([
-                dbc.Col([   #정규분포3 영역
-                    dcc.Graph(  #정규분포3
-                        className="image",
-                        id='9',
-                        figure=fig_ozone
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
-                dbc.Col([   #최종결과 영역
-                    dcc.Graph(  #최종결과
-                        className="image",
-                        id='10',
-                        figure=fig1
-                    ),
-                ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
-            ])
-        ], xs=12, sm=12, md=12, lg=2, xl=2.4),
-    ], className="chart")
-)
+# 베이지안 네트워크 화면
+bayesian_layout = Bayesian.print_hello()
 
-#메인화면
-main_layout = [
-    navbar,
-    chart,
-    html.Br(),
-    html.Iframe(    #하단부(지도)
-        src="assets/route_graph.html",
-        style={"height": "500px", "width": "95%"},
-        className="map_"
-    ),
-    html.P(),
-]
+# 총 출력
+app.layout = Bayesian.layout()
 
-#베이지안 네트워크 화면
-bayesian_layout = html.Div("hello")
 
-#총 출력
-app.layout = html.Div(className='main', children=[
-    dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content'),
-])
-
-@callback(
-    Output('page-content', 'children'),
-    Input('url', 'pathname')
-)
-def display_page(pathname):
-    if pathname == '/bayesian':
-        return bayesian_layout
-    else:
-        return main_layout
+CallBack.page_transitions(bayesian_layout, main_layout)
 
 saveE = {}
 saveH = {}
@@ -339,7 +204,7 @@ def update(elec, hydro):
     if elec is not None:
         return fig1, fig2, fig3, fig4
     else:
-        return fig1, fig2, fig3, fig4
+        return hy_fig1, hy_fig2, hy_fig3, hy_fig4
 
 @app.callback(  #사회적 확률 차트 클릭데이터 초기화
     Output("4", "clickData"),
@@ -405,6 +270,7 @@ def clear_econ(tech):
     Output("7", "figure"),
     Output("8", "figure"),
     Output("9", "figure"),
+    Output("10", "figure"),
     Input("3", "clickData"),
     Input("4", "clickData"),
     Input("5", "clickData"),
@@ -412,14 +278,13 @@ def clear_econ(tech):
 )
 def update(econ, soci, envi, tech):
     if econ is not None:
-        return fig_ozone, fig_ozone, fig_ozone
+        return ozone.fig, ozone.fig, ozone.fig, ozone.fig
     elif soci is not None:
-        return fig_so2, fig_so2, fig_so2
+        return so2.fig, so2.fig, so2.fig, so2.fig
     elif envi is not None:
-        return fig_ozone, fig_ozone, fig_ozone
+        return ozone.fig, so2.fig, pm25.fig, pm10.fig,
     else:
-        return fig_so2, fig_so2, fig_so2
+        return so2.fig, so2.fig, so2.fig, so2.fig
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8050, debug=True)
-    #app.run_server(debug=True)
+    app.run(host='127.0.0.1', port=9000, debug=False)

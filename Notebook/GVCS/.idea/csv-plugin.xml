@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CsvFileAttributes">
+    <option name="attributeMap">
+      <map>
+        <entry key="C:\Users\pwjdg\바탕 화면\Green-Car-Charging-Station-Site-Selection\Data\부산 LPG 충전소 현황.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="C:\Users\pwjdg\바탕 화면\Green-Car-Charging-Station-Site-Selection\Data\연료별 자동차 등록 수.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="C:\Users\pwjdg\바탕 화면\Green-Car-Charging-Station-Site-Selection\Data\전국 LPG 충전소 현황(한국가스안전공사).csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
