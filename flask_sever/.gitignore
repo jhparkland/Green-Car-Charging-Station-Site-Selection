@@ -1,8 +1,0 @@
-# 파일명
-.gitignore
-
-# 코드 내용
-venv
-*.pyc
-.env
-.DS_Store

@@ -132,6 +132,7 @@ class So2(Environment):
         )
 
 
+
 class No2(Environment):
     """
     환경적 요소 - 이산화질소 대기오염도
@@ -198,6 +199,7 @@ class FineDust_pm10(Environment):
 if __name__ == '__main__':
     ozone = Ozone()  # 오존 데이터
     print(f"적합: {ozone.t_pro}, 부적합: {ozone.f_pro}")  # 오존 확률
+    ozone.fig.write_html("fig.html")
 
     so2 = So2()  # 아황산가스 데이터
     print(f"적합: {so2.t_pro}, 부적합: {so2.f_pro}")  # 아황산가스 확률

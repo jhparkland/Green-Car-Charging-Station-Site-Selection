@@ -34,7 +34,7 @@ class Main_Component:
             figs["fig4"].update_layout({  # 기술적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
             }, title_text="어떤 요소4", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15,
-                legend={'title_text': ''}, font_family='NanumSquare'),
+                legend={'title_text': ''}, font_family='Old Standard TT'),
             # 파이차트 배경색
             figs["fig_1"].update_layout({  # 전기차 파이차트(임시)
                 'paper_bgcolor': '#E9EEF6',  # 배경색
@@ -203,7 +203,7 @@ class Main_Component:
             args[1],
             html.Br(),
             html.Iframe(  # 하단부(지도)
-                src="assets/route_graph.html",
+                src="assets/map3.html",
                 style={"height": "500px", "width": "95%"},
                 className="map_"
             ),

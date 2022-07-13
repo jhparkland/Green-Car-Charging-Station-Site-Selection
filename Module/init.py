@@ -8,12 +8,12 @@ def getdir(filename):
     :param filename: 접근할 데이터 이름 
     :return: 데이터 경로
     '''
-    cwd = os.chdir('../')
+    os.chdir('../')
     cwd = os.getcwd()  # 현재 경로
     file_list = []
     idx = 0
     print("##############################################################################################")
-    print("현재", cwd)
+    #print("현재", cwd)
 
     if not (os.path.isdir(cwd + '\Data')):
         raise IOError("해당 경로가 바른지 확인해 주세요")
