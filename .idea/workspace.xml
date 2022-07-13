@@ -2,115 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa1ad9d0-8a96-4945-af16-8ad213b45914" name="변경" comment="Update">
-      <change afterPath="$PROJECT_DIR$/.idea/Green-Car-Charging-Station-Site-Selection.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/0530 제안서_edited.hwp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/0705 제안서 수정.hwp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/Data.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/미세먼지10.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/미세먼지2.5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/부산 LPG 충전소 현황.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/부산 수소차 충전소 현황.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/부산 월평균 유동인구.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/부산 전기차 충전소 현황.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/부산 주차장 현황.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/아황산가스 대기오염도.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/연료별 자동차 등록 수.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/오존 대기오염도.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/원본 수소충전소(환경부).csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/이산화질소 대기오염도.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/일산화탄소 대기오염도.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/전국 LPG 충전소 현황(한국가스안전공사).csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/전기차 충전소 리스트(원본).csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/행정구역 인구 데이터.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Module/Environment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Module/Social.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Module/init.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/.idea/GVCS.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/.idea/csv-plugin.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/BNtest.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/GVCS BN.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/GVCS.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/cache/1d97ed63299095e87217fdfd578ffd47888ab082.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/cache/722f16972914f2ee927ae40fe34d87dbc4d31b05.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/chromedriver.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/geo.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/전기차 충전소 리스트.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Notebook/GVCS/크롤링.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/.idea/flask_sever.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/assets/NanumSquare.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/assets/graph.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/assets/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/assets/logo_icon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/assets/route_graph.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/assets/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flask_sever/component.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Causal Games.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Causal Inference.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Creating a Discrete Bayesian Network.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Earthquake.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Extending pgmpy.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Gaussian Bayesian Networks (GBNs).ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Inference in Discrete Bayesian Networks.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Learning Parameters in Discrete Bayesian Networks.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Linear Gaussian Bayesian Network.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Monty Hall Problem.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Simulating Data.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Structure Learning in Bayesian Networks.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Structure Learning with Chow-Liu.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/Structure Learning with TAN.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/images/MCG.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/images/cancer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/images/gbn.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/images/lgm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pgmpy-dev/examples/images/monty.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/박정현_BI공모전.hwp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/LOGO.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/logo_icon.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/workflow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/가격정책.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/가격정책.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/개발계획.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/개발계획.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/기대수익.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/기대수익.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/데스크탑 대시보드.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/로고 배경제거.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/모바일 대시보드.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/목차 막대기.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/수소차 네트워크.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/입지선정 서비스 기술비교.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/전기차 네트워크.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/제안서 workflow .pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/주차장 운영 시장 규모.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/지역별 전기차 판매량 추이.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/충전소 가동률 piechart.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/츙전소 가동률.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/타서비스와 차이점.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/파급효과.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/핵심 기술.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/핵심 기술.수정.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/핵심기술.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 이미지/후생효과.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 최종_박정현.hwp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/제안서 최종_박정현.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/한전 발표용.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/ozone.html" beforeDir="false" afterPath="$PROJECT_DIR$/Data/ozone.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flask_sever/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask_sever/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flask_sever/assets/elevation.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/flask_sever/assets/fig4.html" beforeDir="false" afterPath="$PROJECT_DIR$/flask_sever/assets/fig4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flask_sever/component.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask_sever/component.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +56,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../eco-charging-palce/eco-charging-place" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../eco-charging-place" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -168,7 +65,7 @@
       <recent name="C:\Users\pwjdg\바탕 화면\Green-Car-Charging-Station-Site-Selection\flask_sever" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.folium save">
+  <component name="RunManager" selected="Python.app">
     <configuration name="Environment" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Green-Car-Charging-Station-Site-Selection" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -324,6 +221,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.Green-Car-Charging-Station-Site-Selection" />
       <item itemvalue="Python.GVCS" />
       <item itemvalue="Python.app" />
       <item itemvalue="Python.init" />
@@ -333,11 +231,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.folium save" />
         <item itemvalue="Python.app" />
         <item itemvalue="Python.component" />
-        <item itemvalue="Python.Environment" />
         <item itemvalue="Python.init" />
+        <item itemvalue="Python.folium save" />
+        <item itemvalue="Python.Environment" />
       </list>
     </recent_temporary>
   </component>
@@ -359,6 +257,7 @@
       <workItem from="1657525805662" duration="14807000" />
       <workItem from="1657601030282" duration="16650000" />
       <workItem from="1657630574931" duration="14559000" />
+      <workItem from="1657702960270" duration="9207000" />
     </task>
     <task id="LOCAL-00001" summary="delete">
       <created>1657616067652</created>
@@ -404,13 +303,13 @@
     <option name="LAST_COMMIT_MESSAGE" value="Update" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$init.coverage" NAME="init 커버리지 결과" MODIFIED="1657538473669" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Module" />
+    <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$init.coverage" NAME="init 커버리지 결과" MODIFIED="1657711592179" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Module" />
     <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$Green_Car_Charging_Station_Site_Selection.coverage" NAME="Green-Car-Charging-Station-Site-Selection 커버리지 결과" MODIFIED="1656745691625" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
-    <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$component.coverage" NAME="component 커버리지 결과" MODIFIED="1657651708025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/flask_sever" />
+    <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$component.coverage" NAME="component 커버리지 결과" MODIFIED="1657733708263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/flask_sever" />
     <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$folium_save.coverage" NAME="folium save 커버리지 결과" MODIFIED="1657651727530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/flask_sever/assets" />
     <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$init__1_.coverage" NAME="init (1) 커버리지 결과" MODIFIED="1656744706871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Module" />
     <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$GVCS.coverage" NAME="GVCS 커버리지 결과" MODIFIED="1656750604651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$Environment.coverage" NAME="Environment 커버리지 결과" MODIFIED="1657620822238" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Module" />
-    <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$app.coverage" NAME="app 커버리지 결과" MODIFIED="1657651714855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/flask_sever" />
+    <SUITE FILE_PATH="coverage/Green_Car_Charging_Station_Site_Selection$app.coverage" NAME="app 커버리지 결과" MODIFIED="1657733731168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/flask_sever" />
   </component>
 </project>

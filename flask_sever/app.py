@@ -60,25 +60,25 @@ hydro_standard_df = pd.DataFrame({
 df_economy = pd.DataFrame({
     "경제적": ["True", "False"],  # x축 라벨
     "적합확률": [80, 20],  # 확률
-    "경제적 요소": ["True", "False"]  # 색 구분 위해 넣음
+    "경제적 요소": ["적합 : 80", "부적합 : 20"]  # 색 구분 위해 넣음
 })
 # 사회적 확률차트 데이터프레임
 df_society = pd.DataFrame({
     "사회적": ["True", "False"],  # x축 라벨
     "적합확률": [70, 30],  # 확률
-    "사회적 요소": ["True", "False"]  # 색 구분 위해 넣음
+    "사회적 요소": ["적합 : 70", "부적합 : 30"]  # 색 구분 위해 넣음
 })
 # 환경적 확률차트 데이터프레임
 df_environment = pd.DataFrame({
     "환경적": ["True", "False"],  # x축 라벨
     "적합확률": [80, 20],  # 확률
-    "환경적 요소": ["True", "False"]  # 색 구분 위해 넣음
+    "환경적 요소": ["적합 : 80", "부적합 : 20"]  # 색 구분 위해 넣음
 })
 # 기술적 확률차트 데이터프레임
 df_technique = pd.DataFrame({
     "기술적": ["적합", "부적합"],  # x축 라벨
     "적합확률": [75, 35],  # 확률
-    "기술적 요소": ["적합", "부적합"]  # 색 구분 위해 넣음
+    "기술적 요소": ["적합 : 75", "부적합 : 35"]  # 색 구분 위해 넣음
 })
 # =========================================================================================================
 # 파이차트 및 확률 차트 생성
@@ -105,7 +105,9 @@ fig_list = {"fig1": fig1,
 # 막대차트 및 파이차트 배경색 설정 및 레이아웃 설정 변경 및
 Main_Component.chart_layout(**fig_list)  # 언팩 인자로 전달 필수!.
 
-fig4.write_html("C:\\Users\\pwjdg\\바탕 화면\\Green-Car-Charging-Station-Site-Selection\\flask_sever\\assets\\fig4.html")
+os.chdir('../')
+cwd = os.getcwd()  # 현재 경로
+fig4.write_html(cwd +"\\flask_sever\\assets\\fig4.html")
 
 # 상단 메뉴바(로고표시, 베이지안 네트워크 경로)
 navbar = Main_Component.navbar()

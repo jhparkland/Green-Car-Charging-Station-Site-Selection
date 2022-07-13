@@ -8,12 +8,22 @@ class Main_Component:
     @staticmethod
     def mark_chart(**df):
         fig_1 = px.pie(df["전기차"], values='Amount', names='기준')  # 전기차 파이차트(values: 비율, names: 영역명)
+        fig_1.update_yaxes(visible=False)
         fig_2 = px.pie(df["수소차"], values='Amount', names='기준')  # 수소차 파이차트
+        fig_2.update_yaxes(visible=False)
         # 확률차트 생성
-        fig1 = px.bar(df["경제적"], x="경제적", y="적합확률", color="경제적 요소")  # 경제적 확률차트(x: x축 라벨명, y: 값, color: 막대 색)
-        fig2 = px.bar(df["사회적"], x="사회적", y="적합확률", color="사회적 요소")  # 사회적 확률차트
-        fig3 = px.bar(df["환경적"], x="환경적", y="적합확률", color="환경적 요소")  # 환경적 확률차트
-        fig4 = px.bar(df["기술적"], x="기술적", y="적합확률", color="기술적 요소")  # 기술적 확률차트
+        fig1 = px.bar(df["경제적"], x="경제적", y="적합확률", color="경제적 요소", text = "경제적 요소")  # 경제적 확률차트(x: x축 라벨명, y: 값, color: 막대 색)
+        fig1.update_yaxes(visible=False)
+        fig1.update_xaxes(visible=False)
+        fig2 = px.bar(df["사회적"], x="사회적", y="적합확률", color="사회적 요소", text = "사회적 요소")  # 사회적 확률차트
+        fig2.update_yaxes(visible=False)
+        fig2.update_xaxes(visible=False)
+        fig3 = px.bar(df["환경적"], x="환경적", y="적합확률", color="환경적 요소", text = "환경적 요소")  # 환경적 확률차트
+        fig3.update_yaxes(visible=False)
+        fig3.update_xaxes(visible=False)
+        fig4 = px.bar(df["기술적"], x="기술적", y="적합확률", color="기술적 요소", text = "기술적 요소")  # 기술적 확률차트
+        fig4.update_yaxes(visible=False)
+        fig4.update_xaxes(visible=False)
 
         return fig_1, fig_2, fig1, fig2, fig3, fig4
 
@@ -21,20 +31,16 @@ class Main_Component:
     def chart_layout(**figs):
         return [figs["fig1"].update_layout({  # 경제적 차트(임시)
             'paper_bgcolor': '#E9EEF6',  # 배경색
-        }, title_text="어떤 요소1", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15,
-            legend={'title_text': ''}, font_family='NanumSquare'),  # 좌우 여유공간, 범례 위치조정, 제목 안보이게 하기
+        }, title_text="어떤 요소1", title_font_size=22, showlegend=False, margin_l=10, margin_r=10, font_family='NanumSquare'),  # 좌우 여유공간, 범례 위치조정, 제목 안보이게 하기
             figs["fig2"].update_layout({  # 사회적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="어떤 요소2", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15,
-                legend={'title_text': ''}, font_family='NanumSquare'),
+            }, title_text="어떤 요소2", title_font_size=22, showlegend=False, margin_l=10, margin_r=10, font_family='NanumSquare'),
             figs["fig3"].update_layout({  # 환경적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="어떤 요소3", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15,
-                legend={'title_text': ''}, font_family='NanumSquare'),
+            }, title_text="어떤 요소3", title_font_size=22, showlegend=False,  margin_l=10, margin_r=10, font_family='NanumSquare'),
             figs["fig4"].update_layout({  # 기술적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="어떤 요소4", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_x=0.15,
-                legend={'title_text': ''}, font_family='Old Standard TT'),
+            }, title_text="어떤 요소4", title_font_size=22,  showlegend=False, margin_l=10, margin_r=10, font_family='NanumSquare'),
             # 파이차트 배경색
             figs["fig_1"].update_layout({  # 전기차 파이차트(임시)
                 'paper_bgcolor': '#E9EEF6',  # 배경색
@@ -231,7 +237,7 @@ class Main_Component:
                     ),
                     dbc.Col(  # 베이지안 네트워크 페이지로 연결
                         html.Form(
-                            dbc.Button("전체 확률 네트워크 보기 ->", outline=True, color="secondary", className="me-1",
+                            dbc.Button("전체 확률 네트워크", outline=True, color="secondary", className="me-1",
                                        type="submit"),
                             action="/bayesian",
                             target="_blank"
