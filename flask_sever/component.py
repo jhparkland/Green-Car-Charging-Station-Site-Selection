@@ -25,16 +25,16 @@ class Main_Component:
         fig4 = px.bar(df["기술적"], x="기술적", y="적합확률", color="기술적 요소", text="기술적 요소")  # 기술적 확률차트
         fig4.update_yaxes(visible=False)
         fig4.update_xaxes(visible=False)
-        hy_fig1 = px.bar(df["수소_경제적"], x="경제적", y="적합확률", color="경제적 요소", text="경제적 요소")
+        hy_fig1 = px.bar(df["수소_경제적"], x="경제적", y="적합확률", color="경제적 요소", text="경제적 요소")    # 수소 - 경제
         hy_fig1.update_yaxes(visible=False)
         hy_fig1.update_xaxes(visible=False)
-        hy_fig2 = px.bar(df["수소_사회적"], x="사회적", y="적합확률", color="사회적 요소", text="사회적 요소")
+        hy_fig2 = px.bar(df["수소_사회적"], x="사회적", y="적합확률", color="사회적 요소", text="사회적 요소")    # 수소 - 사회
         hy_fig2.update_yaxes(visible=False)
         hy_fig2.update_xaxes(visible=False)
-        hy_fig3 = px.bar(df["수소_환경적"], x="환경적", y="적합확률", color="환경적 요소", text="환경적 요소")
+        hy_fig3 = px.bar(df["수소_환경적"], x="환경적", y="적합확률", color="환경적 요소", text="환경적 요소")    # 수소 - 환경
         hy_fig3.update_yaxes(visible=False)
         hy_fig3.update_xaxes(visible=False)
-        hy_fig4 = px.bar(df["수소_기술적"], x="기술적", y="적합확률", color="기술적 요소", text="기술적 요소")
+        hy_fig4 = px.bar(df["수소_기술적"], x="기술적", y="적합확률", color="기술적 요소", text="기술적 요소")    # 수소 - 기술
         hy_fig4.update_yaxes(visible=False)
         hy_fig4.update_xaxes(visible=False)
 
@@ -58,19 +58,19 @@ class Main_Component:
                 'paper_bgcolor': '#E9EEF6',
             }, title_text="전기-기술적", title_font_size=22, margin_l=10, margin_r=10,
             font_family='NanumSquare', showlegend=False),
-            figs["hy_fig1"].update_layout({  # 기술적 차트(임시)
+            figs["hy_fig1"].update_layout({  # 수소 - 경제적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
             }, title_text="수소-경제적", title_font_size=22, margin_l=10, margin_r=10,
             font_family='NanumSquare', showlegend=False),
-            figs["hy_fig2"].update_layout({  # 기술적 차트(임시)
+            figs["hy_fig2"].update_layout({  # 수소 - 사회적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
             }, title_text="수소-사회적", title_font_size=22, margin_l=10, margin_r=10,
             font_family='NanumSquare', showlegend=False),
-            figs["hy_fig3"].update_layout({  # 기술적 차트(임시)
+            figs["hy_fig3"].update_layout({  # 수소 - 환경적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
             }, title_text="수소-환경적", title_font_size=22, margin_l=10, margin_r=10,
             font_family='NanumSquare', showlegend=False),
-            figs["hy_fig4"].update_layout({  # 기술적 차트(임시)
+            figs["hy_fig4"].update_layout({  # 수소 - 기술적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
             }, title_text="수소-기술적", title_font_size=22, margin_l=10, margin_r=10,
             font_family='NanumSquare', showlegend=False),
@@ -153,36 +153,61 @@ class Main_Component:
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([  # 경제적 확률차트 영역
-                            dcc.Graph(  # 경제적 확률차트
-                                className="image",
-                                id='3',
-                                figure=figs["ozone"],
-                            ),
+                            dcc.Loading(
+                                children=[
+                                    dcc.Graph(  # 경제적 확률차트
+                                        className="image",
+                                        id='3',
+                                        figure=figs["fig1"],
+                                    )
+                                ],
+                                type="circle", style={"margin-top":"270px"}
+                            )
+                            # dcc.Graph(  # 경제적 확률차트
+                            #     className="image",
+                            #     id='3',
+                            #     figure=figs["fig1"],
+                            # ),
                         ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
                         dbc.Col([  # 사회적 확률차트 영역
-                            dcc.Graph(  # 사회적 확률차트
-                                className="image",
-                                id='4',
-                                figure=figs["so2"],
-                            ),
+                            dcc.Loading(
+                                children=[
+                                    dcc.Graph(  # 경제적 확률차트
+                                        className="image",
+                                        id='4',
+                                        figure=figs["fig2"],
+                                    )
+                                ],
+                                type="circle", style={"margin-top":"270px"}
+                            )
                         ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
                     ])
                 ], xs=12, sm=12, md=12, lg=2, xl=2.4),
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([  # 환경적 확률차트 영역
-                            dcc.Graph(  # 환경적 확률차트
-                                className="image",
-                                id='5',
-                                figure=figs["fig3"],
-                            ),
+                            dcc.Loading(
+                                children=[
+                                    dcc.Graph(  # 경제적 확률차트
+                                        className="image",
+                                        id='5',
+                                        figure=figs["fig3"],
+                                    )
+                                ],
+                                type="circle", style={"margin-top":"270px"}
+                            )
                         ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
                         dbc.Col([  # 기술적 확률차트 영역
-                            dcc.Graph(  # 기술적 확률차트
-                                className="image",
-                                id='6',
-                                figure=figs["fig4"],
-                            ),
+                            dcc.Loading(
+                                children=[
+                                    dcc.Graph(  # 경제적 확률차트
+                                        className="image",
+                                        id='6',
+                                        figure=figs["fig4"],
+                                    )
+                                ],
+                                type="circle", style={"margin-top":"270px"}
+                            )
                         ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
                     ])
                 ], xs=12, sm=12, md=12, lg=2, xl=2.4, className="chart_bar_1"),
@@ -196,36 +221,56 @@ class Main_Component:
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([  # 정규분포1 영역
-                            dcc.Graph(  # 정규분포1
-                                className="image",
-                                id='7',
-                                figure=figs["ozone"],
-                            ),
+                            dcc.Loading(
+                                children=[
+                                    dcc.Graph(  # 경제적 확률차트
+                                        className="image",
+                                        id='7',
+                                        figure=figs["ozone"],
+                                    )
+                                ],
+                                type="circle", style={"margin-top":"270px"}
+                            )
                         ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
                         dbc.Col([  # 정규분포2 영역
-                            dcc.Graph(  # 정규분포2
-                                className="image",
-                                id='8',
-                                figure=figs["ozone"],
-                            ),
+                            dcc.Loading(
+                                children=[
+                                    dcc.Graph(  # 경제적 확률차트
+                                        className="image",
+                                        id='8',
+                                        figure=figs["so2"],
+                                    )
+                                ],
+                                type="circle", style={"margin-top":"270px"}
+                            )
                         ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
                     ])
                 ], xs=12, sm=12, md=12, lg=2, xl=2.4),
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([  # 정규분포3 영역
-                            dcc.Graph(  # 정규분포3
-                                className="image",
-                                id='9',
-                                figure=figs["ozone"],
-                            ),
+                            dcc.Loading(
+                                children=[
+                                    dcc.Graph(  # 경제적 확률차트
+                                        className="image",
+                                        id='9',
+                                        figure=figs["pm25"],
+                                    )
+                                ],
+                                type="circle", style={"margin-top":"270px"}
+                            )
                         ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
-                        dbc.Col([  # 최종결과 영역
-                            dcc.Graph(  # 최종결과
-                                className="image",
-                                id='10',
-                                figure=figs["fig1"],
-                            ),
+                        dbc.Col([  # 정규분포4 영역
+                            dcc.Loading(
+                                children=[
+                                    dcc.Graph(  # 경제적 확률차트
+                                        className="image",
+                                        id='10',
+                                        figure=figs["pm10"],
+                                    )
+                                ],
+                                type="circle", style={"margin-top":"270px"}
+                            )
                         ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'})
                     ])
                 ], xs=12, sm=12, md=12, lg=2, xl=2.4),

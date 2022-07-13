@@ -244,7 +244,7 @@ body{
 
 @font-face {
     font-family: 'NanumSquare';
-    src: url('../assets/NanumSquare.woff') format('truetype');
+    src: url('NanumSquare.woff') format('truetype');
 }
 
 @media(max-width:280px){
@@ -291,7 +291,7 @@ body{
         margin-top: 40px;
     }
     .logoImg{
-        margin-right:30%;
+        margin-right:60%;
     }
     #save{
         justify-content: right;

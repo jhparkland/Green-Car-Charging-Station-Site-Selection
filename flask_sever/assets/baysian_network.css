@@ -1,48 +1,126 @@
+/*.standard_1{*/
+/*    height:260px;*/
+/*    width:100%;*/
+/*    float:left;*/
+/*    border : 1px solid lightgrey;*/
+/*    !*margin-right:10px;*!*/
+/*    background-color:#E9EEF6;*/
+/*}*/
+
+/*.bay{*/
+/*    font-weight: bolder;*/
+/*}*/
+
+/*.B_chart{*/
+/*    margin-left:auto;*/
+/*    margin-right:auto;*/
+/*    margin-bottom: 12px;*/
+/*    margin-top: 12px;*/
+/*    border: 3px solid red;*/
+/*    width:30%;*/
+/*}*/
+
+/*.B_line{*/
+/*    border-left: 3px solid #A0B3C4;*/
+/*    height: 256px;*/
+/*    width: 3px;*/
+/*    position: absolute;*/
+/*    left: 50%*/
+/*}*/
+/*.B_desktop_line1{*/
+/*    right:1%;*/
+/*}*/
+/*.B_mobile_line1{*/
+/*    border-bottom: 3px solid #A0B3C4;*/
+/*    height: 256px;*/
+/*    width: 88%;*/
+/*    position: absolute;*/
+/*}*/
+/*.B_mobile_line2{*/
+/*    border-bottom: 3px solid #A0B3C4;*/
+/*    height: 1630px;*/
+/*    width: 88%;*/
+/*    position: absolute;*/
+/*}*/
+
+/*body{*/
+/*    background-color:#F3F5F9;*/
+/*}*/
+
 .standard_1{
-    height:260px;
+    height:200px;
     width:100%;
     float:left;
     border : 1px solid lightgrey;
-    /*margin-right:10px;*/
     background-color:#E9EEF6;
 }
-
+#ch_cen{
+   height:200px;
+    width:100%;
+    float:left;
+    border : 1px solid lightgrey;
+    background-color:#E9EEF6;
+}
 .bay{
     font-weight: bolder;
 }
 
 .B_chart{
-    margin-left:auto;
-    margin-right:auto;
-    margin-bottom: 12px;
-    margin-top: 12px;
     border: 3px solid red;
-    width:30%;
+     width: 100%;
 }
 
-.B_line{
-    border-left: 3px solid #A0B3C4;
-    height: 256px;
-    width: 3px;
-    position: absolute;
-    left: 50%
-}
-.B_desktop_line1{
-    right:1%;
-}
-.B_mobile_line1{
-    border-bottom: 3px solid #A0B3C4;
-    height: 256px;
-    width: 88%;
-    position: absolute;
-}
-.B_mobile_line2{
-    border-bottom: 3px solid #A0B3C4;
-    height: 1630px;
-    width: 88%;
-    position: absolute;
-}
 
 body{
     background-color:#F3F5F9;
+    display: block;
+}
+
+body{
+   padding: 0;margin: 0;
+
+}
+#env{
+   width: 580px;
+   background-color: lightcyan;
+   height: 500px;
+   border: 3px solid red;
+   margin: 5px 5px 5px 5px;
+}
+
+#tec{
+   /* clear: both; */
+   width: 580px;
+   border: 3px solid red;
+   height: 500px;
+   margin: -475px 5px 5px 1100px;
+   /* margin-left: -3; */
+
+}
+
+#eco{
+   width: 580px;
+   background-color: orange;
+   height: 500px;
+   border: 3px solid red;
+   margin: 15px 5px 5px 1100px;
+
+}
+
+#soc{
+   width: 580px;
+   background-color: rgb(224, 255, 226);
+   height: 500px;
+   border: 3px solid red;
+   float: left;
+   margin: 50px 5px 5px -3px;
+}
+
+#cen{
+   width: 400px;
+   background-color: yellowgreen;
+   height:300px;
+   border: 3px solid red;
+   margin: -100% 5px 5px 650px;
+
 }
