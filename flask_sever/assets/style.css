@@ -3,37 +3,18 @@
     display: flex;
     justify-content: center;
 }
-#save{
+#img-col{
+    width: 100%;
     display: flex;
     justify-content: center;
 }
-.line{
-    border-left: 3px solid #A0B3C4;
-    height: 265px;
-    width: 3px;
-    position: absolute;
-    left: 50%;
-    margin-top: 45px;
-}
-.mobile_line1{
-    border-bottom: 3px solid #A0B3C4;
-    margin-top: 310px;
-    height: 0;
-    width: 88%;
-    position: absolute;
-}
-.desktop_line1{
-    height: 0;
+#save{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .desktop_line2{
     height: 0;
-}
-.mobile_line2{
-    border-bottom: 3px solid #A0B3C4;
-    top: 1885px;
-    height: 0;
-    width: 88%;
-    position: absolute;
 }
 .image{
     height:320px;
@@ -266,6 +247,18 @@ body{
     src: url('../assets/NanumSquare.woff') format('truetype');
 }
 
+@media(max-width:280px){
+    #logo{
+        width: 256px;
+    }
+}
+
+@media(max-width:992px){
+    #img-col{
+        flex: None;
+    }
+}
+
 @media(min-width:320px){ /*xs*/
     .me-1{
         float: left;
@@ -277,18 +270,6 @@ body{
     .standard{
         height:250px;
     }
-    .line{
-        height: 285px;
-        margin-top: 45px;
-    }
-    .mobile_line1{
-        margin-top: 330px;
-        width: 90%;
-    }
-    .mobile_line2{
-        top: 1905px;
-        width: 90%;
-    }
 }
 @media(min-width:480px){ /*sm*/
     .me-1{
@@ -297,33 +278,18 @@ body{
     .logoImg{
         height: 120px;
     }
-    .mobile_line1{
-        width: 93%;
-    }
-    .mobile_line2{
-        width: 93%;
-    }
 }
 @media(min-width:600px){ /*md*/
-    .mobile_line1{
-        width: 95%;
-    }
-    .mobile_line2{
-        width: 95%;
-    }
 }
 @media(min-width:768px){ /*lg*/
     .me-1{
         font-size: x-large;
     }
-    .mobile_line1{
-        width: 96%;
-    }
-    .mobile_line2{
-        width: 96%;
-    }
 }
 @media(min-width:992px){ /*xl*/
+    .me-1{
+        margin-top: 40px;
+    }
     .logoImg{
         margin-right:30%;
     }
@@ -342,26 +308,11 @@ body{
         position: absolute;
         left: 33.6%
     }
-    .desktop_line1 {
-        border-top: 3px solid #A0B3C4;
-        left: 1.3%;
-        width: 32.3%;
-        position: absolute;
-        top: 530px;
-    }
     .desktop_line2{
         border-left: 3px solid #A0B3C4;
         height: 690px;
         width: 3px;
         position: absolute;
         left: 66.25%
-    }
-    .mobile_line1{
-        border-bottom: 0;
-        width: 0;
-    }
-    .mobile_line2{
-        border-bottom: 0;
-        width: 0;
     }
 }

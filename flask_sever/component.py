@@ -9,17 +9,34 @@ class Main_Component:
     @staticmethod
     def mark_chart(**df):
         fig_1 = px.pie(df["전기차"], values='Amount', names='기준')  # 전기차 파이차트(values: 비율, names: 영역명)
+        fig_1.update_yaxes(visible=False)
         fig_2 = px.pie(df["수소차"], values='Amount', names='기준')  # 수소차 파이차트
+        fig_2.update_yaxes(visible=False)
         # 확률차트 생성
-        fig1 = px.bar(df["경제적"], x="경제적", y="적합확률", color="경제적 요소")  # 경제적 확률차트(x: x축 라벨명, y: 값, color: 막대 색)
-        fig2 = px.bar(df["사회적"], x="사회적", y="적합확률", color="사회적 요소")  # 사회적 확률차트
-        fig3 = px.bar(df["환경적"], x="환경적", y="적합확률", color="환경적 요소")  # 환경적 확률차트
-        fig4 = px.bar(df["기술적"], x="기술적", y="적합확률", color="기술적 요소")  # 기술적 확률차트
-
-        hy_fig1 = px.bar(df["수소_경제적"], x="경제적", y="적합확률", color="색상")
-        hy_fig2 = px.bar(df["수소_사회적"], x="사회적", y="적합확률", color="색상")
-        hy_fig3 = px.bar(df["수소_환경적"], x="환경적", y="적합확률", color="색상")
-        hy_fig4 = px.bar(df["수소_기술적"], x="기술적", y="적합확률", color="색상")
+        fig1 = px.bar(df["경제적"], x="경제적", y="적합확률", color="경제적 요소", text="경제적 요소")  # 경제적 확률차트(x: x축 라벨명, y: 값, color: 막대 색)
+        fig1.update_yaxes(visible=False)
+        fig1.update_xaxes(visible=False)
+        fig2 = px.bar(df["사회적"], x="사회적", y="적합확률", color="사회적 요소", text="사회적 요소")  # 사회적 확률차트
+        fig2.update_yaxes(visible=False)
+        fig2.update_xaxes(visible=False)
+        fig3 = px.bar(df["환경적"], x="환경적", y="적합확률", color="환경적 요소", text="환경적 요소")  # 환경적 확률차트
+        fig3.update_yaxes(visible=False)
+        fig3.update_xaxes(visible=False)
+        fig4 = px.bar(df["기술적"], x="기술적", y="적합확률", color="기술적 요소", text="기술적 요소")  # 기술적 확률차트
+        fig4.update_yaxes(visible=False)
+        fig4.update_xaxes(visible=False)
+        hy_fig1 = px.bar(df["수소_경제적"], x="경제적", y="적합확률", color="경제적 요소", text="경제적 요소")
+        hy_fig1.update_yaxes(visible=False)
+        hy_fig1.update_xaxes(visible=False)
+        hy_fig2 = px.bar(df["수소_사회적"], x="사회적", y="적합확률", color="사회적 요소", text="사회적 요소")
+        hy_fig2.update_yaxes(visible=False)
+        hy_fig2.update_xaxes(visible=False)
+        hy_fig3 = px.bar(df["수소_환경적"], x="환경적", y="적합확률", color="환경적 요소", text="환경적 요소")
+        hy_fig3.update_yaxes(visible=False)
+        hy_fig3.update_xaxes(visible=False)
+        hy_fig4 = px.bar(df["수소_기술적"], x="기술적", y="적합확률", color="기술적 요소", text="기술적 요소")
+        hy_fig4.update_yaxes(visible=False)
+        hy_fig4.update_xaxes(visible=False)
 
         return fig_1, fig_2, fig1, fig2, fig3, fig4, hy_fig1, hy_fig2, hy_fig3, hy_fig4
 
@@ -27,36 +44,36 @@ class Main_Component:
     def chart_layout(**figs):
         return [figs["fig1"].update_layout({  # 경제적 차트(임시)
             'paper_bgcolor': '#E9EEF6',  # 배경색
-        }, title_text="전기-경제적", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_xanchor='right',
-            legend={'title_text': ''}, font_family='NanumSquare'),  # 좌우 여유공간, 범례 위치조정, 제목 안보이게 하기
+        }, title_text="전기-경제적", title_font_size=22, margin_l=10, margin_r=10,
+            font_family='NanumSquare', showlegend=False),  # 좌우 여유공간, 범례 위치조정, 제목 안보이게 하기
             figs["fig2"].update_layout({  # 사회적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="전기-사회적", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_xanchor='right',
-                legend={'title_text': ''}, font_family='NanumSquare'),
+            }, title_text="전기-사회적", title_font_size=22, margin_l=10, margin_r=10,
+            font_family='NanumSquare', showlegend=False),
             figs["fig3"].update_layout({  # 환경적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="전기-환경적", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_xanchor='right',
-                legend={'title_text': ''}, font_family='NanumSquare'),
+            }, title_text="전기-환경적", title_font_size=22, margin_l=10, margin_r=10,
+            font_family='NanumSquare', showlegend=False),
             figs["fig4"].update_layout({  # 기술적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="전기-기술적", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_xanchor='right',
-                legend={'title_text': ''}, font_family='NanumSquare'),
+            }, title_text="전기-기술적", title_font_size=22, margin_l=10, margin_r=10,
+            font_family='NanumSquare', showlegend=False),
             figs["hy_fig1"].update_layout({  # 기술적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="수소-경제적", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_xanchor='right',
-                legend={'title_text': ''}, font_family='NanumSquare'),
+            }, title_text="수소-경제적", title_font_size=22, margin_l=10, margin_r=10,
+            font_family='NanumSquare', showlegend=False),
             figs["hy_fig2"].update_layout({  # 기술적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="수소-사회적", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_xanchor='right',
-                legend={'title_text': ''}, font_family='NanumSquare'),
+            }, title_text="수소-사회적", title_font_size=22, margin_l=10, margin_r=10,
+            font_family='NanumSquare', showlegend=False),
             figs["hy_fig3"].update_layout({  # 기술적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="수소-환경적", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_xanchor='right',
-                legend={'title_text': ''}, font_family='NanumSquare'),
+            }, title_text="수소-환경적", title_font_size=22, margin_l=10, margin_r=10,
+            font_family='NanumSquare', showlegend=False),
             figs["hy_fig4"].update_layout({  # 기술적 차트(임시)
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="수소-기술적", title_font_size=22, margin_l=10, margin_r=10, legend_y=1.5, legend_xanchor='right',
-                legend={'title_text': ''}, font_family='NanumSquare'),
+            }, title_text="수소-기술적", title_font_size=22, margin_l=10, margin_r=10,
+            font_family='NanumSquare', showlegend=False),
             # 파이차트 배경색
             figs["fig_1"].update_layout({  # 전기차 파이차트(임시)
                 'paper_bgcolor': '#E9EEF6',  # 배경색
@@ -126,11 +143,8 @@ class Main_Component:
                         ], xs=6, sm=6, md=6, lg=12, xl=12, style={'padding': '12px'})
                     ]),
                 ], xs=12, sm=12, md=12, lg=4, xl=2.4, className="pie_chart"),
-                html.Div(  # 전기차, 수소차 파이차트 영역 구분 선(데스크톱: 가로, 모바일: 세로)
+                html.Div(  # 상위요인 중요도, 상위요인 적합성 구분 선
                     className="line",
-                ),
-                html.Div(  # 파이차트, 확률차트 영역 구분 선(모바일에만 적용)
-                    className="mobile_line1",
                 ),
                 # 상위요인 적합성_name
                 html.H4("상위요인 적합성", className="d-block d-sm-none", id="m_c_name_2"),  # xs
@@ -145,9 +159,6 @@ class Main_Component:
                                 figure=figs["ozone"],
                             ),
                         ], xs=12, sm=12, md=12, lg=12, xl=12, style={'padding': '12px'}),
-                        html.Div(  # 파이차트, 확률차트 구분 선(데스크톱만 적용)
-                            className="desktop_line1",
-                        ),
                         dbc.Col([  # 사회적 확률차트 영역
                             dcc.Graph(  # 사회적 확률차트
                                 className="image",
@@ -177,9 +188,6 @@ class Main_Component:
                 ], xs=12, sm=12, md=12, lg=2, xl=2.4, className="chart_bar_1"),
                 html.Div(  # 확률차트, 정규분포 영역 구분 선(데스크톱에만 적용)
                     className="desktop_line2",
-                ),
-                html.Div(  # 확률차트, 정규분포 영역 구분 선(모바일에만 적용)
-                    className="mobile_line2",
                 ),
                 # 하위변수 정규분포_name
                 html.H4("하위 변수 정규 분포", className="d-block d-sm-none", id="m_c_name_3"),  # xs
@@ -230,8 +238,9 @@ class Main_Component:
             args[0],
             args[1],
             html.Br(),
+            html.H4("선정된 최적의 부지", id="map_title"),
             html.Iframe(  # 하단부(지도)
-                src="assets/route_graph.html",
+                src="assets/map3.html",
                 style={"height": "500px", "width": "95%"},
                 className="map_"
             ),
@@ -251,16 +260,16 @@ class Main_Component:
                 [
                     dbc.Col(
                         html.A(  # 왼편에 로고 표시하고 누르면 페이지 리셋(새로고침)
-                            html.Img(src="assets/logo.png", height="120px"),  # 파일경로, 높이
+                            html.Img(src="assets/logo.png", height="120px", id="logo"),  # 파일경로, 높이
                             href="",
                             className="logoImg"
                         ),
-                        style={"width":"100%", "display":"flex", "justify-content":"center"}
+                        id="img-col"
                     ),
                     dbc.Col(  # 분석 리포트 저장
                         html.Form(
                             dbc.Button("분석 리포트 저장", outline=True, color="secondary", className="me-1",
-                                       type="submit", style={'margin-top': '40px'}),
+                                       type="submit"),
                             action="/bayesian",
                             target="_blank",
                         ),
