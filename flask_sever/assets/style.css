@@ -23,12 +23,30 @@
     border : 1px solid lightblue;
     background-color:#E9EEF6;
 }
+.loading{
+    text-align: center;
+    line-height: 320px;
+    position:absolute;
+    height:320px;
+    width:85%;
+    float:left;
+    z-index:1;
+}
 .standard{
     height:230px;
     width:100%;
     float:left;
     border : 1px solid lightblue;
     background-color:#E9EEF6;
+}
+.pie_loading{
+    text-align: center;
+    line-height: 230px;
+    position:absolute;
+    height:230px;
+    width:38%;
+    float:left;
+    z-index:1;
 }
 .logoImg{
     width: 100%;
@@ -40,7 +58,7 @@
     text-align:center;
 }
 /*desktop_chart_name-lg,xl */
-#c_name_1{
+.c_name_1_2{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -48,18 +66,9 @@
     margin-left:15px;
     margin-right:8px;
     padding-top: 8px;
-}/*상위요인 중요도 xl*/
-#c_name_2{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-left:15px;
-    margin-right:8px;
-    padding-top: 8px;
-} /*상위요인 중요도 l */
+}/*상위요인 중요도 xl, l*/
 
-#c_name_3{
+.c_name_3_4{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -67,18 +76,9 @@
     margin-left:7px;
     margin-right:7px;
     padding-top: 8px;
-}/*상위요인 적합성 xl*/
-#c_name_4{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-left:7px;
-    margin-right:7px;
-    padding-top: 8px;
-} /*상위요인 적합성 l*/
+}/*상위요인 적합성 xl, l*/
 
-#c_name_5{
+.c_name_5_6{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -86,16 +86,7 @@
     margin-left:8px;
     margin-right:15px;
     padding-top: 8px;
-} /*하위변수정규분포 xl*/
-#c_name_6{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-left:8px;
-    margin-right:15px;
-    padding-top: 8px;
-} /*하위변수 정규분포 l*/
+} /*하위변수정규분포 xl, l*/
 
 /*mobile_chart_name_상위요인 중요도-xs,sm,md */
 #m_c_name_1{
@@ -109,7 +100,7 @@
     width:95%;
     padding-top: 8px;
 } /*xs*/
-#m_c_name_1-2{
+.m_c_name_1-2_3{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -119,18 +110,7 @@
     margin-right:15px;
     width:95%;
     padding-top: 8px;
-} /*sm*/
-#m_c_name_1-3{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-top: 8px;
-    margin-left:15px;
-    margin-right:15px;
-    width:95%;
-    padding-top: 8px;
-} /*md*/
+} /*sm, md*/
 
 /*mobile_chart_name_상위요인 적합성-xs,sm,md */
 #m_c_name_2{
@@ -144,18 +124,7 @@
     width:95%;
     padding-top: 8px;
 }
-#m_c_name_2-2{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-top: 20px;
-    margin-left:15px;
-    margin-right:15px;
-    width:95%;
-    padding-top: 8px;
-}
-#m_c_name_2-3{
+.m_c_name_2-2_3{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -179,18 +148,7 @@
     width:95%;
     padding-top: 8px;
 }
-#m_c_name_3-2{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-top: 25px;
-    margin-left:15px;
-    margin-right:15px;
-    width:95%;
-    padding-top: 8px;
-}
-#m_c_name_3-3{
+.m_c_name_3-2_3{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -223,10 +181,11 @@
 #map_title{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
+    width:90%;
     font-weight: bolder;
     border-radius: 22px;
-    margin-left:15px;
-    margin-right:15px;
+    margin-left:auto;
+    margin-right:auto;
     padding-top: 8px;
 }
 .map_{
@@ -234,8 +193,6 @@
     border-radius: 22px;
     height: 500px;
     width: 98%;
-    /*margin-right: 15px;*/
-    /*margin-left: 15px;*/
 }
 body{
     background-color:#F3F5F9;
@@ -270,6 +227,10 @@ body{
     .standard{
         height:250px;
     }
+    .pie_loading{
+        height:250px;
+        line-height: 250px;
+    }
 }
 @media(min-width:480px){ /*sm*/
     .me-1{
@@ -278,6 +239,9 @@ body{
     .logoImg{
         height: 120px;
     }
+    .loading{
+        width:90%;
+    }
 }
 @media(min-width:600px){ /*md*/
 }
@@ -285,8 +249,14 @@ body{
     .me-1{
         font-size: x-large;
     }
+    .loading{
+        width:93%;
+    }
 }
 @media(min-width:992px){ /*xl*/
+    #map_title{
+        width:32%;
+    }
     .me-1{
         margin-top: 40px;
     }
@@ -299,6 +269,14 @@ body{
     }
     .standard{
         height:320px;
+    }
+    .pie_loading{
+        height:320px;
+        line-height: 320px;
+        width:30%;
+    }
+    .loading{
+        width:14.5%;
     }
     .line{
         border-left: 3px solid #A0B3C4;

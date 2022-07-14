@@ -7,9 +7,7 @@ import os, sys
 import matplotlib.font_manager as font_manager
 from component import Main_Component, Bayesian, CallBack
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from Module import Environment
-from Module import Social
-import time
+from Module import Environment, Social, Economical
 
 
 # 서버연걸
@@ -29,19 +27,31 @@ for font in font_manager.findSystemFonts(font_dir):
     font_manager.fontManager.addfont(font)
 
 # 데이터 불러오는 영역
-# ========================================================================================================
+# 환경적 ========================================================================================================
 ozone = Environment.Ozone()  # 오존 데이터
-print(f"적합: {ozone.t_pro}, 부적합: {ozone.f_pro}")  # 오존 확률
-ozone.fig.write_html("ozone.html")
-
+# ozone.fig.write_html("ozone.html")
 so2 = Environment.So2()  # 아황산가스 데이터
-print(f"적합: {so2.t_pro}, 부적합: {so2.f_pro}")  # 아황산가스 확률
-
+no2 = Environment.No2()  # 이산화질소 데이터
+co = Environment.Co()  # 일산화탄소 데이터
 pm25 = Environment.FineDust_pm25()  # 미세먼지 pm2.5
-print(f"적합: {pm25.t_pro}, 부적합: {pm25.f_pro}")  # 미세먼지 pm2.5 확률
-
 pm10 = Environment.FineDust_pm10()  # 미세먼저 pm10
-print(f"적합: {pm10.t_pro}, 부적합: {pm10.f_pro}")  # 미세먼지 pm10 확률
+total_air_quality = Environment.Total_air_quality() #통합 대기 환경
+
+# 사회적 ========================================================================================================
+population = Social.Population()    # 고정인구
+f_population = Social.FloatingPopulation() # 유동인구
+ecc = Social.Eco_friendly_car_registration()   # 전기차, 수소차
+lpg = Social.LPG_charging_station()    # lpg 충전
+evcs = Social.EVCS()   # 전기 충전
+hvcs = Social.HVCS()   # 수소 충전
+intersection = Social.Intersection()   # 교차로
+highway = Social.Highway()  # 고속도로
+
+#경제적 =========================================================================================================
+elec_charger_cost = Economical.electricity_charger_cost()  # 전기차 충전소 설치 비용
+hydro_charger_cost = Economical.Hydrogen_charger_cost()  # 수소차 충전소 설치 비용
+lpg_land_cost = Economical.Lpg_land_costs()  # LPG 토지 비용
+parkinglot = Economical.Parkinglot()  # 주차 구획수
 '''
 각 요소의 fig는 객체.fig 하면 됨
 ex) ozone.fig => 오존 fig
@@ -122,20 +132,14 @@ fig_1, fig_2, fig1, fig2, fig3, fig4, hy_fig1, hy_fig2, hy_fig3, hy_fig4\
 
 # 전기 파이, 수소 파이, 경제 막대, 환경 막대, 기술 막대, 정규분포 1, 정규분포 2, 정규분포 3, 최종입지
 # 나중에 그래프 모두 나오면 그때 수정 부탁함.
-fig_list = {"fig1": fig1,
-            "fig2": fig2,
-            "fig3": fig3,
-            "fig4": fig4,
-            "hy_fig1": hy_fig1,
-            "hy_fig2": hy_fig2,
-            "hy_fig3": hy_fig3,
-            "hy_fig4": hy_fig4,
-            "fig_1": fig_1,
-            "fig_2": fig_2,
-            "ozone": ozone.fig,
-            "so2": so2.fig,
-            "pm25": pm25.fig,
-            "pm10": pm10.fig
+fig_list = {"fig1": fig1, "fig2": fig2, "fig3": fig3, "fig4": fig4, # 전기차 상위요소 차트
+            "hy_fig1": hy_fig1, "hy_fig2": hy_fig2, "hy_fig3": hy_fig3, "hy_fig4": hy_fig4, #수소차 상위요소 차트
+            "fig_1": fig_1, "fig_2": fig_2, # 파이차트
+            "ozone": ozone.fig, "so2": so2.fig, "no2": no2.fig, "co": co.fig, "pm25": pm25.fig, "pm10": pm10.fig, "total_air_quality": total_air_quality.fig,   #환경적
+            "population": population.fig, "f_population": f_population.fig, "eleFig": ecc.elec_fig, "hydFig": ecc.hydro_fig,    #사회적
+            "lpg": lpg.fig, "evcs": evcs.fig, "hvcs": hvcs.fig, "intersection": intersection.fig, #"highway": highway.fig,
+            # "elec_charger_cost": elec_charger_cost.fig,
+            "hydro_charger_cost": hydro_charger_cost.fig, "lpg_land_cost": lpg_land_cost.fig, "parkinglot": parkinglot.fig  #경제적
             }
 
 # 막대차트 및 파이차트 배경색 설정 및 레이아웃 설정 변경 및
@@ -179,6 +183,7 @@ def clear_hydro(elec):
         saveE = elec
         return None
     else:
+        saveE = None
         return saveH
 
 @app.callback(  #전기차 파이차트 클릭데이터 초기화
@@ -191,6 +196,7 @@ def clear_elec(hydro):
         saveH = hydro
         return None
     else:
+        saveH = None
         return saveE
 
 @app.callback(  #파이차트 -> 확률차트 이벤트 연결
@@ -198,14 +204,15 @@ def clear_elec(hydro):
     Output("4", "figure"),
     Output("5", "figure"),
     Output("6", "figure"),
+    Output("map", "src"),
     Input("1", "clickData"),
     Input("2", "clickData"),
 )
 def update(elec, hydro):
-    if elec is not None:
-        return fig1, fig2, fig3, fig4
+    if saveE is not None:
+        return fig1, fig2, fig3, fig4, "assets/map3.html"
     else:
-        return hy_fig1, hy_fig2, hy_fig3, hy_fig4
+        return hy_fig1, hy_fig2, hy_fig3, hy_fig4, "assets/map3.html"
 
 @app.callback(  #사회적 확률 차트 클릭데이터 초기화
     Output("4", "clickData"),
@@ -272,20 +279,72 @@ def clear_econ(tech):
     Output("8", "figure"),
     Output("9", "figure"),
     Output("10", "figure"),
+    Output("loading1", "style"),
+    Output("loading2", "style"),
+    Output("loading3", "style"),
+    Output("8", "style"),
+    Output("9", "style"),
+    Output("10", "style"),
     Input("3", "clickData"),
     Input("4", "clickData"),
     Input("5", "clickData"),
-    Input("6", "clickData")
+    Input("6", "clickData"),
+    Input("1", "clickData"),
+    Input("2", "clickData"),
 )
-def update(econ, soci, envi, tech):
+def update(econ, soci, envi, tech, elec, hydro):
     if econ is not None:
-        return ozone.fig, ozone.fig, ozone.fig, ozone.fig
+        if saveE is not None:
+            return parkinglot.fig, ozone.fig, ozone.fig, ozone.fig,\
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'},\
+                   {'display': 'none', "position": "relative", "z-index": "2"},\
+                   {'display': 'none', "position": "relative", "z-index": "2"},\
+                   {'display': 'none', "position": "relative", "z-index": "2"}
+        else:
+            return hydro_charger_cost.fig, lpg_land_cost.fig, ozone.fig, ozone.fig,\
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'},\
+                   {'display': 'block', "position": "relative", "z-index": "2"},\
+                   {'display': 'none', "position": "relative", "z-index": "2"},\
+                   {'display': 'none', "position": "relative", "z-index": "2"}
     elif soci is not None:
-        return so2.fig, so2.fig, so2.fig, so2.fig
+        if saveE is not None:
+            return population.fig, f_population.fig, ecc.elec_fig, evcs.fig,\
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'},\
+                   {'display': 'block', "position": "relative", "z-index": "2"},\
+                   {'display': 'block', "position": "relative", "z-index": "2"},\
+                   {'display': 'block', "position": "relative", "z-index": "2"}
+        else:
+            return population.fig, f_population.fig, ecc.hydro_fig, hvcs.fig,\
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'},\
+                   {'display': 'block', "position": "relative", "z-index": "2"},\
+                   {'display': 'block', "position": "relative", "z-index": "2"},\
+                   {'display': 'block', "position": "relative", "z-index": "2"}
     elif envi is not None:
-        return ozone.fig, so2.fig, pm25.fig, pm10.fig,
-    else:
-        return so2.fig, so2.fig, so2.fig, so2.fig
+        if saveE is not None:
+            return ozone.fig, so2.fig, pm25.fig, pm10.fig,\
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'},\
+                   {'display': 'block', "position": "relative", "z-index": "2"},\
+                   {'display': 'block', "position": "relative", "z-index": "2"},\
+                   {'display': 'block', "position": "relative", "z-index": "2"}
+        else:
+            return ozone.fig, so2.fig, pm25.fig, pm10.fig,\
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'},\
+                   {'display': 'block', "position": "relative", "z-index": "2"},\
+                   {'display': 'block', "position": "relative", "z-index": "2"},\
+                   {'display': 'block', "position": "relative", "z-index": "2"}
+    elif tech is not None:
+        if saveE is not None:
+            return ozone.fig, so2.fig, so2.fig, so2.fig,\
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'},\
+                   {'display': 'none', "position": "relative", "z-index": "2"},\
+                   {'display': 'none', "position": "relative", "z-index": "2"},\
+                   {'display': 'none', "position": "relative", "z-index": "2"}
+        else:
+            return so2.fig, so2.fig, so2.fig, so2.fig,\
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'},\
+                   {'display': 'none', "position": "relative", "z-index": "2"},\
+                   {'display': 'none', "position": "relative", "z-index": "2"},\
+                   {'display': 'none', "position": "relative", "z-index": "2"}
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=9000, debug=False)

@@ -87,16 +87,65 @@ class Main_Component:
                 legend_x=0.25, legend_orientation="h", legend_font_size=9, font_family='NanumSquare', font_size=9.6),
             figs["ozone"].update_layout({
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="오존", title_font_size=22, margin_l=10, margin_r=10, font_family='NanumSquare'),
+            }, title_text="오존"),
             figs["so2"].update_layout({
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="아황산가스", title_font_size=22, margin_l=10, margin_r=10, font_family='NanumSquare'),
+            }, title_text="아황산가스"),
+            figs["no2"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="이산화질소"),
+            figs["co"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="일산화탄소"),
             figs["pm25"].update_layout({
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="pm25", title_font_size=22, margin_l=10, margin_r=10, font_family='NanumSquare'),
+            }, title_text="pm25"),
             figs["pm10"].update_layout({
                 'paper_bgcolor': '#E9EEF6',
-            }, title_text="pm10", title_font_size=22, margin_l=10, margin_r=10, font_family='NanumSquare')]
+            }, title_text="pm10"),
+            figs["total_air_quality"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="통합대기환경"),
+            figs["population"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="고정인구"),
+            figs["f_population"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="유동인구"),
+            figs["eleFig"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="전기차"),
+            figs["hydFig"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="수소차"),
+            figs["lpg"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="lpg충전"),
+            figs["evcs"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="전기충전"),
+            figs["hvcs"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="수소충전"),
+            figs["intersection"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="교차로"),
+            # figs["highway"].update_layout({
+            #     'paper_bgcolor': '#E9EEF6',
+            # }, title_text="고속도로", title_font_size=22, margin_l=10, margin_r=10, font_family='NanumSquare'),
+            # figs["elec_charger_cost"].update_layout({
+            #     'paper_bgcolor': '#E9EEF6',
+            # }, title_text="전기차충전소설치비용", title_font_size=22, margin_l=10, margin_r=10, font_family='NanumSquare'),
+            figs["hydro_charger_cost"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="수소차충전소설치비용"),
+            figs["lpg_land_cost"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="LPG토지비용"),
+            figs["parkinglot"].update_layout({
+                'paper_bgcolor': '#E9EEF6',
+            }, title_text="주차구획수"),
+        ]
 
     @staticmethod
     def drawing_chart(**figs):
@@ -108,23 +157,23 @@ class Main_Component:
         return html.Div(className='def_chart', children=[
             dbc.Row([
                 dbc.Col([
-                    html.H4("상위요인 중요도", className="d-none d-lg-block d-xl-none", id="c_name_1"),
-                    html.H4("상위요인 중요도", className="d-none d-xl-block", id="c_name_2")
+                    html.H4("상위요인 중요도", className="d-none d-lg-block d-xl-none c_name_1_2"),
+                    html.H4("상위요인 중요도", className="d-none d-xl-block c_name_1_2")
                 ]),
                 dbc.Col([
-                    html.H4("상위요인 적합성", className="d-none d-lg-block d-xl-none", id="c_name_3"),
-                    html.H4("상위요인 적합성", className="d-none d-xl-block", id="c_name_4")
+                    html.H4("상위요인 적합성", className="d-none d-lg-block d-xl-none c_name_3_4"),
+                    html.H4("상위요인 적합성", className="d-none d-xl-block c_name_3_4")
                 ]),
                 dbc.Col([
-                    html.H4("하위 변수 정규 분포", className="d-none d-lg-block d-xl-none", id="c_name_5"),
-                    html.H4("하위 변수 정규 분포", className="d-none d-xl-block", id="c_name_6")
+                    html.H4("하위 변수 정규 분포", className="d-none d-lg-block d-xl-none c_name_5_6"),
+                    html.H4("하위 변수 정규 분포", className="d-none d-xl-block c_name_5_6")
                 ]),
             ]),
             dbc.Row([
                 # 상위요인 중요도_name
                 html.H4("상위요인 중요도", className="d-block d-sm-none", id="m_c_name_1"),  # xs
-                html.H4("상위요인 중요도", className="d-none d-sm-block d-md-none", id="m_c_name_1-2"),  # sm
-                html.H4("상위요인 중요도", className="d-none d-md-block d-lg-none", id="m_c_name_1-3"),  # md
+                html.H4("상위요인 중요도", className="d-none d-sm-block d-md-none m_c_name_1-2_3"),  # sm
+                html.H4("상위요인 중요도", className="d-none d-md-block d-lg-none m_c_name_1-2_3"),  # md
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([
@@ -132,14 +181,24 @@ class Main_Component:
                                 className="standard",
                                 id='1',
                                 figure=figs["fig_1"],
+                                style={"position":"relative", "z-index":"2"}
                             ),
+                            html.Div(
+                                "Loading...",
+                                className="pie_loading",
+                            )
                         ], xs=6, sm=6, md=6, lg=12, xl=12, style={'padding': '12px'}),  # 모바일, 데스크톱 적응형 영역 크기
                         dbc.Col([
                             dcc.Graph(  # 수소차 파이차트 출력
                                 className="standard",
                                 id='2',
                                 figure=figs["fig_2"],
+                                style={"position": "relative", "z-index": "2"}
                             ),
+                            html.Div(
+                                "Loading...",
+                                className="pie_loading",
+                            )
                         ], xs=6, sm=6, md=6, lg=12, xl=12, style={'padding': '12px'})
                     ]),
                 ], xs=12, sm=12, md=12, lg=4, xl=2.4, className="pie_chart"),
@@ -148,8 +207,8 @@ class Main_Component:
                 ),
                 # 상위요인 적합성_name
                 html.H4("상위요인 적합성", className="d-block d-sm-none", id="m_c_name_2"),  # xs
-                html.H4("상위요인 적합성", className="d-none d-sm-block d-md-none", id="m_c_name_2-2"),  # sm
-                html.H4("상위요인 적합성", className="d-none d-md-block d-lg-none", id="m_c_name_2-3"),  # md
+                html.H4("상위요인 적합성", className="d-none d-sm-block d-md-none m_c_name_2-2_3"),  # sm
+                html.H4("상위요인 적합성", className="d-none d-md-block d-lg-none m_c_name_2-2_3"),  # md
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([  # 경제적 확률차트 영역
@@ -159,6 +218,11 @@ class Main_Component:
                                         className="image",
                                         id='3',
                                         figure=figs["fig1"],
+                                        style={"position": "relative", "z-index": "2"}
+                                    ),
+                                    html.Div(
+                                        "Loading...",
+                                        className="loading",
                                     )
                                 ],
                                 type="circle", style={"margin-top":"270px"}
@@ -172,10 +236,15 @@ class Main_Component:
                         dbc.Col([  # 사회적 확률차트 영역
                             dcc.Loading(
                                 children=[
-                                    dcc.Graph(  # 경제적 확률차트
+                                    dcc.Graph(  # 사회적 확률차트
                                         className="image",
                                         id='4',
                                         figure=figs["fig2"],
+                                        style={"position": "relative", "z-index": "2"}
+                                    ),
+                                    html.Div(
+                                        "Loading...",
+                                        className="loading",
                                     )
                                 ],
                                 type="circle", style={"margin-top":"270px"}
@@ -188,10 +257,15 @@ class Main_Component:
                         dbc.Col([  # 환경적 확률차트 영역
                             dcc.Loading(
                                 children=[
-                                    dcc.Graph(  # 경제적 확률차트
+                                    dcc.Graph(  # 환경적 확률차트
                                         className="image",
                                         id='5',
                                         figure=figs["fig3"],
+                                        style={"position": "relative", "z-index": "2"}
+                                    ),
+                                    html.Div(
+                                        "Loading...",
+                                        className="loading",
                                     )
                                 ],
                                 type="circle", style={"margin-top":"270px"}
@@ -200,10 +274,15 @@ class Main_Component:
                         dbc.Col([  # 기술적 확률차트 영역
                             dcc.Loading(
                                 children=[
-                                    dcc.Graph(  # 경제적 확률차트
+                                    dcc.Graph(  # 기술적 확률차트
                                         className="image",
                                         id='6',
                                         figure=figs["fig4"],
+                                        style={"position": "relative", "z-index": "2"}
+                                    ),
+                                    html.Div(
+                                        "Loading...",
+                                        className="loading",
                                     )
                                 ],
                                 type="circle", style={"margin-top":"270px"}
@@ -216,17 +295,22 @@ class Main_Component:
                 ),
                 # 하위변수 정규분포_name
                 html.H4("하위 변수 정규 분포", className="d-block d-sm-none", id="m_c_name_3"),  # xs
-                html.H4("하위 변수 정규 분포", className="d-none d-sm-block d-md-none", id="m_c_name_3-2"),  # sm
-                html.H4("하위 변수 정규 분포", className="d-none d-md-block d-lg-none", id="m_c_name_3-3"),  # md
+                html.H4("하위 변수 정규 분포", className="d-none d-sm-block d-md-none m_c_name_3-2_3"),  # sm
+                html.H4("하위 변수 정규 분포", className="d-none d-md-block d-lg-none m_c_name_3-2_3"),  # md
                 dbc.Col([
                     dbc.Row([
                         dbc.Col([  # 정규분포1 영역
                             dcc.Loading(
                                 children=[
-                                    dcc.Graph(  # 경제적 확률차트
+                                    dcc.Graph(  # 정규분포1
                                         className="image",
                                         id='7',
                                         figure=figs["ozone"],
+                                        style={"position": "relative", "z-index": "2"}
+                                    ),
+                                    html.Div(
+                                        "Loading...",
+                                        className="loading",
                                     )
                                 ],
                                 type="circle", style={"margin-top":"270px"}
@@ -235,10 +319,16 @@ class Main_Component:
                         dbc.Col([  # 정규분포2 영역
                             dcc.Loading(
                                 children=[
-                                    dcc.Graph(  # 경제적 확률차트
+                                    dcc.Graph(  # 정규분포2
                                         className="image",
                                         id='8',
                                         figure=figs["so2"],
+                                        style={"position": "relative", "z-index": "2"}
+                                    ),
+                                    html.Div(
+                                        "Loading...",
+                                        id="loading1",
+                                        className="loading",
                                     )
                                 ],
                                 type="circle", style={"margin-top":"270px"}
@@ -251,10 +341,16 @@ class Main_Component:
                         dbc.Col([  # 정규분포3 영역
                             dcc.Loading(
                                 children=[
-                                    dcc.Graph(  # 경제적 확률차트
+                                    dcc.Graph(  # 정규분포3
                                         className="image",
                                         id='9',
                                         figure=figs["pm25"],
+                                        style={"position": "relative", "z-index": "2"}
+                                    ),
+                                    html.Div(
+                                        "Loading...",
+                                        id="loading2",
+                                        className="loading",
                                     )
                                 ],
                                 type="circle", style={"margin-top":"270px"}
@@ -263,10 +359,16 @@ class Main_Component:
                         dbc.Col([  # 정규분포4 영역
                             dcc.Loading(
                                 children=[
-                                    dcc.Graph(  # 경제적 확률차트
+                                    dcc.Graph(  # 정규분포4
                                         className="image",
                                         id='10',
                                         figure=figs["pm10"],
+                                        style={"position": "relative", "z-index": "2"}
+                                    ),
+                                    html.Div(
+                                        "Loading...",
+                                        id="loading3",
+                                        className="loading",
                                     )
                                 ],
                                 type="circle", style={"margin-top":"270px"}
@@ -285,9 +387,10 @@ class Main_Component:
             html.Br(),
             html.H4("선정된 최적의 부지", id="map_title"),
             html.Iframe(  # 하단부(지도)
-                src="assets/map3.html",
+                src="assets/map_final.html",
                 style={"height": "500px", "width": "95%"},
-                className="map_"
+                className="map_",
+                id="map"
             ),
             html.P(),
         ]
@@ -315,7 +418,7 @@ class Main_Component:
                         html.Form(
                             dbc.Button("분석 리포트 저장", outline=True, color="secondary", className="me-1",
                                        type="submit"),
-                            action="/bayesian",
+                            action='/bayesian',
                             target="_blank",
                         ),
                         id="save"
