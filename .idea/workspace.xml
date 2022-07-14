@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fa1ad9d0-8a96-4945-af16-8ad213b45914" name="변경" comment="Update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/ozone.html" beforeDir="false" afterPath="$PROJECT_DIR$/Data/ozone.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_sever/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask_sever/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_sever/assets/elevation.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_sever/assets/fig4.html" beforeDir="false" afterPath="$PROJECT_DIR$/flask_sever/assets/fig4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_sever/component.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask_sever/component.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +252,7 @@
       <workItem from="1657525805662" duration="14807000" />
       <workItem from="1657601030282" duration="16650000" />
       <workItem from="1657630574931" duration="14559000" />
-      <workItem from="1657702960270" duration="9207000" />
+      <workItem from="1657702960270" duration="10703000" />
     </task>
     <task id="LOCAL-00001" summary="delete">
       <created>1657616067652</created>
