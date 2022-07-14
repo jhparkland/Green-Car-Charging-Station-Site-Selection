@@ -1,0 +1,318 @@
+.nav{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+#img-col{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+#save{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.desktop_line2{
+    height: 0;
+}
+.image{
+    height:320px;
+    width:100%;
+    float:left;
+    border : 1px solid lightblue;
+    background-color:#E9EEF6;
+}
+.standard{
+    height:230px;
+    width:100%;
+    float:left;
+    border : 1px solid lightblue;
+    background-color:#E9EEF6;
+}
+.logoImg{
+    width: 100%;
+    height: 55px;
+    margin-top: 15px;
+    justify-content: center;
+}
+.main{
+    text-align:center;
+}
+/*desktop_chart_name-lg,xl */
+#c_name_1{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-left:15px;
+    margin-right:8px;
+    padding-top: 8px;
+}/*상위요인 중요도 xl*/
+#c_name_2{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-left:15px;
+    margin-right:8px;
+    padding-top: 8px;
+} /*상위요인 중요도 l */
+
+#c_name_3{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-left:7px;
+    margin-right:7px;
+    padding-top: 8px;
+}/*상위요인 적합성 xl*/
+#c_name_4{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-left:7px;
+    margin-right:7px;
+    padding-top: 8px;
+} /*상위요인 적합성 l*/
+
+#c_name_5{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-left:8px;
+    margin-right:15px;
+    padding-top: 8px;
+} /*하위변수정규분포 xl*/
+#c_name_6{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-left:8px;
+    margin-right:15px;
+    padding-top: 8px;
+} /*하위변수 정규분포 l*/
+
+/*mobile_chart_name_상위요인 중요도-xs,sm,md */
+#m_c_name_1{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-top: 8px;
+    margin-left:8px;
+    margin-right:15px;
+    width:95%;
+    padding-top: 8px;
+} /*xs*/
+#m_c_name_1-2{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-top: 8px;
+    margin-left:15px;
+    margin-right:15px;
+    width:95%;
+    padding-top: 8px;
+} /*sm*/
+#m_c_name_1-3{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-top: 8px;
+    margin-left:15px;
+    margin-right:15px;
+    width:95%;
+    padding-top: 8px;
+} /*md*/
+
+/*mobile_chart_name_상위요인 적합성-xs,sm,md */
+#m_c_name_2{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-top: 20px;
+    margin-left:8px;
+    margin-right:15px;
+    width:95%;
+    padding-top: 8px;
+}
+#m_c_name_2-2{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-top: 20px;
+    margin-left:15px;
+    margin-right:15px;
+    width:95%;
+    padding-top: 8px;
+}
+#m_c_name_2-3{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-top: 20px;
+    margin-left:15px;
+    margin-right:15px;
+    width:95%;
+    padding-top: 8px;
+}
+
+/*mobile_chart_name_하위변수 정규분포-xs,sm,md */
+#m_c_name_3{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-top: 25px;
+    margin-left:8px;
+    margin-right:15px;
+    width:95%;
+    padding-top: 8px;
+}
+#m_c_name_3-2{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-top: 25px;
+    margin-left:15px;
+    margin-right:15px;
+    width:95%;
+    padding-top: 8px;
+}
+#m_c_name_3-3{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-top: 25px;
+    margin-left:15px;
+    margin-right:15px;
+    width:95%;
+    padding-top: 8px;
+}
+
+.Header{
+    height: 120px;
+    background-color: #F3F5F9;
+}
+.chart{
+    margin-left:15px;
+    margin-right:15px;
+    border: 3px solid #A0B3C4;
+    border-radius: 22px;
+}
+.me-1{
+    background-color: #E9EEF6;
+    color:black;
+    font-weight: bolder;
+    float: right;
+    width:auto;
+    margin-top: 50px;
+}
+#map_title{
+    border:3px solid #A0B3C4;
+    background-color: #D6DEEF;
+    font-weight: bolder;
+    border-radius: 22px;
+    margin-left:15px;
+    margin-right:15px;
+    padding-top: 8px;
+}
+.map_{
+    border:3px solid #A0B3C4;
+    border-radius: 22px;
+    height: 500px;
+    width: 98%;
+    /*margin-right: 15px;*/
+    /*margin-left: 15px;*/
+}
+body{
+    background-color:#F3F5F9;
+    font-family: 'NanumSquare';
+}
+
+@font-face {
+    font-family: 'NanumSquare';
+    src: url('NanumSquare.woff') format('woff');
+}
+
+@media(max-width:280px){
+    #logo{
+        width: 256px;
+    }
+}
+
+@media(max-width:992px){
+    #img-col{
+        flex: None;
+    }
+}
+
+@media(min-width:320px){ /*xs*/
+    .me-1{
+        float: left;
+    }
+    .logoImg{
+        height:90px;
+        margin-top: 0;
+    }
+    .standard{
+        height:250px;
+    }
+}
+@media(min-width:480px){ /*sm*/
+    .me-1{
+        margin-top: 8px;
+    }
+    .logoImg{
+        height: 120px;
+    }
+}
+@media(min-width:600px){ /*md*/
+}
+@media(min-width:768px){ /*lg*/
+    .me-1{
+        font-size: x-large;
+    }
+}
+@media(min-width:992px){ /*xl*/
+    .me-1{
+        margin-top: 40px;
+    }
+    .logoImg{
+        margin-right:60%;
+    }
+    #save{
+        justify-content: right;
+        margin-right:5%;
+    }
+    .standard{
+        height:320px;
+    }
+    .line{
+        border-left: 3px solid #A0B3C4;
+        margin-top: 0;
+        height: 690px;
+        width: 3px;
+        position: absolute;
+        left: 33.6%
+    }
+    .desktop_line2{
+        border-left: 3px solid #A0B3C4;
+        height: 690px;
+        width: 3px;
+        position: absolute;
+        left: 66.25%
+    }
+}
