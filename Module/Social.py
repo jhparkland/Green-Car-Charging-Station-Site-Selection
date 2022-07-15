@@ -155,7 +155,7 @@ class Eco_friendly_car_registration(Social):
     def __init__(self):
         self.file_path = dir.getdir("연료별 자동차 등록 수.csv")  # 데이터 경로
         self.elec_vehicle_standard = 50000  # 전기차 등록 수
-        self.hidro_vehicle_standard = 1500  # 수소차 등록 수
+        self.hydro_vehicle_standard = 1500  # 수소차 등록 수
         self.df_vehicle = pd.read_csv(self.file_path, encoding='cp949')
         Social.pretreatment(self.df_vehicle, 1, 3)
         # 전국 자동차 수 통계값 구하기 (전기, 수소)
@@ -166,23 +166,23 @@ class Eco_friendly_car_registration(Social):
 
         self.df_elec_vehicle = self.df_vehicle.iloc[3:7, :-1].sum()  # 전기 + 하이브리드
         self.df_elec_vehicle = self.df_elec_vehicle[1:].astype(int)
-        self.df_hidro_vehicle = self.df_vehicle.iloc[8, 1:-1].astype(int)
+        self.df_hydro_vehicle = self.df_vehicle.iloc[8, 1:-1].astype(int)
 
-        self.elec_fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_elec_vehicle.mean(),
-                                                                self.df_elec_vehicle.std(),
-                                                                self.df_elec_vehicle.min(),
-                                                                self.df_elec_vehicle.max(),
-                                                                self.elec_vehicle_standard,
-                                                                False
-                                                                )
+        self.elec_fig, self.elec_t_pro, self.elec_f_pro = Social.cal_norm(self.df_elec_vehicle.mean(),
+                                                                          self.df_elec_vehicle.std(),
+                                                                          self.df_elec_vehicle.min(),
+                                                                          self.df_elec_vehicle.max(),
+                                                                          self.elec_vehicle_standard,
+                                                                          False
+                                                                          )
 
-        self.hidro_fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_hidro_vehicle.mean(),
-                                                                 self.df_hidro_vehicle.std(),
-                                                                 self.df_hidro_vehicle.min(),
-                                                                 self.df_hidro_vehicle.max(),
-                                                                 self.hidro_vehicle_standard,
-                                                                 False
-                                                                 )
+        self.hydro_fig, self.hydro_t_pro, self.hydro_f_pro = Social.cal_norm(self.df_hydro_vehicle.mean(),
+                                                                             self.df_hydro_vehicle.std(),
+                                                                             self.df_hydro_vehicle.min(),
+                                                                             self.df_hydro_vehicle.max(),
+                                                                             self.hydro_vehicle_standard,
+                                                                             False
+                                                                             )
 
 
 class LPG_charging_station(Social):
@@ -194,7 +194,8 @@ class LPG_charging_station(Social):
         self.file_path = dir.getdir("부산 LPG 충전소 현황.csv")  # 데이터 경로
         self.lpg_standard = 2
         self.df_lpg = pd.read_csv(self.file_path, encoding='cp949')
-        self.df_lpg = self.df_lpg[self.df_lpg['면적'] >= 1500].reset_index(drop=True)  # 복합충전소 규제로 인해 부지의 크기는 1500m^2 이상 요구.
+        self.df_lpg = self.df_lpg[self.df_lpg['면적'] >= 1500].reset_index(
+            drop=True)  # 복합충전소 규제로 인해 부지의 크기는 1500m^2 이상 요구.
         self.lpg_group = self.df_lpg.groupby('행정구역').count()
         self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.lpg_group['업소명'].mean(),
                                                            self.lpg_group['업소명'].std(),
@@ -203,6 +204,7 @@ class LPG_charging_station(Social):
                                                            self.lpg_standard,
                                                            False
                                                            )
+
 
 class EVCS(Social):
     """
@@ -274,16 +276,27 @@ class Intersection(Social):
                                                            False
                                                            )
 
+
 class Highway(Social):
     """
     사회적 요소 - 고속도로 여부(정성적)
     """
 
     def __init__(self):
-        self.highway_pro = 0.0
+        self.parking_file_path = '부산 주차장 현황(교차로).csv'
+        self.df_parking = pd.read_csv(self.parking_file_path, encoding='cp949')
+        self.highway_standard = 1000
+        self.df_parking_highway = self.df_parking[self.df_parking['주변고속도로까지 최단거리']!='-'].reset_index(drop=True)
+        self.df_parking_highway['주변고속도로까지 최단거리'] = self.df_parking_highway['주변고속도로까지 최단거리'].astype(float)
+        self.fig, self.t_pro, self.f_pro = Social.cal_norm( self.df_parking_highway['주변고속도로까지 최단거리'].mean(),
+                                                            self.df_parking_highway['주변고속도로까지 최단거리'].std(),
+                                                            self.df_parking_highway['주변고속도로까지 최단거리'].min(),
+                                                            self.df_parking_highway['주변고속도로까지 최단거리'].max(),
+                                                            self.highway_standard,
+                                                            True
+                                                            )
 
 if __name__ == '__main__':
-
     population = Population()
     f_population = FloatingPopulation()
     ecc = Eco_friendly_car_registration()
@@ -291,13 +304,14 @@ if __name__ == '__main__':
     evcs = EVCS()
     hvcs = HVCS()
     intersection = Intersection()
-    highway = Highway() # 정성적
+    highway = Highway()  # 정성적
 
-    population.fig.show() # 고정 인구
-    f_population.fig.show() # 유동 인구
-    ecc.elec_fig.show() # 전기차
-    ecc.hidro_fig.show() # 수소차
-    lpg.fig.show() # lpg 충전
+    population.fig.show()  # 고정 인구
+    f_population.fig.show()  # 유동 인구
+    ecc.elec_fig.show()  # 전기차
+    ecc.hydro_fig.show()  # 수소차
+    lpg.fig.show()  # lpg 충전
     evcs.fig.show()  # 전기 충전
-    hvcs.fig.show() # 수소 충전
-    intersection.fig.show() #교차로
+    hvcs.fig.show()  # 수소 충전
+    intersection.fig.show()  # 교차로
+    highway.fig.show()

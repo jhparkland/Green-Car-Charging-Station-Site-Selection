@@ -104,12 +104,12 @@ class Economical:
         return fig, pro, 1 - pro
 
 
-class electricity_charger_cost(Economical):
+class Electricity_charger_cost(Economical):
     """
     경제적 요소 - 전기차 충전소 설치 비용
     """
-    pass
-
+    def __init__(self):
+        self.t_pro = 0
 
 class Hydrogen_charger_cost(Economical):
     """
@@ -177,7 +177,7 @@ class Parkinglot(Economical):
 
 if __name__ == '__main__':
 
-    elec_charger_cost = electricity_charger_cost() # 전기차 충전소 설치 비용
+    elec_charger_cost = Electricity_charger_cost() # 전기차 충전소 설치 비용
     hydro_charger_cost = Hydrogen_charger_cost() # 수소차 충전소 설치 비용
     lpg_land_cost = Lpg_land_costs() # LPG 토지 비용
     parkinglot = Parkinglot() # 주차 구획수

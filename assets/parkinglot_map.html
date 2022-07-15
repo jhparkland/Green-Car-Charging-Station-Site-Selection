@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="font5.css" rel="stylesheet">
+    <style>.leaflet-popup-content {font-family: 'NanumSquare'}</style>
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+</head>
+<body>    
+    
+            <div class="folium-map" id="map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71" ></div>
+        
+</body>
+<script>    
+    
+            var map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71 = L.map(
+                "map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71",
+                {
+                    center: [35.16434005, 129.0712629],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 12.5,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f20babb58c3bd9eff0458e348adc827b = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+            var marker_ea7e63fcc7598747810fdf172b1e29a8 = L.marker(
+                [35.1538771, 129.0575931],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_b071b3b4320d112a319ed02e56cdece8 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_3e5c2f01140a59310bea295db4ddfc06 = $(`<div id="html_3e5c2f01140a59310bea295db4ddfc06" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">네오스포밑 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_b071b3b4320d112a319ed02e56cdece8.setContent(html_3e5c2f01140a59310bea295db4ddfc06);
+        
+
+        marker_ea7e63fcc7598747810fdf172b1e29a8.bindPopup(popup_b071b3b4320d112a319ed02e56cdece8)
+        ;
+
+        
+    
+    
+            var marker_a0eff37fc6cc4172ff428fc5e85ec9d2 = L.marker(
+                [35.16434005, 129.0712629],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_0bbbc176abe3fd57458a38108e955ac6 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_051386dfaa4d27c39c547e1896615963 = $(`<div id="html_051386dfaa4d27c39c547e1896615963" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">적십자회관 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_0bbbc176abe3fd57458a38108e955ac6.setContent(html_051386dfaa4d27c39c547e1896615963);
+        
+
+        marker_a0eff37fc6cc4172ff428fc5e85ec9d2.bindPopup(popup_0bbbc176abe3fd57458a38108e955ac6)
+        ;
+
+        
+    
+    
+            var marker_6c5087e112e220557a9210b653f52c20 = L.marker(
+                [35.1464909, 129.0602635],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_868ce503c1cbfd43b6108c8a8e5d80a5 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_01d95fb02822b9587c70728762770c07 = $(`<div id="html_01d95fb02822b9587c70728762770c07" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">평화시장 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_868ce503c1cbfd43b6108c8a8e5d80a5.setContent(html_01d95fb02822b9587c70728762770c07);
+        
+
+        marker_6c5087e112e220557a9210b653f52c20.bindPopup(popup_868ce503c1cbfd43b6108c8a8e5d80a5)
+        ;
+
+        
+    
+    
+            var marker_d57ce00c29e9a6a823b5b27a86048fd4 = L.marker(
+                [35.1715941, 129.0285127],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_7c4130d235ab3483e0724f35dec92479 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_d16027760905e058d3ef19b7c5798dc4 = $(`<div id="html_d16027760905e058d3ef19b7c5798dc4" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">백양순환로 시간제 노상주차장 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_7c4130d235ab3483e0724f35dec92479.setContent(html_d16027760905e058d3ef19b7c5798dc4);
+        
+
+        marker_d57ce00c29e9a6a823b5b27a86048fd4.bindPopup(popup_7c4130d235ab3483e0724f35dec92479)
+        ;
+
+        
+    
+    
+            var marker_65da7c559be29eec6b8b6418874a1d8d = L.marker(
+                [35.15948745, 129.021564],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_2fff293d544626ce48b1e8387978d192 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_05b8cf93150d304a7179bf608cc058e7 = $(`<div id="html_05b8cf93150d304a7179bf608cc058e7" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">테마공원로 시간제 노상주차장 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_2fff293d544626ce48b1e8387978d192.setContent(html_05b8cf93150d304a7179bf608cc058e7);
+        
+
+        marker_65da7c559be29eec6b8b6418874a1d8d.bindPopup(popup_2fff293d544626ce48b1e8387978d192)
+        ;
+
+        
+    
+    
+            var marker_b9aa20e9de7b011fd526d49c47d9e096 = L.marker(
+                [35.14598655, 129.034164],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_2c788fd46abc621e2286114ef3fb3084 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_8cb9a17e8a57e63908f9d58b639351a9 = $(`<div id="html_8cb9a17e8a57e63908f9d58b639351a9" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">가남공영(주거지전용)주차장 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_2c788fd46abc621e2286114ef3fb3084.setContent(html_8cb9a17e8a57e63908f9d58b639351a9);
+        
+
+        marker_b9aa20e9de7b011fd526d49c47d9e096.bindPopup(popup_2c788fd46abc621e2286114ef3fb3084)
+        ;
+
+        
+    
+    
+            var marker_0286d81a7b58bb73fa9573ca6f8401d7 = L.marker(
+                [35.14895515, 129.0491135],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_5a74992b07330513497cc31f6fd259e2 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_29d698e4871a88bad6454685db1606a1 = $(`<div id="html_29d698e4871a88bad6454685db1606a1" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">범천4동 소규모공동주차장 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_5a74992b07330513497cc31f6fd259e2.setContent(html_29d698e4871a88bad6454685db1606a1);
+        
+
+        marker_0286d81a7b58bb73fa9573ca6f8401d7.bindPopup(popup_5a74992b07330513497cc31f6fd259e2)
+        ;
+
+        
+    
+    
+            var marker_11ee9d0089fb39d9a6f557fd1aca514b = L.marker(
+                [35.17464865, 129.0347596],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_cdd9bf20f4e830d0352b35a0f9da7f45 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_e29c942ed9fbd0c0776e0507d49616a0 = $(`<div id="html_e29c942ed9fbd0c0776e0507d49616a0" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">금호천지맨션 뒤 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_cdd9bf20f4e830d0352b35a0f9da7f45.setContent(html_e29c942ed9fbd0c0776e0507d49616a0);
+        
+
+        marker_11ee9d0089fb39d9a6f557fd1aca514b.bindPopup(popup_cdd9bf20f4e830d0352b35a0f9da7f45)
+        ;
+
+        
+    
+    
+            var marker_d910e905ba2243b47689594c315c61dc = L.marker(
+                [35.15891935, 129.0419288],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_32a15c952ee3a210e4a89d8424d140f2 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_07a9f46c9a05959e8801ffefd1494437 = $(`<div id="html_07a9f46c9a05959e8801ffefd1494437" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">서면교회옆 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_32a15c952ee3a210e4a89d8424d140f2.setContent(html_07a9f46c9a05959e8801ffefd1494437);
+        
+
+        marker_d910e905ba2243b47689594c315c61dc.bindPopup(popup_32a15c952ee3a210e4a89d8424d140f2)
+        ;
+
+        
+    
+    
+            var marker_1cc3dfb5ae151390b6ee0845d3301a1f = L.marker(
+                [35.16375735, 129.0490284],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_17b0937388309922866e202eeb9175bf = L.popup({"maxWidth": "100%"});
+
+        
+            var html_4c8533eac26d971b935e14d51c0cd4f5 = $(`<div id="html_4c8533eac26d971b935e14d51c0cd4f5" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">부암로타리 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_17b0937388309922866e202eeb9175bf.setContent(html_4c8533eac26d971b935e14d51c0cd4f5);
+        
+
+        marker_1cc3dfb5ae151390b6ee0845d3301a1f.bindPopup(popup_17b0937388309922866e202eeb9175bf)
+        ;
+
+        
+    
+    
+            var marker_37bb1eafc4a4fd61dddd0194aabcc223 = L.marker(
+                [35.1454684, 129.0263261],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_e974d7b036c5aeed0b3078956ec22a7c = L.popup({"maxWidth": "100%"});
+
+        
+            var html_5633d92d87a2ee878ef37324bcdcfb98 = $(`<div id="html_5633d92d87a2ee878ef37324bcdcfb98" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">가야중복도로 공영주차장 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_e974d7b036c5aeed0b3078956ec22a7c.setContent(html_5633d92d87a2ee878ef37324bcdcfb98);
+        
+
+        marker_37bb1eafc4a4fd61dddd0194aabcc223.bindPopup(popup_e974d7b036c5aeed0b3078956ec22a7c)
+        ;
+
+        
+    
+    
+            var marker_2aaa3ba1c02651db87b669475718828e = L.marker(
+                [35.1567898, 129.0652592],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_4f2fe159dd5e53e0bd49eb06f289f096 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_93a9424a06329327b61b0e8f9d37f339 = $(`<div id="html_93a9424a06329327b61b0e8f9d37f339" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">전포동 서전로 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_4f2fe159dd5e53e0bd49eb06f289f096.setContent(html_93a9424a06329327b61b0e8f9d37f339);
+        
+
+        marker_2aaa3ba1c02651db87b669475718828e.bindPopup(popup_4f2fe159dd5e53e0bd49eb06f289f096)
+        ;
+
+        
+    
+    
+            var marker_91d009e6edd681d3fba3b3dbaf9c0a9e = L.marker(
+                [35.1543182, 129.0711925],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_59dc7402bf1b417443f328e41143fdd9 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_626ad175ef76d28c77d42fbe6aa4502a = $(`<div id="html_626ad175ef76d28c77d42fbe6aa4502a" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">경남공고 뒤 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_59dc7402bf1b417443f328e41143fdd9.setContent(html_626ad175ef76d28c77d42fbe6aa4502a);
+        
+
+        marker_91d009e6edd681d3fba3b3dbaf9c0a9e.bindPopup(popup_59dc7402bf1b417443f328e41143fdd9)
+        ;
+
+        
+    
+    
+            var marker_5b635991a711ce8f32ad9325c6c36ce1 = L.marker(
+                [35.1508294, 129.028627],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_9f54e5bf29fdba3a63ce895f0e9c8184 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_363236c3d6656ed2fa1b41018d7866e2 = $(`<div id="html_363236c3d6656ed2fa1b41018d7866e2" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">가야중복도로 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_9f54e5bf29fdba3a63ce895f0e9c8184.setContent(html_363236c3d6656ed2fa1b41018d7866e2);
+        
+
+        marker_5b635991a711ce8f32ad9325c6c36ce1.bindPopup(popup_9f54e5bf29fdba3a63ce895f0e9c8184)
+        ;
+
+        
+    
+    
+            var marker_3a93c541393a3a1afdf88f8927d721bf = L.marker(
+                [35.1492037, 129.030028],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_3b92cae9a43af5c67742f9ad41a2d476 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_7747919a6919903d7587991f7b5d1132 = $(`<div id="html_7747919a6919903d7587991f7b5d1132" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">가야공원 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_3b92cae9a43af5c67742f9ad41a2d476.setContent(html_7747919a6919903d7587991f7b5d1132);
+        
+
+        marker_3a93c541393a3a1afdf88f8927d721bf.bindPopup(popup_3b92cae9a43af5c67742f9ad41a2d476)
+        ;
+
+        
+    
+    
+            var marker_7ef319743f2b5c25715376eb5ad986fe = L.marker(
+                [35.14193405, 129.0187571],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_668e3bf255e2c7b6145455e781972167 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_c2e2e5d8ecd613f185fb317e94efe9e6 = $(`<div id="html_c2e2e5d8ecd613f185fb317e94efe9e6" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">주례초등학교공영노외주차장 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_668e3bf255e2c7b6145455e781972167.setContent(html_c2e2e5d8ecd613f185fb317e94efe9e6);
+        
+
+        marker_7ef319743f2b5c25715376eb5ad986fe.bindPopup(popup_668e3bf255e2c7b6145455e781972167)
+        ;
+
+        
+    
+    
+            var marker_be67aa77c2331dffdf4febdf936837ab = L.marker(
+                [35.16452825, 129.0590653],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_0b503c43a5364aa10a2786316b043a0c = L.popup({"maxWidth": "100%"});
+
+        
+            var html_2340458d6da455ee152f9ffaabda6ace = $(`<div id="html_2340458d6da455ee152f9ffaabda6ace" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">부전시장 화물하역 주차구역 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_0b503c43a5364aa10a2786316b043a0c.setContent(html_2340458d6da455ee152f9ffaabda6ace);
+        
+
+        marker_be67aa77c2331dffdf4febdf936837ab.bindPopup(popup_0b503c43a5364aa10a2786316b043a0c)
+        ;
+
+        
+    
+    
+            var marker_7a4eba301b25789e54d8f21784c1eccb = L.marker(
+                [35.1791327, 129.0489923],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_8f8a76992255bf8e03fa7bccbe9d5edc = L.popup({"maxWidth": "100%"});
+
+        
+            var html_33eaf381d4728db6c4848186aa7710a6 = $(`<div id="html_33eaf381d4728db6c4848186aa7710a6" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">초읍새싹길 주거지전용주차장 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_8f8a76992255bf8e03fa7bccbe9d5edc.setContent(html_33eaf381d4728db6c4848186aa7710a6);
+        
+
+        marker_7a4eba301b25789e54d8f21784c1eccb.bindPopup(popup_8f8a76992255bf8e03fa7bccbe9d5edc)
+        ;
+
+        
+    
+    
+            var marker_f777f1993723720f84656c3cd30f4de2 = L.marker(
+                [35.17289515, 129.0756074],
+                {}
+            ).addTo(map_64ec6ca84a3e7ae4a5ecacb6d0ed6d71);
+        
+    
+        var popup_a81b6a800433ac82f8a932c7e929558f = L.popup({"maxWidth": "100%"});
+
+        
+            var html_268911d569f59c82491ae686597feebe = $(`<div id="html_268911d569f59c82491ae686597feebe" style="width: 250.0px; height: 250.0px;"><body style="background-color:#A0B3C4;">광명3로 주거지전용주차장 주차장<iframe src= "final_fig.html" style="background-color: #E9EEF6" " width="250" height="220" frameborder="0" ></body></div>`)[0];
+            popup_a81b6a800433ac82f8a932c7e929558f.setContent(html_268911d569f59c82491ae686597feebe);
+        
+
+        marker_f777f1993723720f84656c3cd30f4de2.bindPopup(popup_a81b6a800433ac82f8a932c7e929558f)
+        ;
+
+        
+    
+</script>

@@ -254,7 +254,7 @@ class Main_Component:
             html.Br(),
             html.H4("선정된 최적의 부지", id="map_title"),
             html.Iframe(  # 하단부(지도)
-                src="/assets/map_final.html",
+                src="/assets/parkinglot_map.html",
                 style={"height": "500px", "width": "95%"},
                 className="map_"
             ),
