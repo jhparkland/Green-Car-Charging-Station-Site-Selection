@@ -123,7 +123,7 @@ class electricity_charger_cost(Economical):
                                                             )
 
 
-class Hydrogen_charger_cost(Economical):
+class Hydrogen_construction_cost(Economical):
     """
     경제적 요소 - 수소차 충전소 설치 지용
     """

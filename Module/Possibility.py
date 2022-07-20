@@ -51,13 +51,14 @@ class Probability:
                                    0.22]  # co, so2, no2, ozone, pm10, pm25, 통합대기환경지수(khai)
         self.weight_social_elec = [0.1, 0.1, 0.3, 0.15, 0.15, 0.1,
                                     0.1]  # 고정인구, 유동인구, 전기차 수, 전기차 충전소 수, 교통 편의성, 고속도로 여부, 주변충전소 최단거리
-        self.weight_social_hydro = [0.1, 0.1, 0.1, 0.15, 0.15, 0.2,
+        self.weight_social_hydro = [0.1, 0.1, 0.1, 0.2, 0.15, 0.15,
                                     0.1, 0.1]  # 고정인구, 유동인구, LPG 충전소 수, 수소차 수, 수소차 충전소 수, 교통 편의성, 고속도로 여부, 주변충전소 최단거리
-        self.weight_economic_elec = [0.5]  # 전기차충전기 설치비용, 주차 구획수
+        self.weight_economic_elec = [0.5,0.5]  # 전기차충전기 설치비용, 주차 구획수
         self.weight_economic_hydro = [0.5, 0.5]  # LPG 충전소 토지비용, 수소충전소 구축 비용
         self.weight_technical_elec = [1.0]  # 급속/완속 적합성
         self.weight_technical_hydro = [1.0]  # 복합 충전소 여부
-        self.weight_primary_factor = [0.15, 0.4, 0.3, 0.15]  # 상위 요소들의 가중치(환경, 사회, 경제, 기술)
+        # 최종 확률 결합 가중치
+        self.weight_total = [0.15, 0.4, 0.3, 0.15]  # 상위 요소들의 가중치(환경, 사회, 경제, 기술)
 
         # 상위 요소 결합 확률
         self.environment_joint_pro = 0  # 환경요소 결합 확률
@@ -127,12 +128,13 @@ class Probability:
             self.variable_social_hydro.append(soc)
 
     def set_eco_elec_pro(self):
+        self.variable_economic_elec.append(electricity_charger_cost().t_pro)
         self.variable_economic_elec.append(Parkinglot().t_pro)  # 주차장 구획 수
 
     def set_eco_hydro_pro(self):
         economic_hydro_list = [
             Lpg_land_costs().t_pro,  # LPG 충전소 토지 비용
-            Hydrogen_charger_cost().t_pro
+            Hydrogen_construction_cost().t_pro
         ]
         for eco in economic_hydro_list:
             self.variable_economic_hydro.append(eco)

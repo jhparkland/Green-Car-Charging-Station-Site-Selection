@@ -1,6 +1,8 @@
 import pandas as pd
 import plotly.express as px
 import init as dir
+import numpy as np
+from scipy.stats import norm
 from Social import Social, Population, FloatingPopulation
 
 
@@ -8,6 +10,31 @@ class Technical:
     """
     기술적 요소 모델링
     """
+    @staticmethod
+    def cal_norm(mean, std, min, max, value, affect):
+        '''
+        정규분포에서 value에 대한 누적확률 구하기
+        mean: 평균값
+        std: 표준편차
+        min: 관측된 데이터의 최솟값
+        max: 관측된 데이터의 최댓값
+        value: 누적확률을 구하고자 하는 데이터의 측정값
+        affect: 입지에 긍정/부정적인 영향(True/False)
+        '''
+
+        min = min - std
+
+        # 확률 값을 구할 특정 구간의 범위 설정
+        cum_a = np.linspace(min, value, 100)
+        cum_b = np.linspace(value, max, 100)
+
+        pro = norm(mean, std).cdf(value) - norm(mean, std).cdf(min).round(3)
+        if affect == False:
+            pro = 1 - pro
+
+        # 최종 누적확률 반환
+        return pro, 1 - pro
+
 
     @staticmethod
     def check_location(location, x, y):
@@ -22,36 +49,34 @@ class Technical:
         return complex_cs_pro, 1-complex_cs_pro
 
     @staticmethod
-    def charge_type(foottraffic_pro, busan_people_pro):
+    def charge_type(people,floating):
         '''
-        foottraffic_pro : 유동인구 적합도
-        busan_people_pro : 고정인구 적합도
+        busan_people : 고정인구 수
+        foottraffic : 유동인구 수
         charger_pro : 설정하고자 하는 충전기 타입의 적합도 비율 초기값(0~1)
         '''
 
         # 급속 충전기 초기 확률:0.38
         charger_pro = 0.38
-
-        if foottraffic_pro >= busan_people_pro:
-            charger_type = 'Fast Charge'
-        else:
-            charger_type = 'Standard Charge'
-
+        people_file_path = dir.getdir('행정구역 인구 데이터.csv')
+        floating_file_path = dir.getdir('부산 유동인구 데이터.csv')
+        df_busan_people = pd.read_csv(people_file_path, encoding='cp949')
+        df_foottraffic = pd.read_csv(floating_file_path, encoding='cp949')
+        people_pro,a = Technical.cal_norm(df_busan_people['총인구수 (명)'].mean(),df_busan_people['총인구수 (명)'].std(),df_busan_people['총인구수 (명)'].min(),df_busan_people['총인구수 (명)'].max(),people,True)
+        foottraffic_pro,b = Technical.cal_norm(df_foottraffic['월 평균'].mean(),df_foottraffic['월 평균'].std(),df_foottraffic['월 평균'].min(),df_foottraffic['월 평균'].max(),floating,True)
         # 유동인구와 기존인구와 차이가 나는 만큼 더 많은 확률 부여
-        if foottraffic_pro >= busan_people_pro:
-            charger_type = '급속 충전'
-            diff = foottraffic_pro - busan_people_pro
+        if foottraffic_pro >= people_pro:
+            diff = foottraffic_pro - people_pro
             charger_pro += diff
             if charger_pro > 1:
                 charger_pro = 1.0
-        elif foottraffic_pro < busan_people_pro:
-            charger_type = '완속 충전'
-            diff = busan_people_pro - foottraffic_pro
+        elif foottraffic_pro < people_pro:
+            diff = people_pro - foottraffic_pro
             charger_pro -= diff
             if charger_pro < 0:
                 charger_pro = 0.0
 
-        return charger_type, charger_pro, 1 - charger_pro
+        return  charger_pro, 1 - charger_pro
 
     @staticmethod
     def bar_chart(t_pro, f_pro, t_text, f_text, variable_name):
@@ -88,8 +113,8 @@ class Charging_time(Technical):
         self.population_pro = self.population.t_pro
         self.fpopulation = FloatingPopulation()
         self.fpopulation_pro = self.fpopulation.t_pro
-        self.charger_type, self.t_pro, self.f_pro = Technical.charge_type(self.fpopulation_pro, self.population_pro)
-        self.fig = Technical.bar_chart(round(self.t_pro,3)*100,round(self.f_pro,3)*100,"급속","완속",self.charger_type)
+        self.t_pro, self.f_pro = Technical.charge_type(self.population_pro, self.fpopulation)
+        self.fig = Technical.bar_chart(round(self.t_pro,3)*100,round(self.f_pro,3)*100,"급속","완속","급속충전 적합도")
 
 if __name__ == '__main__':
     ccs = Complex_charging_station()
