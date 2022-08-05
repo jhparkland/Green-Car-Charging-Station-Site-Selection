@@ -30,7 +30,7 @@
 
 ------------------------------------------------------
 
-# SW for site selection of eco-friendly vehicle charging stations 
+# SW for site selection of Green-Car Charging Station(GCCS)
 
 Eco-Charging Place provides location intelligence SW for site selection of eco-friendly car charging stations based on Bayesian network.
 
