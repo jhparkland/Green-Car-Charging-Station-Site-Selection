@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.express as px
 import numpy as np
 from scipy.stats import norm
 import init as dir
@@ -79,11 +80,11 @@ class Social:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=blue), xshift=-40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=blue), xshift=-30, yshift=40, bordercolor=blue, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=red), xshift=40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=red), xshift=30, yshift=40, bordercolor=red, borderwidth=2))
         else:
             fig.add_trace(
                 go.Scatter(x=cum_a, y=norm.pdf(cum_a, mean, std), fill='tozeroy', name='부적합', line=dict(color=red)))
@@ -92,263 +93,161 @@ class Social:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=red), xshift=-40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=red), xshift=-30, yshift=40, bordercolor=red, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=blue), xshift=40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=blue), xshift=30, yshift=40, bordercolor=blue, borderwidth=2))
             pro = 1 - pro
-        fig.update_layout(annotations=annotations)
+        fig.update_layout({'paper_bgcolor': '#E9EEF6'}, annotations=annotations, title_font_size=22,
+                          margin_l=10, margin_r=10, margin_t=90, margin_b=10, font_family='NanumSquare',
+                          legend_orientation="h", legend_x=0.25, legend_y=1.25, title_y=0.95)
+        fig.update_xaxes(range=[min, max])
 
         # 최종 누적확률 반환
         return fig, pro, 1 - pro
 
+    @staticmethod
+    def bar_chart(t_pro, f_pro, t_text, f_text, variable_name):
+        dataframe = pd.DataFrame({
+            "상태": [t_text, f_text],
+            "확률": [t_pro, f_pro],
+            variable_name: [f"{t_text} : {t_pro}", f"{f_text} : {f_pro}"]
+        })
+        fig = px.bar(dataframe, x="상태", y="확률", color=variable_name, text=variable_name)
+        # fig.update_yaxes(visible=False)
+        # fig.update_xaxes(visible=False)
+        fig.update_layout({'paper_bgcolor': '#E9EEF6'}, title_font_size=22, margin_l=10, margin_r=10, margin_b=20,
+                          font_family='NanumSquare', showlegend=False)
+        # fig.show()
+        return fig, t_pro
 
-class Population(Social):
+
+class Density(Social):
     '''
-    사회적 요소 - 행정구역별 인구
+    사회적 요소 - 후보지 고정인구밀도
     '''
 
     def __init__(self):
-        self.file_path = dir.getdir("행정구역 인구 데이터.csv")  # 데이터 경로
-        self.busan_people_standard = 200000  # 고정인구 판단 기준
-        self.df_people = pd.read_csv(self.file_path, encoding='cp949', header=1)
-        self.df_busan_people = self.df_people[28:44].sort_values('행정구역(시군구)별')
-        self.df_busan_people.set_index('행정구역(시군구)별', inplace=True)  # 부산 추출
-        self.df_busan_people['총인구수 (명)'] = self.df_busan_people['총인구수 (명)'].astype(float)
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_busan_people['총인구수 (명)'].mean(),
-                                                           self.df_busan_people['총인구수 (명)'].std(),
-                                                           self.df_busan_people['총인구수 (명)'].min(),
-                                                           self.df_busan_people['총인구수 (명)'].max(),
-                                                           self.busan_people_standard,
+        self.file_path = dir.getdir("행정구역 읍면동 주민등록인구.csv")  # 데이터 경로
+        self.density_standard = 20_000  # 고정인구 판단 기준
+        self.df_density = pd.read_csv(self.file_path, encoding='cp949')
+        self.df_density = self.df_density.sort_values(by=["행정구역(시군구)별","행정구역(동읍면)별"],ascending=True).reset_index(drop=True)
+        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_density['인구밀도(km^2)'].mean(),
+                                                           self.df_density['인구밀도(km^2)'].std(),
+                                                           self.df_density['인구밀도(km^2)'].min(),
+                                                           self.df_density['인구밀도(km^2)'].max(),
+                                                           self.density_standard,
                                                            False
                                                            )
 
 
 class FloatingPopulation(Social):
     """
-    사회적 요소 - 유동인구 데이터
+    사회적 요소 - 후보지 유동인구밀도
     """
 
     def __init__(self):
         self.file_path = dir.getdir("부산 유동인구 데이터.csv")  # 데이터 경로
-        self.foot_traffic_standard = 400000  # 유동인구 판단기준
+        self.density_path = dir.getdir("행정구역 읍면동 주민등록인구.csv")
+        self.foot_traffic_standard = 400_000  # 유동인구 판단기준
         self.df_foot_traffic = pd.read_csv(self.file_path, encoding='cp949')
-        Social.pretreatment(self.df_foot_traffic, 1, -1)
+        self.df_density = pd.read_csv(self.density_path,encoding='cp949')
+        self.foottraffic_col = self.df_foot_traffic.iloc[:,1:-1].columns.tolist()
+        self.df_foot_traffic.drop(columns=self.foottraffic_col)
         self.df_foot_traffic.set_index('구군', inplace=True)
         self.df_foot_traffic = Social.advanced_replace(self.df_foot_traffic, '월 평균', '-', r'[^0-9.0-9]')
         self.df_foot_traffic['월 평균'] = self.df_foot_traffic['월 평균'].astype(float)
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_foot_traffic['월 평균'].mean(),
-                                                           self.df_foot_traffic['월 평균'].std(),
-                                                           self.df_foot_traffic['월 평균'].min(),
-                                                           self.df_foot_traffic['월 평균'].max(),
+        self.density = []
+        self.population = self.df_foot_traffic['월 평균'].tolist()
+        self.area = self.df_density['면적(km^2)'].tolist()
+        self.list_p_a = list(zip(self.population,self.area))
+        for x,y in self.list_p_a:
+            val = x/y
+            self.density.append(val)
+        self.df_foot_traffic.insert(1,'유동인구밀도(km2당)',self.density)
+        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_foot_traffic['유동인구밀도(km2당)'].mean(),
+                                                           self.df_foot_traffic['유동인구밀도(km2당)'].std(),
+                                                           self.df_foot_traffic['유동인구밀도(km2당)'].min(),
+                                                           self.df_foot_traffic['유동인구밀도(km2당)'].max(),
                                                            self.foot_traffic_standard,
                                                            False
                                                            )
 
 
-class Eco_friendly_car_registration(Social):
+class EV_per_charger(Social):
     """
-    사회적 요소 - 친환경 자동차 등록수 데이터
+    사회적 요소 - 전기차 충전기당 전기차 수
     """
 
     def __init__(self):
-        self.file_path = dir.getdir("연료별 자동차 등록 수.csv")  # 데이터 경로
-        self.elec_vehicle_standard = 50000  # 전기차 등록 수
-        self.hydro_vehicle_standard = 1500  # 수소차 등록 수
+        self.file_path = dir.getdir("연료별_자동차등록대수.csv")  # 데이터 경로
+        self.EV_per_charger_standard = 5.1  # 전기차충전기당 전기차수
         self.df_vehicle = pd.read_csv(self.file_path, encoding='cp949')
-        Social.pretreatment(self.df_vehicle, 1, 3)
-        # 전국 자동차 수 통계값 구하기 (전기, 수소)
-        columns = self.df_vehicle.iloc[:, 1:].columns.tolist()
-        for col in columns:
-            self.df_vehicle = Social.advanced_replace(self.df_vehicle, col, '-', r'[^0-9.0-9]')
-            self.df_vehicle[col] = self.df_vehicle[col].astype(int)
 
-        self.df_elec_vehicle = self.df_vehicle.iloc[3:7, :-1].sum()  # 전기 + 하이브리드
-        self.df_elec_vehicle = self.df_elec_vehicle[1:].astype(int)
-        self.df_hydro_vehicle = self.df_vehicle.iloc[8, 1:-1].astype(int)
-
-        self.elec_fig, self.elec_t_pro, self.elec_f_pro = Social.cal_norm(self.df_elec_vehicle.mean(),
-                                                                          self.df_elec_vehicle.std(),
-                                                                          self.df_elec_vehicle.min(),
-                                                                          self.df_elec_vehicle.max(),
-                                                                          self.elec_vehicle_standard,
+        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_vehicle['전기차충전소당 전기차 수'].mean(),
+                                                                          self.df_vehicle['전기차충전소당 전기차 수'].std(),
+                                                                          self.df_vehicle['전기차충전소당 전기차 수'].min(),
+                                                                          self.df_vehicle['전기차충전소당 전기차 수'].max(),
+                                                                          self.EV_per_charger_standard,
                                                                           False
                                                                           )
 
-        self.hydro_fig, self.hydro_t_pro, self.hydro_f_pro = Social.cal_norm(self.df_hydro_vehicle.mean(),
-                                                                             self.df_hydro_vehicle.std(),
-                                                                             self.df_hydro_vehicle.min(),
-                                                                             self.df_hydro_vehicle.max(),
-                                                                             self.hydro_vehicle_standard,
-                                                                             False
-                                                                             )
 
-
-class LPG_charging_station(Social):
+class HV_per_charger(Social):
     """
-    사회적 요소 - LPG 충전소 현황
+    사회적 요소 - 수소차 충전소당 수소차 수
     """
 
     def __init__(self):
-        self.file_path = dir.getdir("부산 LPG 충전소 현황.csv")  # 데이터 경로
-        self.lpg_standard = 2
-        self.df_lpg = pd.read_csv(self.file_path, encoding='cp949')
-        self.df_lpg = self.df_lpg[self.df_lpg['면적'] >= 1500].reset_index(
-            drop=True)  # 복합충전소 규제로 인해 부지의 크기는 1500m^2 이상 요구.
-        self.lpg_group = self.df_lpg.groupby('행정구역').count()
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.lpg_group['업소명'].mean(),
-                                                           self.lpg_group['업소명'].std(),
-                                                           self.lpg_group['업소명'].min(),
-                                                           self.lpg_group['업소명'].max(),
-                                                           self.lpg_standard,
+        self.HV_per_charger_standard = 346.533
+        self.HVCS_file_path = dir.getdir("부산 수소차 충전소 현황.csv")  # 데이터 경로
+        self.vehicle_file_path = dir.getdir("연료별_자동차등록대수.csv")
+        self.df_HVCS = pd.read_csv(self.HVCS_file_path, encoding='cp949')
+        self.df_vehicle = pd.read_csv(self.vehicle_file_path, encoding='cp949')
+        self.HV_per_charger = self.df_vehicle['수소'].sum() / self.df_HVCS['충전소'].count()
+        if self.HV_per_charger >= self.HV_per_charger_standard:
+            self.HV_per_charger_pro = 1.0
+            self.HV_per_charger_pro_negative = 0
+        else:
+            self.HV_per_charger_pro = 0
+            self.HV_per_charger_pro_negative = 1.0
+
+        self.fig, self.t_pro = Social.bar_chart(self.HV_per_charger_pro, 
+                                                self.HV_per_charger_pro_negative,
+                                                '적합',
+                                                '부적합',
+                                                '수소충전소당 수소차 수')
+        
+
+
+class Street_supply(Social):
+    """
+    사회적 요소 - 후보지 도로보급률 
+    """
+
+    def __init__(self):
+        self.file_path = dir.getdir("도로보급률.csv")  # 데이터 경로
+        self.street_supply_standard = 2.916917867
+        self.df_street_supply = pd.read_csv(self.file_path, encoding='cp949')
+        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_street_supply['도로보급률'].mean(),
+                                                           self.df_street_supply['도로보급률'].std(),
+                                                           self.df_street_supply['도로보급률'].min(),
+                                                           self.df_street_supply['도로보급률'].max(),
+                                                           self.street_supply_standard,
                                                            False
                                                            )
 
 
-class EVCS(Social):
-    """
-    사회적 요소 - 전기차 충전소 현황
-    """
+# if __name__ == '__main__':
+#     density = Density()
+#     floating = FloatingPopulation()
+#     ev_per_charger = EV_per_charger()
+#     hv_per_charger = HV_per_charger()
+#     street_supply = Street_supply()
 
-    def __init__(self):
-        self.file_path = dir.getdir("부산 전기차 충전소 현황.csv")  # 데이터 경로
-        self.evcs_standard = 500
-        self.df_evcs = pd.read_csv(self.file_path, encoding='cp949')
-        self.evcs_group = self.df_evcs.groupby('시군구').count()
-        self.evcs_group['충전소'] = self.evcs_group['충전소'].astype(int)
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.evcs_group['충전소'].mean(),
-                                                           self.evcs_group['충전소'].std(),
-                                                           self.evcs_group['충전소'].min(),
-                                                           self.evcs_group['충전소'].max(),
-                                                           self.evcs_standard,
-                                                           True
-                                                           )
-
-
-class HVCS(Social):
-    """
-    사회적 요소 - 수소차 충전소 현황
-    """
-
-    def __init__(self):
-        self.file_path = dir.getdir("부산 수소차 충전소 현황.csv")  # 데이터 경로
-        self.hvcs_standard = 15
-        self.df_hvcs = pd.read_csv(self.file_path, encoding='cp949')
-
-        self.address_city = []
-        self.address_gu = []
-
-        for i in range(self.df_hvcs.shape[0]):
-            strings = self.df_hvcs.iloc[i]['주소'].split()
-            self.address_city.append(strings.pop(0))
-            self.address_gu.append(strings.pop(0))
-
-        self.df_hvcs.insert(2, "시", self.address_city)
-        self.df_hvcs.insert(3, "구", self.address_gu)
-
-        self.hvcs_group = self.df_hvcs.groupby('시').count()
-        self.df_hvcs = self.df_hvcs[self.df_hvcs['시'] == '부산광역시'].reset_index(drop=True)
-        self.hvcs_group['충전소'] = self.hvcs_group['충전소'].astype(int)
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.hvcs_group['충전소'].mean(),
-                                                           self.hvcs_group['충전소'].std(),
-                                                           self.hvcs_group['충전소'].min(),
-                                                           self.hvcs_group['충전소'].max(),
-                                                           self.hvcs_standard,
-                                                           True
-                                                           )
-
-
-class Intersection(Social):
-    """
-    사회적 요소 - 교통편의성(교차로) 정보
-    """
-
-    def __init__(self):
-        self.file_path = dir.getdir("부산 주차장 현황(교차로).csv")  # 데이터 경로
-        self.intersection_standard = 100
-        self.df_parking_intersection = pd.read_csv(self.file_path, encoding='cp949')
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_parking_intersection['교차로'].mean(),
-                                                           self.df_parking_intersection['교차로'].std(),
-                                                           self.df_parking_intersection['교차로'].min(),
-                                                           self.df_parking_intersection['교차로'].max(),
-                                                           self.intersection_standard,
-                                                           False
-                                                           )
-
-class EVCS_distance(Social):       
-    """
-    사회적 요소 - 주변충전소(전기) 최단거리
-    """                                   
-
-    def __init__(self):
-        self.evcs_distance_path = dir.getdir("부산 주차장 현황(교차로).csv")
-        self.evcs_distance_standard = 0.5
-        self.df_parking_EV = pd.read_csv(self.evcs_distance_path, encoding='cp949')
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_parking_EV['주변충전소 최단거리'].mean(),
-                                                            self.df_parking_EV['주변충전소 최단거리'].std(),
-                                                            self.df_parking_EV['주변충전소 최단거리'].min(),
-                                                            self.df_parking_EV['주변충전소 최단거리'].max(),
-                                                            self.evcs_distance_standard,
-                                                            False
-                                                            )
-
-class HVCS_distance(Social):       
-    """
-    사회적 요소 - 주변충전소(수소) 최단거리
-    """                                   
-
-    def __init__(self):
-        self.hvcs_distance_path = dir.getdir("부산 LPG 충전소 현황.csv")
-        self.hvcs_distance_standard = 5
-        self.df_HVCS_distance = pd.read_csv(self.hvcs_distance_path, encoding='cp949')
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_HVCS_distance['주변충전소 최단거리'].mean(),
-                                                            self.df_HVCS_distance['주변충전소 최단거리'].std(),
-                                                            self.df_HVCS_distance['주변충전소 최단거리'].min(),
-                                                            self.df_HVCS_distance['주변충전소 최단거리'].max(),
-                                                            self.hvcs_distance_standard,
-                                                            False
-                                                            )                                                    
-
-class Highway(Social):
-    """
-    사회적 요소 - 고속도로 여부(정성적)
-    """
-
-    def __init__(self):
-        self.parking_file_path = dir.getdir("부산 주차장 현황.csv")
-        self.highway_standard = 1000
-        self.df_parking = pd.read_csv(self.parking_file_path, encoding='cp949')
-        self.df_parking_highway = self.df_parking[self.df_parking['주변고속도로까지 최단거리']!='-'].reset_index(drop=True)
-        self.df_parking_highway['주변고속도로까지 최단거리'] = self.df_parking_highway['주변고속도로까지 최단거리'].astype(float)
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm( self.df_parking_highway['주변고속도로까지 최단거리'].mean(),
-                                                            self.df_parking_highway['주변고속도로까지 최단거리'].std(),                                                        
-                                                            self.df_parking_highway['주변고속도로까지 최단거리'].min(),
-                                                            self.df_parking_highway['주변고속도로까지 최단거리'].max(),
-                                                            self.highway_standard,
-                                                            True
-                                                            )
-
-if __name__ == '__main__':
-    population = Population()
-    f_population = FloatingPopulation()
-    ecc = Eco_friendly_car_registration()
-    lpg = LPG_charging_station()
-    evcs = EVCS()
-    hvcs = HVCS()
-    intersection = Intersection()
-    evcs_distance = EVCS_distance()
-    hvcs_distance = HVCS_distance()
-    highway = Highway()  # 정성적
-
-    population.fig.show()  # 고정 인구
-    f_population.fig.show()  # 유동 인구
-    ecc.elec_fig.show()  # 전기차
-    ecc.hydro_fig.show()  # 수소차
-    lpg.fig.show()  # lpg 충전
-    evcs.fig.show()  # 전기 충전
-    hvcs.fig.show()  # 수소 충전
-    intersection.fig.show()  # 교차로
-    evcs_distance.fig.show()    # 주변충전소 최단거리(전기)
-    hvcs_distance.fig.show()    # 주변충전소 최단거리(수소)
-    highway.fig.show()  # 고속도로 최단거리
+#     density.fig.show()  # 고정 인구밀도
+#     floating.fig.show()  # 유동 인구밀도
+#     ev_per_charger.fig.show()  # 전기차 충전소당 전기차 수
+#     hv_per_charger.fig.show()  # 수소차 충전소당 수소차 수
+#     street_supply.fig.show()  # 도로보급률

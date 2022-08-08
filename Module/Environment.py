@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import numpy as np
 from scipy.stats import norm
-from Module import init as dir
+import init as dir
 
 
 class Environment:
@@ -83,11 +83,11 @@ class Environment:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=blue), xshift=-40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=blue), xshift=-30, yshift=40, bordercolor=blue, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=red), xshift=40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=red), xshift=30, yshift=40, bordercolor=red, borderwidth=2))
         else:
             fig.add_trace(
                 go.Scatter(x=cum_a, y=norm.pdf(cum_a, mean, std), fill='tozeroy', name='부적합', line=dict(color=red)))
@@ -96,13 +96,16 @@ class Environment:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=red), xshift=-40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=red), xshift=-30, yshift=40, bordercolor=red, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=blue), xshift=40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=blue), xshift=30, yshift=40, bordercolor=blue, borderwidth=2))
             pro = 1 - pro
-        fig.update_layout(annotations=annotations)
+        fig.update_layout({'paper_bgcolor': '#E9EEF6'}, annotations=annotations, title_font_size=22,
+                          margin_l=10, margin_r=10, margin_t=90, margin_b=10, font_family='NanumSquare',
+                          legend_orientation="h", legend_x=0.25, legend_y=1.25, title_y=0.95)
+        fig.update_xaxes(range=[min, max])
         # value까지의 누적확률에서 min까지의 누적확률을 뺌
 
         # 최종 누적확률 반환
@@ -122,23 +125,6 @@ class Ozone(Environment):
             Environment.df_air_pollution['o3Value'].min(),
             Environment.df_air_pollution['o3Value'].max(),
             self.o3_standard,
-            False
-        )
-
-
-class So2(Environment):
-    """
-    환경적 요소 - 아황산가스 대기오염도
-    """
-
-    def __init__(self):
-        self.so2_standard = 0.002
-        self.fig, self.t_pro, self.f_pro = Environment.cal_norm(
-            Environment.df_air_pollution['so2Value'].mean(),
-            Environment.df_air_pollution['so2Value'].std(),
-            Environment.df_air_pollution['so2Value'].min(),
-            Environment.df_air_pollution['so2Value'].max(),
-            self.so2_standard,
             False
         )
 
@@ -211,40 +197,18 @@ class FineDust_pm10(Environment):
         )
 
 
-class Total_air_quality(Environment):
-    """
-    부산시 통합대기환경 지수
-    """
+# if __name__ == '__main__':
+#     ozone = Ozone()  # 오존 데이터
+#     print(f"적합: {ozone.t_pro}, 부적합: {ozone.f_pro}")  # 오존 확률
 
-    def __init__(self):
-        self.total_air_quality = 50
-        self.fig, self.t_pro, self.f_pro = Environment.cal_norm(
-            Environment.df_air_pollution['khaiValue'].mean(),
-            Environment.df_air_pollution['khaiValue'].std(),
-            Environment.df_air_pollution['khaiValue'].min(),
-            Environment.df_air_pollution['khaiValue'].max(),
-            self.total_air_quality,
-            False
-        )
+#     no2 = No2() # 이산화질소 데이터
+#     print(f"적합: {no2.t_pro}, 부적합: {no2.f_pro}")  # 이산화질소 확률
 
-if __name__ == '__main__':
-    ozone = Ozone()  # 오존 데이터
-    print(f"적합: {ozone.t_pro}, 부적합: {ozone.f_pro}")  # 오존 확률
+#     co = Co() # 일산화탄소 데이터
+#     print(f"적합: {co.t_pro}, 부적합: {co.f_pro}")  # 이산화질소 확률
 
-    so2 = So2()  # 아황산가스 데이터
-    print(f"적합: {so2.t_pro}, 부적합: {so2.f_pro}")  # 아황산가스 확률
+#     pm25 = FineDust_pm25()  # 미세먼지 pm2.5
+#     print(f"적합: {pm25.t_pro}, 부적합: {pm25.f_pro}")  # 미세먼지 pm2.5 확률
 
-    no2 = No2() # 이산화질소 데이터
-    print(f"적합: {no2.t_pro}, 부적합: {no2.f_pro}")  # 이산화질소 확률
-
-    co = Co() # 일산화탄소 데이터
-    print(f"적합: {co.t_pro}, 부적합: {co.f_pro}")  # 이산화질소 확률
-
-    pm25 = FineDust_pm25()  # 미세먼지 pm2.5
-    print(f"적합: {pm25.t_pro}, 부적합: {pm25.f_pro}")  # 미세먼지 pm2.5 확률
-
-    pm10 = FineDust_pm10()  # 미세먼저 pm10
-    print(f"적합: {pm10.t_pro}, 부적합: {pm10.f_pro}")  # 미세먼지 pm10 확률
-
-    total_air_quality = Total_air_quality() # 통합 대기환경
-    print(f"적합: {total_air_quality.t_pro}, 부적합: {total_air_quality.f_pro}")  # 통합 대기환경 확률
+#     pm10 = FineDust_pm10()  # 미세먼저 pm10
+#     print(f"적합: {pm10.t_pro}, 부적합: {pm10.f_pro}")  # 미세먼지 pm10 확률

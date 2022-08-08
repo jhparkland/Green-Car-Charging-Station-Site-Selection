@@ -79,11 +79,11 @@ class Economical:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=blue), xshift=-40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max + min) / 2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=blue), xshift=-30, yshift=40, bordercolor=blue, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=red), xshift=40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max + min) / 2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=red), xshift=30, yshift=40, bordercolor=red, borderwidth=2))
         else:
             fig.add_trace(
                 go.Scatter(x=cum_a, y=norm.pdf(cum_a, mean, std), fill='tozeroy', name='부적합', line=dict(color=red)))
@@ -92,109 +92,168 @@ class Economical:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=red), xshift=-40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max + min) / 2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=red), xshift=-30, yshift=40, bordercolor=red, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=blue), xshift=40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max + min) / 2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=blue), xshift=30, yshift=40, bordercolor=blue, borderwidth=2))
             pro = 1 - pro
-        fig.update_layout(annotations=annotations)
+        fig.update_layout({'paper_bgcolor': '#E9EEF6'}, annotations=annotations, title_font_size=22,
+                          margin_l=10, margin_r=10, margin_t=90, margin_b=10, font_family='NanumSquare',
+                          legend_orientation="h", legend_x=0.25, legend_y=1.25, title_y=0.95)
+        fig.update_xaxes(range=[min, max])
 
         # 최종 누적확률 반환
         return fig, pro, 1 - pro
 
+    @staticmethod
+    def cal_maintenance_cost(station_type, operating_rate):
+        # 인건비
+        if station_type == '복합':
+            labor_cost = 40_000_000
+        else:
+            labor_cost = 60_000_000
+        # 전기세
+        # 가동률 1%당 162만원
+        elec_cost = operating_rate * 1_620_000
+        # 카드수수료
+        # 가동률 1%당 54만원
+        card_cost = operating_rate * 540_000 
+        # 기타(장비 교체비용, 품질검사비, 연간 도로점용료, 물품구입비, 공과금 등)
+        etc = 30_000_000 + 4_000_000 + 5_000_000 + 10_000_000
+        maintenance_cost = labor_cost + elec_cost + card_cost + etc
 
-class electricity_charger_cost(Economical):
+        return maintenance_cost   
+
+    @staticmethod
+    def cal_revenue(charge_time_average, sale_cost, maintenance_cost):
+        # 수소연료 평균 공급단가(1kg당)
+        hidrogen_cost = 6_000
+        # 수소연료 판매 마진(1kg당)
+        revenue_per_kg = sale_cost - hidrogen_cost
+        # 수소차 1회 평균 수소연료 충전량(kg)
+        charge_amount = 3.736 
+        # 일평균 판매수익
+        day_revenue = revenue_per_kg * charge_amount * charge_time_average 
+        year_revenue = day_revenue * 365
+        # 수소연료구입비 보조금
+        grant = 0
+
+        # 수소연료구입비 보조금 지원금 반영
+        diff = year_revenue - maintenance_cost
+        
+        if diff < 0:
+            diff = -diff
+            # 기준단가
+            grant_cost_standard = sale_cost - (maintenance_cost / charge_amount * charge_time_average * 365)
+            # 지원단가 (수소연료공급단가에 기준단가와 차액의 70%)
+            grant_cost = (hidrogen_cost - grant_cost_standard) * 0.7
+            # 지원금액
+            grant = grant_cost * charge_amount * charge_time_average * 365
+            # 최대지원금액은 적자의 80%
+            if grant > diff * 0.8:
+                grant = diff * 0.8
+        # 연간수입 + 보조금
+        year_revenue = year_revenue + grant
+        # 연간수입에 유지보수비용을 뺀 순수익
+        diff = year_revenue - maintenance_cost    
+
+        return diff
+
+# EVCS_cost_standard = 35_000_000             # 급속 충전기 설치비용
+# # 17_500_000(정부보조금 최대지원가능금액, 출처 한국에너지공단 '2022년 전기차충전서비스산업육성산업) / 0.5(보조율) = 35_000_000
+# HVCS_cost_standard = 3_000_000_000    # 수소충전소 구축 비용
+# # 1_500_000_000(정부보조금 최대지원가능금액, 출처 환경부'2022년 수소차 보급 및 충전소 설치사업 보조금 업무처리지침 / 0.5 (일반수소충전소 보조율) = 3_000_000_000(구축비용)
+# # 4_200_000_000(정부보조금 최대지원가능금액, 출처 환경부'2022년 수소차 보급 및 충전소 설치사업 보조금 업무처리지침 / 0.7 (특수수소충전소 보조율) = 6_000_000_000(구축비용)
+# income_standard = 3_600          # 연 평균소득
+# maintenance_cost_standard = 100      # 유지비용
+# HVCS_income_standard = 0        # 수소충전소 기대수익
+
+class EVCS_cost(Economical):
     """
-    경제적 요소 - 전기차 충전소 설치 비용
+    경제적 요소 - 전기차 충전기 설치 비용
     """
-    
+
     def __init__(self):
-        self.EVCS_cost_file_path = dir.getdir("전기차 충전기 가격.csv")
-        self.EVCS_cost_standard = 14_000_000
-        self.df_EVCS_cost = pd.read_csv(self.EVCS_cost_file_path, encoding='cp949')
-        self.fig,self.t_pro,self.f_pro = Economical.cal_norm(   
-                                                            self.df_EVCS_cost['충전기가격'].mean(),
-                                                            self.df_EVCS_cost['충전기가격'].std(),
-                                                            self.df_EVCS_cost['충전기가격'].min(),
-                                                            self.df_EVCS_cost['충전기가격'].max(),
-                                                            self.EVCS_cost_standard,
-                                                            True
-                                                            )
+        self.EVCS_cost_file_path = dir.getdir('전기차 충전기 가격.csv')
+        self.EVCS_cost_standard = 35_000_000
+        self.df_EVCS_cost = pd.read_csv(self.EVCS_cost_file_path, encoding='cp949')   
+        self.fig, self.t_pro, self.f_pro = Economical.cal_norm(self.df_EVCS_cost[self.df_EVCS_cost['충전기']=='급속']['충전기가격'].mean(),
+                                                                self.df_EVCS_cost[self.df_EVCS_cost['충전기']=='급속']['충전기가격'].std(),
+                                                                self.df_EVCS_cost[self.df_EVCS_cost['충전기']=='급속']['충전기가격'].min(),
+                                                                self.df_EVCS_cost[self.df_EVCS_cost['충전기']=='급속']['충전기가격'].max(),
+                                                                self.EVCS_cost_standard,
+                                                                True)    
 
 
-class Hydrogen_construction_cost(Economical):
+class HVCS_cost(Economical):
     """
-    경제적 요소 - 수소차 충전소 설치 지용
+    경제적 요소 - 수소 충전소 구축 비용
     """
 
     def __init__(self):
         self.file_path = dir.getdir("수소 충전소 종류별 구축 비용.csv")  # 데이터 경로
-        self.hvcs_construction_cost_standard = 3_000_000_000  # 수소충전소 구축 비용
-        self.df_hvcs_construction_cost = pd.read_csv(self.file_path, encoding='cp949')
-        self.df_hvcs_construction_cost = self.df_hvcs_construction_cost.set_index('충전소 종류')
-        self.fig, self.t_pro, self.f_pro = Economical.cal_norm(self.df_hvcs_construction_cost['구축 비용'].mean(),
-                                                               self.df_hvcs_construction_cost['구축 비용'].std(),
-                                                               self.df_hvcs_construction_cost['구축 비용'].min(),
-                                                               self.df_hvcs_construction_cost['구축 비용'].max(),
-                                                               self.hvcs_construction_cost_standard,
+        self.HVCS_cost_standard = 3_000_000_000  # 수소충전소 구축 비용
+        self.df_HVCS_cost = pd.read_csv(self.file_path, encoding='cp949')
+        self.df_HVCS_cost = self.df_HVCS_cost.set_index('충전소 종류')
+        self.fig, self.t_pro, self.f_pro = Economical.cal_norm(self.df_HVCS_cost['구축 비용'].mean(),
+                                                               self.df_HVCS_cost['구축 비용'].std(),
+                                                               self.df_HVCS_cost['구축 비용'].min(),
+                                                               self.df_HVCS_cost['구축 비용'].max(),
+                                                               self.HVCS_cost_standard,
                                                                True
                                                                )
 
 
-class Lpg_land_costs(Economical):
+class Income(Economical):
     """
-    경제적 요소 - LPG 충전소 토지비용
-    """
-
-    def __init__(self):
-        self.file_path = dir.getdir("부산 LPG 충전소 현황.csv")  # 데이터 경로
-        self.lpg_cost_standard = 6_000_000_000  # LPG 충전소 토지비용
-        self.df_lpg = pd.read_csv(self.file_path, encoding='cp949')
-        self.df_lpg = self.df_lpg[self.df_lpg['면적'] >= 1500].reset_index(
-            drop=True)  # 복합충전소 규제로 인해 부지의 크기는 1500m^2 이상 요구.
-        self.cost = []
-        for i in range(self.df_lpg.shape[0]):
-            area = self.df_lpg.iloc[i]['면적']
-            price = self.df_lpg.iloc[i]['공시지가']
-            self.cost.append(area * price)
-
-        self.df_lpg.insert(8, '토지비용', self.cost)
-        self.fig, self.t_pro, self.f_pro = Economical.cal_norm(self.df_lpg['토지비용'].mean(),
-                                                               self.df_lpg['토지비용'].std(),
-                                                               self.df_lpg['토지비용'].min(),
-                                                               self.df_lpg['토지비용'].max(),
-                                                               self.lpg_cost_standard,
-                                                               True
-                                                               )
-
-
-class Parkinglot(Economical):
-    """
-    경제적 요소 - 주차 구획 수
+    경제적 요소 - 후보지 평균소득
     """
 
     def __init__(self):
-        self.file_path = dir.getdir("부산 주차장 현황(교차로).csv")  # 데이터 경로
-        self.parking_area_standard = 100  # 주차구획 수
-        self.df_parking = pd.read_csv(self.file_path, encoding='cp949')
-        self.df_parking_area = self.df_parking['주차구획수'].astype(int)
-        self.fig, self.t_pro, self.f_pro = Economical.cal_norm(self.df_parking_area.mean(),
-                                                               self.df_parking_area.std(),
-                                                               self.df_parking_area.min(),
-                                                               self.df_parking_area.max(),
-                                                               self.parking_area_standard,
-                                                               False
-                                                               )
+        self.file_path = dir.getdir("부산 평균소득.csv")  # 데이터 경로
+        self.income_standard = 3_600  # 평균소득 기준
+        self.df_income = pd.read_csv(self.file_path, encoding='cp949')
+        
+        self.fig, self.t_pro, self.f_pro = Economical.cal_norm(self.df_income['평균소득금액(만)'].mean(),
+                                                               self.df_income['평균소득금액(만)'].std(),
+                                                               self.df_income['평균소득금액(만)'].min(),
+                                                               self.df_income['평균소득금액(만)'].max(),
+                                                               self.income_standard,
+                                                               False)
 
-if __name__ == '__main__':
 
-    elec_charger_cost = electricity_charger_cost() # 전기차 충전소 설치 비용
-    hydro_charger_cost = Hydrogen_charger_cost() # 수소차 충전소 설치 비용
-    lpg_land_cost = Lpg_land_costs() # LPG 토지 비용
-    parkinglot = Parkinglot() # 주차 구획수
+class HVCS_income(Economical):
+    """
+    경제적 요소 - 수소충전소 기대수익
+    """
 
-    #elec_charger_cost.fig.show()
-    hydro_charger_cost.fig.show()
-    lpg_land_cost.fig.show()
-    parkinglot.fig.show()
+    def __init__(self):
+        self.file_path = dir.getdir("부산 수소차 충전소 현황.csv")  # 데이터 경로
+        self.HVCS_income_standard = 0  # 수소충전소 기대수익 기준
+        self.df_HVCS = pd.read_csv(self.file_path, encoding='cp949')
+        self.revenue = []
+        for i in range(self.df_HVCS.shape[0]):
+            self.maintenance_cost = Economical.cal_maintenance_cost(self.df_HVCS.iloc[i]['충전소 설치방식'],
+                                                                    self.df_HVCS.iloc[i]['평균가동률'])
+            rev = Economical.cal_revenue(self.df_HVCS.iloc[i]['하루평균충전횟수'], self.df_HVCS.iloc[i]['충전가격'], self.maintenance_cost)
+            self.revenue.append(rev)
+        self.df_HVCS.insert(15,'연간기대수익',self.revenue)
+        self.fig, self.t_pro, self.f_pro = Economical.cal_norm(-110_000_000,
+                                                                100_000_000,
+                                                                -300_000_000,
+                                                                160_000_000,
+                                                                self.HVCS_income_standard,
+                                                                False)
+
+
+# if __name__ == '__main__':
+#     evcs_cost = EVCS_cost()  # 전기차 충전소 설치 비용
+#     hvcs_cost = HVCS_cost()  # 수소차 충전소 설치 비용
+#     income = Income()  # 후보지 평균소득
+#     hvcs_income = HVCS_income()  # 수소충전소 기대수익
+
+#     evcs_cost.fig.show()
+#     hvcs_cost.fig.show()
+#     income.fig.show()
+#     hvcs_income.fig.show()
