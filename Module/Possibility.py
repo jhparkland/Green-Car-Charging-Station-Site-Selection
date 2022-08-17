@@ -152,39 +152,39 @@ class Probability:
             f"{self.variable_environment}\n{self.variable_social_elec}\n{self.variable_social_hydro}\n{self.variable_economic_elec}\n{self.variable_economic_hydro}\n{self.variable_technical_elec}\n{self.variable_technical_hydro}")
 
 
-if __name__ == '__main__':
-    pro = Probability()
-    pro.print_pro()
-    pro.environment_joint_pro = get_joint_pro(pro.variable_environment, pro.weight_environment)
-    pro.social_joint_pro_elec = get_joint_pro(pro.variable_social_elec, pro.weight_social_elec)
-    pro.social_joint_pro_hydro = get_joint_pro(pro.variable_social_hydro, pro.weight_social_hydro)
-    pro.economic_joint_pro_elec = get_joint_pro(pro.variable_economic_elec, pro.weight_economic_elec)
-    pro.economic_joint_pro_hydro = get_joint_pro(pro.variable_economic_hydro, pro.weight_economic_hydro)
-    pro.technical_joint_pro_elec = get_joint_pro(pro.variable_technical_elec, pro.weight_technical_elec)
-    pro.technical_joint_pro_hydro = get_joint_pro(pro.variable_technical_hydro, pro.weight_technical_hydro)
-
-    print(f"결합 확률: {pro.environment_joint_pro}")
-    print(f"결합 확률: {pro.social_joint_pro_elec}")
-    print(f"결합 확률: {pro.social_joint_pro_hydro}")
-    print(f"결합 확률: {pro.economic_joint_pro_elec}")
-    print(f"결합 확률: {pro.technical_joint_pro_elec}")
-    print(f"결합 확률: {pro.technical_joint_pro_elec}")
-    print(f"결합 확률: {pro.technical_joint_pro_hydro}")
-
-    pro.environment_pro, pro.environment_pro_negative = conditional_pro(pro.weight_environment)
-    pro.social_elec_pro, pro.social_elec_pro_negative = conditional_pro(pro.weight_social_elec)
-    pro.social_hydro_pro, pro.social_hydro_pro_negative = conditional_pro(pro.weight_social_hydro)
-    pro.economic_elec_pro, pro.economic_elec_pro_negative = conditional_pro(pro.weight_economic_elec)
-    pro.economic_hydro_pro, pro.economic_hydro_pro_negative = conditional_pro(pro.weight_economic_hydro)
-    pro.technical_elec_pro, pro.technical_elec_pro_negative = conditional_pro(pro.weight_technical_elec)
-    pro.technical_hydro_pro, pro.technical_hydro_pro_negative = conditional_pro(pro.weight_technical_hydro)
-
-
-
-    print(pro.environment_pro, pro.environment_pro_negative)
-    print(pro.social_elec_pro, pro.social_elec_pro_negative)
-    print(pro.social_hydro_pro, pro.social_hydro_pro_negative)
-    print(pro.economic_elec_pro, pro.economic_elec_pro_negative)
-    print(pro.economic_hydro_pro, pro.economic_hydro_pro_negative)
-    print(pro.technical_elec_pro, pro.technical_elec_pro_negative)
-    print(pro.technical_hydro_pro, pro.technical_hydro_pro_negative)
+# if __name__ == '__main__':
+#     pro = Probability()
+#     pro.print_pro()
+#     pro.environment_joint_pro = get_joint_pro(pro.variable_environment, pro.weight_environment)
+#     pro.social_joint_pro_elec = get_joint_pro(pro.variable_social_elec, pro.weight_social_elec)
+#     pro.social_joint_pro_hydro = get_joint_pro(pro.variable_social_hydro, pro.weight_social_hydro)
+#     pro.economic_joint_pro_elec = get_joint_pro(pro.variable_economic_elec, pro.weight_economic_elec)
+#     pro.economic_joint_pro_hydro = get_joint_pro(pro.variable_economic_hydro, pro.weight_economic_hydro)
+#     pro.technical_joint_pro_elec = get_joint_pro(pro.variable_technical_elec, pro.weight_technical_elec)
+#     pro.technical_joint_pro_hydro = get_joint_pro(pro.variable_technical_hydro, pro.weight_technical_hydro)
+#
+#     print(f"결합 확률: {pro.environment_joint_pro}")
+#     print(f"결합 확률: {pro.social_joint_pro_elec}")
+#     print(f"결합 확률: {pro.social_joint_pro_hydro}")
+#     print(f"결합 확률: {pro.economic_joint_pro_elec}")
+#     print(f"결합 확률: {pro.technical_joint_pro_elec}")
+#     print(f"결합 확률: {pro.technical_joint_pro_elec}")
+#     print(f"결합 확률: {pro.technical_joint_pro_hydro}")
+#
+#     pro.environment_pro, pro.environment_pro_negative = conditional_pro(pro.weight_environment)
+#     pro.social_elec_pro, pro.social_elec_pro_negative = conditional_pro(pro.weight_social_elec)
+#     pro.social_hydro_pro, pro.social_hydro_pro_negative = conditional_pro(pro.weight_social_hydro)
+#     pro.economic_elec_pro, pro.economic_elec_pro_negative = conditional_pro(pro.weight_economic_elec)
+#     pro.economic_hydro_pro, pro.economic_hydro_pro_negative = conditional_pro(pro.weight_economic_hydro)
+#     pro.technical_elec_pro, pro.technical_elec_pro_negative = conditional_pro(pro.weight_technical_elec)
+#     pro.technical_hydro_pro, pro.technical_hydro_pro_negative = conditional_pro(pro.weight_technical_hydro)
+#
+#
+#
+#     print(pro.environment_pro, pro.environment_pro_negative)
+#     print(pro.social_elec_pro, pro.social_elec_pro_negative)
+#     print(pro.social_hydro_pro, pro.social_hydro_pro_negative)
+#     print(pro.economic_elec_pro, pro.economic_elec_pro_negative)
+#     print(pro.economic_hydro_pro, pro.economic_hydro_pro_negative)
+#     print(pro.technical_elec_pro, pro.technical_elec_pro_negative)
+#     print(pro.technical_hydro_pro, pro.technical_hydro_pro_negative)

@@ -1,46 +1,86 @@
-.nav{
+@font-face{     /*폰트*/
+    font-family: 'NanumSquare';
+    src: url('NanumSquare.woff') format('woff');
+}
+.leaflet-popup{     /*popup 틀*/
+    width:330px;
+    height:250px;
+    font-family: 'NanumSquare'
+}
+.leaflet-popup-content{     /*popup-지도*/
+    width: 290px;
+    height:220px;
+}
+.map-popup{
+    height:90%;
+    width:100%;
+    float:left;
+    border : 1px solid lightblue;
+    background-color:#E9EEF6;
+}
+.nav{       /*상단바*/
     width: 100%;
     display: flex;
     justify-content: center;
 }
-#img-col{
+#img-col{       /*logo 이미지*/
     width: 100%;
     display: flex;
     justify-content: center;
 }
-#save{
+#save{      /*button*/
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.desktop_line2{
+.desktop_line2{     /*확률차트, 정규분포 영역 구분 선(데스크톱에만 적용)*/
     height: 0;
 }
-.image{
+.image{     /*그래프*/
     height:320px;
     width:100%;
     float:left;
     border : 1px solid lightblue;
     background-color:#E9EEF6;
 }
-.standard{
-    height:230px;
+.loading{       /*chart-loading*/
+    text-align: center;
+    line-height: 320px;
+    position:absolute;
+    height:320px;
+    width:85%;
+    float:left;
+    z-index:1;
+}
+.pie{       /*pie차트*/
+    height:480px;
     width:100%;
     float:left;
     border : 1px solid lightblue;
     background-color:#E9EEF6;
+    position: relative;
+    z-index: 2;
 }
-.logoImg{
+.pie_loading{       /*pie차트 loading*/
+    text-align: center;
+    line-height: 230px;
+    position:absolute;
+    height:230px;
+    width:38%;
+    float:left;
+    z-index:1;
+}
+.logoImg{       /*logo이미지*/
     width: 100%;
     height: 55px;
     margin-top: 15px;
     justify-content: center;
 }
-.main{
+.main{      /*베이지안 레이아웃*/
     text-align:center;
 }
 /*desktop_chart_name-lg,xl */
-#c_name_1{
+.c_name_1_2{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -48,18 +88,9 @@
     margin-left:15px;
     margin-right:8px;
     padding-top: 8px;
-}/*상위요인 중요도 xl*/
-#c_name_2{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-left:15px;
-    margin-right:8px;
-    padding-top: 8px;
-} /*상위요인 중요도 l */
+}/*상위요인 중요도 xl, l*/
 
-#c_name_3{
+.c_name_3_4{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -67,18 +98,9 @@
     margin-left:7px;
     margin-right:7px;
     padding-top: 8px;
-}/*상위요인 적합성 xl*/
-#c_name_4{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-left:7px;
-    margin-right:7px;
-    padding-top: 8px;
-} /*상위요인 적합성 l*/
+}/*상위요인 적합성 xl, l*/
 
-#c_name_5{
+.c_name_5_6{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -86,16 +108,7 @@
     margin-left:8px;
     margin-right:15px;
     padding-top: 8px;
-} /*하위변수정규분포 xl*/
-#c_name_6{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-left:8px;
-    margin-right:15px;
-    padding-top: 8px;
-} /*하위변수 정규분포 l*/
+} /*하위변수정규분포 xl, l*/
 
 /*mobile_chart_name_상위요인 중요도-xs,sm,md */
 #m_c_name_1{
@@ -109,7 +122,7 @@
     width:95%;
     padding-top: 8px;
 } /*xs*/
-#m_c_name_1-2{
+.m_c_name_1-2_3{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -119,18 +132,7 @@
     margin-right:15px;
     width:95%;
     padding-top: 8px;
-} /*sm*/
-#m_c_name_1-3{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-top: 8px;
-    margin-left:15px;
-    margin-right:15px;
-    width:95%;
-    padding-top: 8px;
-} /*md*/
+} /*sm, md*/
 
 /*mobile_chart_name_상위요인 적합성-xs,sm,md */
 #m_c_name_2{
@@ -144,18 +146,7 @@
     width:95%;
     padding-top: 8px;
 }
-#m_c_name_2-2{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-top: 20px;
-    margin-left:15px;
-    margin-right:15px;
-    width:95%;
-    padding-top: 8px;
-}
-#m_c_name_2-3{
+.m_c_name_2-2_3{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -179,7 +170,7 @@
     width:95%;
     padding-top: 8px;
 }
-#m_c_name_3-2{
+.m_c_name_3-2_3{
     border:3px solid #A0B3C4;
     background-color: #D6DEEF;
     font-weight: bolder;
@@ -190,29 +181,13 @@
     width:95%;
     padding-top: 8px;
 }
-#m_c_name_3-3{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
-    border-radius: 22px;
-    margin-top: 25px;
-    margin-left:15px;
-    margin-right:15px;
-    width:95%;
-    padding-top: 8px;
-}
-
-.Header{
-    height: 120px;
-    background-color: #F3F5F9;
-}
-.chart{
+.chart{     /*차트*/
     margin-left:15px;
     margin-right:15px;
     border: 3px solid #A0B3C4;
     border-radius: 22px;
 }
-.me-1{
+.me-1{      /*버튼*/
     background-color: #E9EEF6;
     color:black;
     font-weight: bolder;
@@ -220,42 +195,37 @@
     width:auto;
     margin-top: 50px;
 }
-#map_title{
-    border:3px solid #A0B3C4;
-    background-color: #D6DEEF;
-    font-weight: bolder;
+.map{       /*스팟*/
+    position: relative;
+    width: 100.0%;
+    height: 100.0%;
+    left: 0.0%;
+    top: 0.0%;
     border-radius: 22px;
-    margin-left:15px;
-    margin-right:15px;
-    padding-top: 8px;
 }
-.map_{
+.map_{      /*지도*/
     border:3px solid #A0B3C4;
     border-radius: 22px;
     height: 500px;
-    width: 98%;
-    /*margin-right: 15px;*/
-    /*margin-left: 15px;*/
+    width: 95%;
 }
 body{
     background-color:#F3F5F9;
     font-family: 'NanumSquare';
 }
 
-@font-face {
-    font-family: 'NanumSquare';
-    src: url('NanumSquare.woff') format('woff');
-}
-
 @media(max-width:280px){
-    #logo{
+    #main_logo{
         width: 256px;
     }
 }
 
-@media(max-width:992px){
+@media(max-width:991px){
     #img-col{
         flex: None;
+    }
+    .map_{
+        height: 450px;
     }
 }
 
@@ -267,8 +237,9 @@ body{
         height:90px;
         margin-top: 0;
     }
-    .standard{
+    .pie_loading{
         height:250px;
+        line-height: 250px;
     }
 }
 @media(min-width:480px){ /*sm*/
@@ -278,12 +249,8 @@ body{
     .logoImg{
         height: 120px;
     }
-}
-@media(min-width:600px){ /*md*/
-}
-@media(min-width:768px){ /*lg*/
-    .me-1{
-        font-size: x-large;
+    .loading{
+        width:90%;
     }
 }
 @media(min-width:992px){ /*xl*/
@@ -293,12 +260,23 @@ body{
     .logoImg{
         margin-right:60%;
     }
+    #main_logo{
+        margin-left: 20%;
+    }
     #save{
         justify-content: right;
         margin-right:5%;
     }
-    .standard{
+    .pie{
+        height:664px;
+    }
+    .pie_loading{
         height:320px;
+        line-height: 320px;
+        width:30%;
+    }
+    .loading{
+        width:14.5%;
     }
     .line{
         border-left: 3px solid #A0B3C4;

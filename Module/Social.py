@@ -79,11 +79,11 @@ class Social:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=blue), xshift=-40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=blue), xshift=-30, yshift=40, bordercolor=blue, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=red), xshift=40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=red), xshift=30, yshift=40, bordercolor=red, borderwidth=2))
         else:
             fig.add_trace(
                 go.Scatter(x=cum_a, y=norm.pdf(cum_a, mean, std), fill='tozeroy', name='부적합', line=dict(color=red)))
@@ -92,13 +92,16 @@ class Social:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=red), xshift=-40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=red), xshift=-30, yshift=40, bordercolor=red, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=blue), xshift=40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max+min)/2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=blue), xshift=30, yshift=40, bordercolor=blue, borderwidth=2))
             pro = 1 - pro
-        fig.update_layout(annotations=annotations)
+        fig.update_layout({'paper_bgcolor': '#E9EEF6'}, annotations=annotations, title_font_size=22,
+                          margin_l=10, margin_r=10, margin_t=100, margin_b=10, font_family='NanumSquare',
+                          legend_orientation="h", legend_x=0.25, legend_y=1.34, title_y=0.95)
+        fig.update_xaxes(range=[min, max])
 
         # 최종 누적확률 반환
         return fig, pro, 1 - pro
@@ -283,35 +286,34 @@ class Highway(Social):
     """
 
     def __init__(self):
-        self.parking_file_path = '부산 주차장 현황(교차로).csv'
+        self.parking_file_path = dir.getdir('부산 주차장 현황(교차로).csv')
         self.df_parking = pd.read_csv(self.parking_file_path, encoding='cp949')
         self.highway_standard = 1000
-        self.df_parking_highway = self.df_parking[self.df_parking['주변고속도로까지 최단거리']!='-'].reset_index(drop=True)
+        self.df_parking_highway = self.df_parking[self.df_parking['주변고속도로까지 최단거리'] != '-'].reset_index(drop=True)
         self.df_parking_highway['주변고속도로까지 최단거리'] = self.df_parking_highway['주변고속도로까지 최단거리'].astype(float)
-        self.fig, self.t_pro, self.f_pro = Social.cal_norm( self.df_parking_highway['주변고속도로까지 최단거리'].mean(),
-                                                            self.df_parking_highway['주변고속도로까지 최단거리'].std(),
-                                                            self.df_parking_highway['주변고속도로까지 최단거리'].min(),
-                                                            self.df_parking_highway['주변고속도로까지 최단거리'].max(),
-                                                            self.highway_standard,
-                                                            True
-                                                            )
+        self.fig, self.t_pro, self.f_pro = Social.cal_norm(self.df_parking_highway['주변고속도로까지 최단거리'].mean(),
+                                                           self.df_parking_highway['주변고속도로까지 최단거리'].std(),
+                                                           self.df_parking_highway['주변고속도로까지 최단거리'].min(),
+                                                           self.df_parking_highway['주변고속도로까지 최단거리'].max(),
+                                                           self.highway_standard,
+                                                           True
+                                                           )
 
-if __name__ == '__main__':
-    population = Population()
-    f_population = FloatingPopulation()
-    ecc = Eco_friendly_car_registration()
-    lpg = LPG_charging_station()
-    evcs = EVCS()
-    hvcs = HVCS()
-    intersection = Intersection()
-    highway = Highway()  # 정성적
-
-    population.fig.show()  # 고정 인구
-    f_population.fig.show()  # 유동 인구
-    ecc.elec_fig.show()  # 전기차
-    ecc.hydro_fig.show()  # 수소차
-    lpg.fig.show()  # lpg 충전
-    evcs.fig.show()  # 전기 충전
-    hvcs.fig.show()  # 수소 충전
-    intersection.fig.show()  # 교차로
-    highway.fig.show()
+# if __name__ == '__main__':
+#     population = Population()
+#     f_population = FloatingPopulation()
+#     ecc = Eco_friendly_car_registration()
+#     lpg = LPG_charging_station()
+#     evcs = EVCS()
+#     hvcs = HVCS()
+#     intersection = Intersection()
+#     highway = Highway()  # 정성적
+#
+#     population.fig.show()  # 고정 인구
+#     f_population.fig.show()  # 유동 인구
+#     ecc.elec_fig.show()  # 전기차
+#     ecc.hydro_fig.show()  # 수소차
+#     lpg.fig.show()  # lpg 충전
+#     evcs.fig.show()  # 전기 충전
+#     hvcs.fig.show()  # 수소 충전
+#     intersection.fig.show()  # 교차로

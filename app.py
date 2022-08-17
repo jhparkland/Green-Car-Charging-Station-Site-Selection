@@ -1,8 +1,11 @@
-from dash import Dash, Input, Output
+from dash import Dash, Input, Output, State
 import dash_bootstrap_components as dbc
 import pandas as pd
 import os, sys
 import matplotlib.font_manager as font_manager
+import time
+
+from flask_sever import bayesian_network
 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from flask_sever.component import Main_Component, Bayesian, CallBack
@@ -34,17 +37,41 @@ for font in font_manager.findSystemFonts(font_dir):
     font_manager.fontManager.addfont(font)
 
 # 데이터 불러오는 영역
-# ========================================================================================================
-ozone = Environment.Ozone()  # 오존 데이터
-# print(f"적합: {ozone.t_pro}, 부적합: {ozone.f_pro}")  # 오존 확률
-so2 = Environment.So2()  # 아황산가스 데이터
-# print(f"적합: {so2.t_pro}, 부적합: {so2.f_pro}")  # 아황산가스 확률
-
+# =====================================================================================================================
+'''
+환경적 - 오존, 아황산가스, 이산화질소, 미세먼지 =>수소, 전기 동일함
+'''
+ozone = Environment.Ozone()  # 오존 대기 오염도
+so2 = Environment.So2()  # 아황산가스 대기 오염도
+no2 = Environment.No2()  # 이산화질소 대기 오염도
 pm25 = Environment.FineDust_pm25()  # 미세먼지 pm2.5
-# print(f"적합: {pm25.t_pro}, 부적합: {pm25.f_pro}")  # 미세먼지 pm2.5 확률
-
 pm10 = Environment.FineDust_pm10()  # 미세먼저 pm10
-# print(f"적합: {pm10.t_pro}, 부적합: {pm10.f_pro}")  # 미세먼지 pm10 확률
+
+'''
+사회적 - 고정인구, 월 평균 유동인구, 충전소당 친환경 차량수(ecc.hydro_fig/hydro_ecc), 도로 보급률
+'''
+population = Social.Population()  # 고정인구 인구밀도
+f_population = Social.FloatingPopulation()  # 월 평균 유동인구 인구밀도
+ecc = Social.Eco_friendly_car_registration()  # 충전소당 친환경(전기차, 수소차) 차량수
+intersection = Social.Intersection()  # 도로 보급률
+
+'''
+경제적 - 수소: 수소 충전소 기대수익, 충전기 구축 비용, 후보지 평균 소득
+        전기: 충전기 구축 비용, 후보지 평균 소득
+'''
+hydro_expected_income = Environment.Total_air_quality()  # 수소 충전소 기대수익
+hydro_charger_cost = Economical.Hydrogen_charger_cost()  # 수소차 구축 비용
+elec_charger_cost = Social.Highway()  # 전기차 구축 비용
+land_cost = Economical.Lpg_land_costs()     # 후보지 평균 소득
+
+'''
+기술적 - 수소: 수소 연료 공급 방식, ,충전소당 공급 가능 차량 수
+        전기: 전기 충전기 용량
+'''
+elec_capacity = Social.LPG_charging_station()  # 전기 충전기 용량
+hydro_supply_fuel = Social.HVCS()   # 수소 연료 공급 방식
+hydro_supply_car = Social.FloatingPopulation() #수소차 충전소 당 공급 가능 차량수
+
 '''
 각 요소의 fig는 객체.fig 하면 됨
 ex) ozone.fig => 오존 fig
@@ -110,14 +137,20 @@ df_hy_technique = pd.DataFrame({
 })
 
 # 최종 부지선정 임시 데이터 프레임
-df_final_site_selection = pd.DataFrame({
+df_e_final_site_selection = pd.DataFrame({
+    "최종 부지선정": ["적합", "부적합"],
+    "적합확률": [62, 38],
+    "최종 부지선정 요소": ["적합 : 67", "부적합 : 33"]
+})
+
+df_h_final_site_selection = pd.DataFrame({
     "최종 부지선정": ["적합", "부적합"],
     "적합확률": [62, 38],
     "최종 부지선정 요소": ["적합 : 62", "부적합 : 38"]
 })
 # =========================================================================================================
 # 파이차트 및 확률 차트 생성
-fig_1, fig_2, fig1, fig2, fig3, fig4, hy_fig1, hy_fig2, hy_fig3, hy_fig4, final_fig \
+fig_1, fig_2, fig1, fig2, fig3, fig4, hy_fig1, hy_fig2, hy_fig3, hy_fig4, e_final_fig, h_final_fig \
     = Main_Component.mark_chart(**{"전기차": elec_standard_df,
                                    "수소차": hydro_standard_df,
                                    "경제적": df_economy,
@@ -128,27 +161,45 @@ fig_1, fig_2, fig1, fig2, fig3, fig4, hy_fig1, hy_fig2, hy_fig3, hy_fig4, final_
                                    "수소_사회적": df_hy_society,
                                    "수소_환경적": df_hy_environment,
                                    "수소_기술적": df_hy_technique,
-                                   "최종 부지선정": df_final_site_selection
+                                   "전기차 최종 부지선정": df_e_final_site_selection,
+                                   "수소차 최종 부지선정": df_h_final_site_selection
                                    })
 # 전기 파이, 수소 파이, 경제 막대, 환경 막대, 기술 막대, 정규분포 1, 정규분포 2, 정규분포 3, 최종입지
 # 나중에 그래프 모두 나오면 그때 수정 부탁함.
 # 나중에 그래프 모두 나오면 그때 수정 부탁함.
-fig_list = {"fig1": fig1,
-            "fig2": fig2,
-            "fig3": fig3,
-            "fig4": fig4,
-            "hy_fig1": hy_fig1,
-            "hy_fig2": hy_fig2,
-            "hy_fig3": hy_fig3,
-            "hy_fig4": hy_fig4,
-            "fig_1": fig_1,
-            "fig_2": fig_2,
-            "ozone": ozone.fig,
-            "so2": so2.fig,
-            "pm25": pm25.fig,
-            "pm10": pm10.fig,
-            "final_fig": final_fig
-            }
+fig_list = {
+    # 전기차 상위요소 차트 - 경제적, 사회적, 환경적, 기술적
+    "fig1": fig1, "fig2": fig2, "fig3": fig3, "fig4": fig4,
+    # 수소차 상위요소 차트 - 경제적, 사회적, 환경적, 기술적
+    "hy_fig1": hy_fig1, "hy_fig2": hy_fig2, "hy_fig3": hy_fig3, "hy_fig4": hy_fig4,
+    # 파이차트 - 전기, 수소
+    "fig_1": fig_1, "fig_2": fig_2,
+    # 최종확률차트 - 전기, 수소
+    "e_final_fig": e_final_fig, "h_final_fig": h_final_fig,
+
+    # 환경적 - 오존, 일산화탄소, 이산화 질소, 미세먼지
+    "ozone": ozone.fig, "so2": so2.fig, "no2": no2.fig, "pm25": pm25.fig, "pm10": pm10.fig,
+
+    # 사회적 - 고정인구, 월 평균 유동인구, 충전소당 친환경 차량수, 도로 보급률
+    "population": population.fig,   #고정인구
+    "f_population": f_population.fig,   #월 평균 유동인구
+    "eleFig": ecc.elec_fig,     # 충전소당 전기차 차랑수,
+    "hydFig": ecc.hydro_fig,    # 충전소당 수소차 차량수
+    "intersection": intersection.fig,   # 도로 보급률
+
+    # 경제적 - 수소: 수소 충전소 기대 수익, 충전기 구축 비용, 후보지 평균 소득
+    #         전기: 충전기 구축 비용, 후보지 평균 소득
+    "elec_charger_cost": elec_charger_cost.fig,     # 전기차 충전기 구축 비용
+    "hydro_charger_cost": hydro_charger_cost.fig,   # 수소차 충전기 구축 비용
+    "land_cost": land_cost.fig,     # 후보지 평균 소득
+    "hydro_expected_income": hydro_expected_income.fig,     # 수소 충전소 기대 수익
+
+    # 기술적 - 수소: 수소 연료 공급 방식, 충전소 당 공급 가능 차량 수
+    #         전기: 전기 충전기 용량
+    "elec_capacity": elec_capacity.fig,  # 전기 충전기 용량
+    "hydro_supply_car": hydro_supply_car.fig,   # 수소차 충전소 당 공급 가능 차량 수
+    "hydro_supply_fuel": hydro_supply_fuel.fig,     # 수소차 연료 공급 방식
+}
 # 막대차트 및 파이차트 배경색 설정 및 레이아웃 설정 변경 및
 Main_Component.chart_layout(**fig_list)  # 언팩 인자로 전달 필수!.
 
@@ -162,149 +213,300 @@ navbar = Main_Component.navbar()
 # 차트 배치
 chart = Main_Component.drawing_chart(**fig_list)  # 언팩 인자로 전달 필수!.
 
+# 그래프 배치
+graph = Main_Component.drawing_graph()
+
 # 메인화면
-main_layout = Main_Component.main_layout(navbar, chart)
+main_layout = Main_Component.main_layout(navbar, graph, chart)
 
 # 베이지안 네트워크 화면
-bayesian_layout = Bayesian.print_hello()
+bayesian_layout = bayesian_network.bayesian_chart
 # 총 출력
 app.layout = Bayesian.layout()
 
 CallBack.page_transitions(bayesian_layout, main_layout)
 
-saveE = {}
-saveH = {}
-saveEcon = {}
-saveSoci = {}
-saveEnvi = {}
-saveTech = {}
 
+class Stat:
+    state = False
 
-@app.callback(  # 수소차 파이차트 클릭데이터 초기화
-    Output("2", "clickData"),
-    Input("1", "clickData")
-)
-def clear_hydro(elec):
-    global saveE, saveH
-    if elec is not None:
-        saveE = elec
-        return None
-    else:
-        return saveH
+    @staticmethod
+    def set_state(state):
+        '''
+        상태 값 설정
+        '''
+        Stat.state = state
 
-
-@app.callback(  # 전기차 파이차트 클릭데이터 초기화
-    Output("1", "clickData"),
-    Input("2", "clickData")
-)
-def clear_elec(hydro):
-    global saveE, saveH
-    if hydro is not None:
-        saveH = hydro
-        return None
-    else:
-        return saveE
-
-
-@app.callback(  # 파이차트 -> 확률차트 이벤트 연결
+@app.callback(
+    Output("1", "figure"),
     Output("3", "figure"),
     Output("4", "figure"),
     Output("5", "figure"),
     Output("6", "figure"),
-    Input("1", "clickData"),
-    Input("2", "clickData"),
+    Output("elec_popup", "children"),
+    Output("hydro_popup", "children"),
+    Output("hydro-selected", "value"),
+    Output("elec-prev", "value"),
+    Output("hydro-prev", "value"),
+    Output("elec_geojson", "click_feature"),
+    Output("hydro_geojson", "click_feature"),
+    Input("elec_geojson", "click_feature"),
+    Input("hydro_geojson", "click_feature"),
+    State("elec-prev", "value"),
+    State("hydro-prev", "value"),
 )
-def update(elec, hydro):
-    if elec is not None:
-        return fig1, fig2, fig3, fig4
+def update(elec, hydro, elec_prev, hydro_prev):
+    if id(elec) == id(hydro):
+        # print(elec_prev)
+        return fig_1, fig1, fig2, fig3, fig4, None, None, 'False', elec_prev, hydro_prev, None, None
+    elif hydro is not None:
+        Stat.set_state(True)
+        Main_Component.hydro_value_update(hydro['properties']['name'], **fig_list)
+        if elec_prev is None:
+            return fig_2, hy_fig1, hy_fig2, hy_fig3, hy_fig4, None, \
+                   Main_Component.hydro_map_chart(hydro['properties']['name'], **fig_list), 'True', \
+                   elec_prev, hydro['properties']['name'], None, None
+        return fig_2, hy_fig1, hy_fig2, hy_fig3, hy_fig4, Main_Component.elec_map_chart(elec_prev, **fig_list), \
+               Main_Component.hydro_map_chart(hydro['properties']['name'], **fig_list), 'True', \
+               elec_prev, hydro['properties']['name'], None, None
     else:
-        return hy_fig1, hy_fig2, hy_fig3, hy_fig4
+        Stat.set_state(False)
+        Main_Component.elec_value_update(elec['properties']['name'], **fig_list)
+        if hydro_prev is None:
+            return fig_1, fig1, fig2, fig3, fig4, Main_Component.elec_map_chart(elec['properties']['name'], **fig_list), \
+                   None, 'False', elec['properties']['name'], hydro_prev, None, None
+        return fig_1, fig1, fig2, fig3, fig4, Main_Component.elec_map_chart(elec['properties']['name'], **fig_list), \
+               Main_Component.hydro_map_chart(hydro_prev, **fig_list), 'False', \
+               elec['properties']['name'], hydro_prev, None, None
 
 
-@app.callback(  # 사회적 확률 차트 클릭데이터 초기화
-    Output("4", "clickData"),
-    Input("3", "clickData"),
-)
-def clear_econ(econ):
-    global saveEcon, saveSoci, saveEnvi, saveTech
-    if econ is not None:
-        saveEcon = econ
-        saveSoci = None
-        saveEnvi = None
-        saveTech = None
-        return None
-    else:
-        return saveSoci
-
-
-@app.callback(  # 환경적 확률 차트 클릭데이터 초기화
-    Output("5", "clickData"),
-    Input("4", "clickData"),
-)
-def clear_econ(soci):
-    global saveEcon, saveSoci, saveEnvi, saveTech
-    if soci is not None:
-        saveEcon = None
-        saveSoci = soci
-        saveEnvi = None
-        saveTech = None
-        return None
-    else:
-        return saveEnvi
-
-
-@app.callback(  # 기술적 확률 차트 클릭데이터 초기화
-    Output("6", "clickData"),
-    Input("5", "clickData"),
-)
-def clear_econ(envi):
-    global saveEcon, saveSoci, saveEnvi, saveTech
-    if envi is not None:
-        saveEcon = None
-        saveSoci = None
-        saveEnvi = envi
-        saveTech = None
-        return None
-    else:
-        return saveTech
-
-
-@app.callback(  # 경제적 확률 차트 클릭데이터 초기화
-    Output("3", "clickData"),
-    Input("6", "clickData"),
-)
-def clear_econ(tech):
-    global saveEcon, saveSoci, saveEnvi, saveTech
-    if tech is not None:
-        saveEcon = None
-        saveSoci = None
-        saveEnvi = None
-        saveTech = tech
-        return None
-    else:
-        return saveEcon
-
-
-@app.callback(  # 확률차트 -> 정규분포 이벤트 설정
+@app.callback(
     Output("7", "figure"),
     Output("8", "figure"),
     Output("9", "figure"),
     Output("10", "figure"),
+    Output("loading1", "style"),
+    Output("loading2", "style"),
+    Output("loading3", "style"),
+    Output("1", "style"),
+    Output("3", "style"),
+    Output("4", "style"),
+    Output("5", "style"),
+    Output("6", "style"),
+    Output("7", "style"),
+    Output("8", "style"),
+    Output("9", "style"),
+    Output("10", "style"),
+    Output("3", "clickData"),
+    Output("4", "clickData"),
+    Output("5", "clickData"),
+    Output("6", "clickData"),
+    Output("elec-prev-second", "value"),
+    Output("hydro-prev-second", "value"),
+    Input("elec_geojson", "click_feature"),
+    Input("hydro_geojson", "click_feature"),
     Input("3", "clickData"),
     Input("4", "clickData"),
     Input("5", "clickData"),
-    Input("6", "clickData")
+    Input("6", "clickData"),
+    State("hydro-selected", "value"),
+    State("elec-prev", "value"),
+    State("hydro-prev", "value"),
+    State("elec-prev-second", "value"),
+    State("hydro-prev-second", "value"),
 )
-def update(econ, soci, envi, tech):
-    if econ is not None:
-        return ozone.fig, ozone.fig, ozone.fig, ozone.fig
-    elif soci is not None:
-        return so2.fig, so2.fig, so2.fig, so2.fig
-    elif envi is not None:
-        return ozone.fig, so2.fig, pm25.fig, pm10.fig,
-    else:
-        return so2.fig, so2.fig, so2.fig, so2.fig
+def update(elec, hydro, econ, soci, envi, tech, hydro_selected, elec_prev, hydro_prev, elec_prev2, hydro_prev2):
+    if id(elec) == id(hydro) == id(econ) == id(soci) == id(envi) == id(tech) == id(elec_prev) == id(
+            hydro_prev):  # 모두 None일 경우(제일 처음 로드된 경우)
+        return ozone.fig, so2.fig, no2.fig, pm10.fig, \
+               {'display': 'block'}, {'display': 'block'}, {'display': 'block'}, \
+               {'visibility': 'hidden', "position": "relative", "z-index": "2"}, \
+               {'visibility': 'hidden', "position": "relative", "z-index": "2"}, \
+               {'visibility': 'hidden', "position": "relative", "z-index": "2"}, \
+               {'visibility': 'hidden', "position": "relative", "z-index": "2"}, \
+               {'visibility': 'hidden', "position": "relative", "z-index": "2"}, \
+               {'visibility': 'hidden', "position": "relative", "z-index": "2"}, \
+               {'display': 'none', "position": "relative", "z-index": "2"}, \
+               {'visibility': 'hidden', "position": "relative", "z-index": "2"}, \
+               {'display': 'none', "position": "relative", "z-index": "2"}, \
+               None, None, None, None, elec_prev, hydro_prev
+    elif hydro_prev != hydro_prev2:     # 전기차
+        return no2.fig, ozone.fig, pm25.fig, so2.fig, \
+               {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               None, None, None, None, elec_prev, hydro_prev
+    elif elec_prev != elec_prev2:   # 수소차
+        return ozone.fig, so2.fig, pm25.fig, pm10.fig, \
+               {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               {'display': 'block', "position": "relative", "z-index": "2"}, \
+               None, None, None, None, elec_prev, hydro_prev
 
+    elif econ is not None:  # 경제적
+        if hydro_selected == 'False':   # 전기차 - 충전기 구축 비용, 후보지 평균 소득
+            return elec_charger_cost.fig, land_cost.fig, ozone.fig, ozone.fig, \
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'none', "position": "relative", "z-index": "2"}, \
+                   {'display': 'none', "position": "relative", "z-index": "2"}, \
+                   None, None, None, None, elec_prev, hydro_prev
+        else:   # 수소차 - 수소차 충전기 구축 비용, 후보지 평균 소득, 수소 충전소 기대수익
+            return hydro_charger_cost.fig, land_cost.fig, hydro_expected_income.fig, ozone.fig, \
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'none', "position": "relative", "z-index": "2"}, \
+                   None, None, None, None, elec_prev, hydro_prev
+
+    elif soci is not None:  # 사회
+        if hydro_selected == 'False':   # 전기차 - 고정인구, 월 평균 유동인구, 충전소 당 전기차 차량 수, 도로 보급률
+            return population.fig, f_population.fig, ecc.elec_fig, intersection.fig, \
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   None, None, None, None, elec_prev, hydro_prev
+        else:   # 수소차 - 도로 보급률, 월 평균 유동인구, 충전소 당 수소차 차량 수 , 고정인구
+            return intersection.fig, f_population.fig, ecc.hydro_fig, population.fig, \
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   None, None, None, None, elec_prev, hydro_prev
+
+    elif tech is not None:  # 기술
+        if hydro_selected == 'False':   # 전기차 - 전기 충전기 용량
+            return elec_capacity.fig, ozone.fig, no2.fig, so2.fig, \
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'none', "position": "relative", "z-index": "2"}, \
+                   {'display': 'none', "position": "relative", "z-index": "2"}, \
+                   {'display': 'none', "position": "relative", "z-index": "2"}, \
+                   None, None, None, None, elec_prev, hydro_prev
+        else:   # 수소차 - 수소 연료 공급 방식, 수소차 충전소 당 공급 가능 차량 수
+            return hydro_supply_fuel.fig, hydro_supply_car.fig, so2.fig, so2.fig, \
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'none', "position": "relative", "z-index": "2"}, \
+                   {'display': 'none', "position": "relative", "z-index": "2"}, \
+                   None, None, None, None, elec_prev, hydro_prev
+
+    elif envi is not None:  # 환경
+        if hydro_selected == 'False':   # 전기차 - 오존, 아황산가스, 미세먼먼 pm2.5, 미세먼지 pm10
+            return ozone.fig, so2.fig, pm25.fig, pm10.fig, \
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   None, None, None, None, elec_prev, hydro_prev
+        else:   #수소차 - 이산화질소, 오존, pm2.5, pm1.0
+            return no2.fig, ozone.fig, pm25.fig, so2.fig, \
+                   {'display': 'none'}, {'display': 'none'}, {'display': 'none'}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   {'display': 'block', "position": "relative", "z-index": "2"}, \
+                   None, None, None, None, elec_prev, hydro_prev
+
+
+@app.callback(
+    # 출력- 상위요소, 최종확률
+    Output("bay_env", "figure"),
+    Output("bay_soc", "figure"),
+    Output("bay_eco", "figure"),
+    Output("bay_tec", "figure"),
+    Output("final_fig", "figure"),
+    # 하위요소
+    Output("elec_hydro_Fig", "figure"),
+    Output("charger_cost", "figure"),   # 경제적 - 충전기 구축 비용(elec_charger_cost, hydro_charger_cost)
+    Output("hydro_expected_income", "figure"),     # 수소 충전소 기대 수익
+    Output("capacity_insatll", "figure"),   # 전기 : 전기 충전기 용량 - elec_capacity / 수소 : 수소차 충전소 당 공급 가능 차량 수 - hydro_supply_car
+    Output("supply_fuel", "figure"),    # 기술적 - 수소차 연료 공급 방식
+
+    Output("hydro_expected_income", "style"),
+    Output("supply_fuel", "style"),
+    # 입력
+    Input("bay_env", "clickData"),
+    Input("bay_soc", "clickData"),
+    Input("bay_eco", "clickData"),
+    Input("bay_tec", "clickData"),
+)
+def bayseian(bay_env, bay_soc, bay_eco, bay_tec, ):
+    if Stat.state:      # 수소차
+        return hy_fig3, hy_fig2, hy_fig1, hy_fig4, h_final_fig, \
+               ecc.hydro_fig, hydro_charger_cost.fig, hydro_expected_income.fig, hydro_supply_car.fig, \
+               hydro_supply_fuel.fig, \
+               {'display': 'block', "position": "relative", "z-index": "2"},\
+               {'display': 'block', "position": "relative", "z-index": "2"}
+
+
+    else:   # 전기차
+        return fig3, fig2, fig1, fig4, e_final_fig, \
+               ecc.elec_fig, elec_charger_cost.fig, hydro_expected_income.fig, elec_capacity.fig, \
+               hydro_supply_fuel.fig, \
+               {'display': 'none', "position": "relative", "z-index": "2"},\
+               {'display': 'none', "position": "relative", "z-index": "2"}
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=9000, debug=False)

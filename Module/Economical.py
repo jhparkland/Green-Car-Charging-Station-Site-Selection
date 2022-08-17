@@ -79,11 +79,11 @@ class Economical:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=blue), xshift=-40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max + min) / 2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=blue), xshift=-30, yshift=40, bordercolor=blue, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=red), xshift=40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max + min) / 2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=red), xshift=30, yshift=40, bordercolor=red, borderwidth=2))
         else:
             fig.add_trace(
                 go.Scatter(x=cum_a, y=norm.pdf(cum_a, mean, std), fill='tozeroy', name='부적합', line=dict(color=red)))
@@ -92,13 +92,16 @@ class Economical:
             fig.update_yaxes(visible=False)
             annotations = []
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
-                     font=dict(size=15, color=red), xshift=-40, yshift=-100, bordercolor=red, borderwidth=2))
+                dict(x=(max + min) / 2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(pro, 3),
+                     font=dict(size=15, color=red), xshift=-30, yshift=40, bordercolor=red, borderwidth=2))
             annotations.append(
-                dict(x=value, y=norm.pdf(value, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
-                     font=dict(size=15, color=blue), xshift=40, yshift=-100, bordercolor=blue, borderwidth=2))
+                dict(x=(max + min) / 2, y=norm.pdf(mean, loc=mean, scale=std), showarrow=False, text=round(1 - pro, 3),
+                     font=dict(size=15, color=blue), xshift=30, yshift=40, bordercolor=blue, borderwidth=2))
             pro = 1 - pro
-        fig.update_layout(annotations=annotations)
+        fig.update_layout({'paper_bgcolor': '#E9EEF6'}, annotations=annotations, title_font_size=22,
+                          margin_l=10, margin_r=10, margin_t=100, margin_b=10, font_family='NanumSquare',
+                          legend_orientation="h", legend_x=0.25, legend_y=1.34, title_y=0.95)
+        fig.update_xaxes(range=[min, max])
 
         # 최종 누적확률 반환
         return fig, pro, 1 - pro
@@ -108,8 +111,10 @@ class Electricity_charger_cost(Economical):
     """
     경제적 요소 - 전기차 충전소 설치 비용
     """
+
     def __init__(self):
         self.t_pro = 0
+
 
 class Hydrogen_charger_cost(Economical):
     """
@@ -175,14 +180,14 @@ class Parkinglot(Economical):
                                                                False
                                                                )
 
-if __name__ == '__main__':
 
-    elec_charger_cost = Electricity_charger_cost() # 전기차 충전소 설치 비용
-    hydro_charger_cost = Hydrogen_charger_cost() # 수소차 충전소 설치 비용
-    lpg_land_cost = Lpg_land_costs() # LPG 토지 비용
-    parkinglot = Parkinglot() # 주차 구획수
-
-    #elec_charger_cost.fig.show()
-    hydro_charger_cost.fig.show()
-    lpg_land_cost.fig.show()
-    parkinglot.fig.show()
+# if __name__ == '__main__':
+#     elec_charger_cost = Electricity_charger_cost()  # 전기차 충전소 설치 비용
+#     hydro_charger_cost = Hydrogen_charger_cost()  # 수소차 충전소 설치 비용
+#     lpg_land_cost = Lpg_land_costs()  # LPG 토지 비용
+#     parkinglot = Parkinglot()  # 주차 구획수
+#
+#     elec_charger_cost.fig.show()
+#     hydro_charger_cost.fig.show()
+#     lpg_land_cost.fig.show()
+#     parkinglot.fig.show()

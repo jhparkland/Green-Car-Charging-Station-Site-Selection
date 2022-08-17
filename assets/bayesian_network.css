@@ -1,0 +1,91 @@
+.standard_1{
+    height:200px;
+    width:100%;
+    float:left;
+    border : 1px solid lightgrey;
+    background-color:#E9EEF6;
+    text-align: center;
+}
+.bay_loading{
+    /*text-align: center;*/
+    line-height: 200px;
+    position:absolute;
+    height:200px;
+    width:170px;
+    float:left;
+    z-index:1;
+}
+
+.ch_cen{
+    height:200px;
+    width:100%;
+    float:left;
+    border : 1px solid lightgrey;
+    /*background-color:#E9EEF6;*/
+    position: relative;
+    z-index: 2;
+}
+.bay{
+    font-weight: bolder;
+    padding: 0;
+    margin: 0;
+    /*background-color:#F3F5F9;*/
+    display: block;
+    width:1690px;
+}
+@font-face {
+    font-family: 'NanumSquare';
+    src: url('NanumSquare.woff') format('truetype');
+}
+
+#env{
+   width: 580px;
+   /*background-color: lightcyan;*/
+   height: 700px;
+   border: 3px solid red;
+   margin: 5px 5px 5px 5px;
+   text-align: center;
+   padding: 5px;
+}
+
+#soc{
+   width: 580px;
+   border: 3px solid red;
+   height: 700px;
+    margin: -686px 5px 5px 1090px;
+   padding: 5px;
+}
+
+#tec{
+   width: 580px;
+   /*background-color: orange;*/
+   height: 500px;
+   border: 3px solid red;
+   margin:54px 5px 5px 1090px;
+   padding: 5px;
+}
+
+#eco{
+   width: 580px;
+   /*background-color: rgb(224, 255, 226);*/
+   height: 500px;
+   border: 3px solid red;
+   float: left;
+   margin: 50px 5px 5px -6.5px;
+   padding: 5px;
+}
+
+#cen{
+   width: 400px;
+   /*background-color: yellowgreen;*/
+   height:300px;
+   border: 3px solid red;
+   margin: -120% 5px 5px 630px;
+   padding: 5px;
+}
+
+#logo{
+   height: 180px;
+   /*margin-left: 610px;*/
+   /*border: 1px solid red;*/
+}
