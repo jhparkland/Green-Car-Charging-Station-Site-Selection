@@ -32,13 +32,6 @@ Eco-Charging Place provides location intelligence SW for site selection of eco-f
 
 > Location Intelligence: The process of discovering new insights by combining geospatial data and business data.
 
-## How to get started
-[Experience the prototype](https://eco-charging-place.herokuapp.com/)
-
-**How to start local: After downloading the repository file, run app.py**
-
-* If the server does not work, please contact jhparkinglot@gmail.com.
-
 ## Features
 
 - Provide visualization of factors related to siting
