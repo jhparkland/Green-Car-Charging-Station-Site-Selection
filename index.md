@@ -1,3 +1,11 @@
+---
+layout: project
+title: Green-Car-Charging-Station-Site-Selection/
+project: Green-Car-Charging-Station-Site-Selection
+repo: jhparkland/Green-Car-Charging-Station-Site-Selection
+permalink: /:path/:basename:output_ext
+---
+
 # 친환경 자동차 충전소 부지선정을 위한 SW
 
 에코 차징 플레이스는 베이지안 네트워크를 기반으로 친환경 자동차 충전소 부지선정을 위한 로케이션 인텔리전스 SW를 제공합니다.
