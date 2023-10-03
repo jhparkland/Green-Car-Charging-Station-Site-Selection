@@ -44,3 +44,6 @@ Eco-Charging Place provides location intelligence SW for site selection of eco-f
     - Various data related to the desired area can be reflected in the optimal site selection, and support for domestic and international public data reflection
 - User-friendly Interactive WebApp
     - Users can interact with any element (charts, maps, etc.)
+# 인용
+----
+박정현, 김대로, 김아영, 최진영, 한정규, 천세진 (2022).베이지안 네트워크 기반 친환경 자동차 충전소의 부지선정을 위한 위치지능화 응용, 2022년 한국멀티미디어학회 추계학술발표대회
